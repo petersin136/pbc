@@ -24,9 +24,9 @@ export default function HomePage() {
       setError("");
       const data = await getSectionsByPage("home");
       setSections(data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("섹션 로드 오류:", err);
-      setError(err.message || "섹션을 불러오는데 실패했습니다.");
+      setError(err instanceof Error ? err.message : "섹션을 불러오는데 실패했습니다.");
     } finally {
       setLoading(false);
     }

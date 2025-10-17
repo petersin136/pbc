@@ -99,7 +99,7 @@ export default function DepartmentSection({ section }: { section: Section }) {
                       </tr>
                     </thead>
                     <tbody>
-                      {programs.map((program: any, index: number) => (
+                      {programs.map((program: { title: string; description: string }, index: number) => (
                         <tr 
                           key={index}
                           className="border-b border-gray-100 hover:bg-gray-50 transition-colors"

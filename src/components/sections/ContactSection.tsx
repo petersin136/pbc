@@ -13,17 +13,17 @@ export default function ContactSection({ section }: { section: Section }) {
   } = section.content;
 
   const contactItems = [
-    { icon: "📞", label: "전화", value: phone, href: `tel:${phone}` },
+    { icon: "📞", label: "전화", value: phone, href: phone ? `tel:${String(phone)}` : undefined },
     { icon: "📠", label: "팩스", value: fax },
-    { icon: "✉️", label: "이메일", value: email, href: `mailto:${email}` },
+    { icon: "✉️", label: "이메일", value: email, href: email ? `mailto:${String(email)}` : undefined },
     { icon: "📍", label: "주소", value: address },
   ].filter(item => item.value);
 
   const socialItems = [
-    { icon: "💬", label: "카카오톡", value: kakaoTalk, href: kakaoTalk },
-    { icon: "📷", label: "인스타그램", value: instagram, href: instagram },
-    { icon: "👥", label: "페이스북", value: facebook, href: facebook },
-    { icon: "▶️", label: "유튜브", value: youtube, href: youtube },
+    { icon: "💬", label: "카카오톡", value: kakaoTalk, href: kakaoTalk ? String(kakaoTalk) : undefined },
+    { icon: "📷", label: "인스타그램", value: instagram, href: instagram ? String(instagram) : undefined },
+    { icon: "👥", label: "페이스북", value: facebook, href: facebook ? String(facebook) : undefined },
+    { icon: "▶️", label: "유튜브", value: youtube, href: youtube ? String(youtube) : undefined },
   ].filter(item => item.value);
 
   return (
@@ -61,7 +61,7 @@ export default function ContactSection({ section }: { section: Section }) {
                             {item.label}
                           </p>
                           <p className="text-lg font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
-                            {item.value}
+                            {String(item.value)}
                           </p>
                         </div>
                       </a>
@@ -75,7 +75,7 @@ export default function ContactSection({ section }: { section: Section }) {
                             {item.label}
                           </p>
                           <p className="text-lg font-semibold text-gray-900">
-                            {item.value}
+                            {String(item.value)}
                           </p>
                         </div>
                       </div>
@@ -92,7 +92,7 @@ export default function ContactSection({ section }: { section: Section }) {
                 {socialItems.map((item, idx) => (
                   <a
                     key={idx}
-                    href={item.href}
+                    href={String(item.href)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="block bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 group"
@@ -106,7 +106,7 @@ export default function ContactSection({ section }: { section: Section }) {
                           {item.label}
                         </p>
                         <p className="text-lg font-semibold text-gray-900 group-hover:text-purple-600 transition-colors truncate">
-                          {item.value}
+                          {String(item.value)}
                         </p>
                       </div>
                       <svg className="w-5 h-5 text-gray-400 group-hover:text-purple-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -129,9 +129,9 @@ export default function ContactSection({ section }: { section: Section }) {
                 언제든지 방문하셔서 함께 예배하실 수 있습니다
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                {phone && (
+                {phone ? (
                   <a
-                    href={`tel:${phone}`}
+                    href={`tel:${String(phone)}`}
                     className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 font-semibold"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -139,10 +139,10 @@ export default function ContactSection({ section }: { section: Section }) {
                     </svg>
                     전화 문의
                   </a>
-                )}
-                {email && (
+                ) : null}
+                {email ? (
                   <a
-                    href={`mailto:${email}`}
+                    href={`mailto:${String(email)}`}
                     className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-gray-900 border-2 border-gray-300 rounded-full hover:border-blue-600 hover:text-blue-600 transition-all duration-300 shadow-md hover:shadow-lg transform hover:scale-105 font-semibold"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -150,7 +150,7 @@ export default function ContactSection({ section }: { section: Section }) {
                     </svg>
                     이메일 문의
                   </a>
-                )}
+                ) : null}
               </div>
             </div>
           </div>

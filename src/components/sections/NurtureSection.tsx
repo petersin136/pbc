@@ -123,7 +123,7 @@ export default function NurtureSection({ section }: { section: Section }) {
                 커리큘럼
               </h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {curriculum.map((item: any, index: number) => (
+                {curriculum.map((item: { week?: number; title: string; description: string }, index: number) => (
                   <div
                     key={index}
                     className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow"

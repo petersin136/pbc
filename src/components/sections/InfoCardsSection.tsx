@@ -73,7 +73,7 @@ export default function InfoCardsSection({ section }: { section: Section }) {
                       <div className="space-y-4">
                         {/* 탭 */}
                         <div className="flex flex-wrap gap-2">
-                          {sermonCard.sermons.map((sermon: any, idx: number) => (
+                          {sermonCard.sermons.map((sermon: { category: string; youtubeUrl: string; title?: string }, idx: number) => (
                             <button
                               key={idx}
                               onClick={() => setActiveSermonTab(idx)}
@@ -119,7 +119,7 @@ export default function InfoCardsSection({ section }: { section: Section }) {
                 {images && images.length > 0 ? (
                   <div className="relative rounded-2xl overflow-hidden shadow-2xl group">
                     <div className="relative w-full aspect-video bg-gray-100">
-                      {images.map((image: any, index: number) => (
+                      {images.map((image: { url: string; alt?: string }, index: number) => (
                         <div
                           key={index}
                           className={`absolute inset-0 transition-opacity duration-700 ${
@@ -174,7 +174,7 @@ export default function InfoCardsSection({ section }: { section: Section }) {
                     {/* 인디케이터 */}
                     {images.length > 1 && (
                       <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                        {images.map((_: any, index: number) => (
+                            {images.map((_: { url: string; alt?: string }, index: number) => (
                           <button
                             key={index}
                             onClick={() => setCurrentImageIndex(index)}
@@ -229,7 +229,7 @@ export default function InfoCardsSection({ section }: { section: Section }) {
                   {/* 정보 그리드 */}
                   {infoCard.items && infoCard.items.length > 0 && (
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
-                      {infoCard.items.map((item: any, idx: number) => (
+                      {infoCard.items.map((item: { icon?: string; label: string; value: string }, idx: number) => (
                         <div key={idx} className="space-y-2">
                           <div className="text-sm font-medium text-gray-500 uppercase tracking-wider">
                             {item.label}

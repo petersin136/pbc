@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getSectionsByPage } from "@/lib/supabase/sections";
+import { getSectionsByPage, Section } from "@/lib/supabase/sections";
 import SectionRenderer from "@/components/sections/SectionRenderer";
 
 export default function NoticesPage() {
-  const [sections, setSections] = useState<any[]>([]);
+  const [sections, setSections] = useState<Section[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
@@ -17,9 +17,9 @@ export default function NoticesPage() {
     try {
       const data = await getSectionsByPage("news-notices");
       setSections(data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("섹션 로드 오류:", err);
-      setError(err.message);
+      setError(err instanceof Error ? err.message : "섹션을 불러오는데 실패했습니다.");
     } finally {
       setLoading(false);
     }

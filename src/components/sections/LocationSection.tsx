@@ -9,8 +9,6 @@ export default function LocationSection({ section }: { section: Section }) {
     jibunAddress = "경기 포천시 신읍동 135-10",
     phone = "031-1234-5678",
     parking = "교회 주차장 이용 가능 (20대)",
-    lat = 37.894,
-    lng = 127.200,
     bus = "버스: 37, 38번 이용 (신읍동 정류장 하차)",
     car = "네비게이션: '포천중앙침례교회' 또는 주소 검색",
     description = "포천중앙침례교회를 찾아오시는 길을 안내해 드립니다."

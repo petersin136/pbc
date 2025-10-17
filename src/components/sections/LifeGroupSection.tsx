@@ -15,7 +15,7 @@ export default function LifeGroupSection({ section }: { section: Section }) {
     lifegroups = []
   } = section.content;
 
-  const [selectedGroup, setSelectedGroup] = useState<any>(null);
+  const [selectedGroup, setSelectedGroup] = useState<{ number: number; leader: string; members: string[]; meetingDay?: string; location?: string } | null>(null);
 
   return (
     <section className="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50">
@@ -37,7 +37,7 @@ export default function LifeGroupSection({ section }: { section: Section }) {
           {/* 목장 그리드 */}
           {lifegroups && lifegroups.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in-up animation-delay-200">
-              {lifegroups.map((group: any, index: number) => {
+              {lifegroups.map((group: { number: number; leader: string; members: string[]; meetingDay?: string; location?: string }, index: number) => {
                 // 목장별 색상 그라디언트
                 const colors = [
                   "from-red-500 to-orange-500",
@@ -72,7 +72,7 @@ export default function LifeGroupSection({ section }: { section: Section }) {
                         </div>
                         {group.name && (
                           <p className="text-white/90 text-sm font-medium">
-                            "{group.name}"
+                            &quot;{group.name}&quot;
                           </p>
                         )}
                       </div>
@@ -179,7 +179,7 @@ export default function LifeGroupSection({ section }: { section: Section }) {
                 {selectedGroup.number}목장
               </h3>
               {selectedGroup.name && (
-                <p className="text-white/90 text-lg">"{selectedGroup.name}"</p>
+                <p className="text-white/90 text-lg">&quot;{selectedGroup.name}&quot;</p>
               )}
             </div>
 

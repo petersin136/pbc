@@ -78,7 +78,7 @@ export async function hasAdminAccess(): Promise<boolean> {
  * 세션 상태 변경 감지
  */
 export function onAuthStateChange(
-  callback: (event: string, session: any) => void
+  callback: (event: string, session: unknown) => void
 ) {
   return supabase.auth.onAuthStateChange(callback);
 }

@@ -19,7 +19,6 @@ export default function HeroSection({ section }: { section: Section }) {
     verse,
     verseReference,
     verseEn,
-    verseReferenceEn,
   } = section.content;
 
   return (
@@ -61,7 +60,7 @@ export default function HeroSection({ section }: { section: Section }) {
         {/* CTA 버튼 */}
         {buttons && buttons.length > 0 && (
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-400">
-            {buttons.map((button: any, index: number) => (
+            {buttons.map((button: { text?: string; label?: string; href?: string }, index: number) => (
               <Link
                 key={index}
                 href={button.href || "#"}

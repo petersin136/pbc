@@ -29,7 +29,7 @@ export default function WelcomeSection({ section }: { section: Section }) {
 
         {items && items.length > 0 && (
           <div className="grid md:grid-cols-3 gap-8 mt-12">
-            {items.map((item: any, index: number) => (
+            {items.map((item: { icon?: string; title: string; description: string }, index: number) => (
               <div
                 key={index}
                 className="p-6 rounded-2xl bg-gradient-to-br from-gray-50 to-white border border-gray-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"

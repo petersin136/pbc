@@ -12,7 +12,7 @@ export interface Section {
   page: string;
   kind: string;
   title: string;
-  content: Record<string, any>;
+  content: Record<string, unknown>;
   section_order: number;
   created_at: string;
   updated_at: string;

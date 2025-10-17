@@ -13,16 +13,16 @@ export default function GallerySection({ section }: { section: Section }) {
     albums = []
   } = section.content;
 
-  const [selectedImage, setSelectedImage] = useState<any>(null);
+  const [selectedImage, setSelectedImage] = useState<{ url: string; alt?: string; albumTitle?: string } | null>(null);
   const [selectedAlbum, setSelectedAlbum] = useState<string>("all");
 
   // 선택된 앨범의 사진들 필터링
   const filteredAlbums = selectedAlbum === "all" 
     ? albums 
-    : albums.filter((album: any) => album.category === selectedAlbum);
+    : albums.filter((album: { category: string }) => album.category === selectedAlbum);
 
   // 모든 카테고리 추출
-  const categories = ["all", ...Array.from(new Set(albums.map((album: any) => album.category)))];
+  const categories = ["all", ...Array.from(new Set(albums.map((album: { category: string }) => album.category)))];
 
   const categoryLabels: { [key: string]: string } = {
     "all": "전체",
@@ -73,7 +73,7 @@ export default function GallerySection({ section }: { section: Section }) {
           {/* 갤러리 그리드 */}
           {filteredAlbums.length > 0 ? (
             <div className="space-y-16 animate-fade-in-up animation-delay-400">
-              {filteredAlbums.map((album: any, albumIndex: number) => (
+              {filteredAlbums.map((album: { category: string; title: string; photos: Array<{ url: string; alt?: string }> }, albumIndex: number) => (
                 <div key={albumIndex} className="bg-white rounded-2xl shadow-xl p-6 md:p-8">
                   <div className="flex items-center justify-between mb-6">
                     <div>
@@ -101,7 +101,7 @@ export default function GallerySection({ section }: { section: Section }) {
                     </p>
                   )}
                   <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {album.photos && album.photos.map((photo: any, photoIndex: number) => (
+                    {album.photos && album.photos.map((photo: { url: string; alt?: string }, photoIndex: number) => (
                       <div
                         key={photoIndex}
                         className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group hover:shadow-2xl transition-all transform hover:scale-105"

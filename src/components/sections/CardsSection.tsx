@@ -9,9 +9,9 @@ import Link from "next/link";
  * - 링크 가능한 카드
  */
 export default function CardsSection({ section }: { section: Section }) {
-  const { cards = [] } = section.content;
+  const { cards } = section.content;
 
-  if (!cards || cards.length === 0) {
+  if (!Array.isArray(cards) || cards.length === 0) {
     return null;
   }
 
@@ -22,10 +22,10 @@ export default function CardsSection({ section }: { section: Section }) {
           {section.title}
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {cards.map((card: any, index: number) => (
+          {cards.map((card: { icon?: string; title?: string; description?: string; link?: { text?: string; href?: string }; href?: string }, index: number) => (
             <Link
               key={index}
-              href={card.link || card.href || "#"}
+              href={(typeof card.link === 'object' ? card.link.href : card.link) || card.href || "#"}
               className="group bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
             >
               {/* 아이콘 */}

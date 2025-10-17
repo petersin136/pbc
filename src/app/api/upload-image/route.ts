@@ -54,10 +54,10 @@ export async function POST(request: NextRequest) {
       success: true,
       images: uploadedImages,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("이미지 업로드 오류:", error);
     return NextResponse.json(
-      { error: error.message || "이미지 업로드에 실패했습니다." },
+      { error: error instanceof Error ? error.message : "이미지 업로드에 실패했습니다." },
       { status: 500 }
     );
   }

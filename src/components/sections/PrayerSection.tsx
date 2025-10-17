@@ -31,7 +31,7 @@ export default function PrayerSection({ section }: { section: Section }) {
           {/* 기도제목 목록 */}
           {prayers && prayers.length > 0 ? (
             <div className="space-y-6 animate-fade-in-up animation-delay-200">
-              {prayers.map((prayer: any, index: number) => (
+              {prayers.map((prayer: { title: string; content: string; date: string }, index: number) => (
                 <div
                   key={index}
                   className="bg-gradient-to-br from-purple-50 to-white rounded-xl shadow-lg p-6 md:p-8 border-l-4 border-purple-500 hover:shadow-2xl transition-all transform hover:-translate-y-1"
@@ -67,7 +67,7 @@ export default function PrayerSection({ section }: { section: Section }) {
                       {prayer.verse && (
                         <div className="bg-white/70 rounded-lg p-4 border-l-2 border-purple-300 mb-4">
                           <p className="text-sm text-gray-600 italic leading-relaxed">
-                            "{prayer.verse}"
+                            &quot;{prayer.verse}&quot;
                           </p>
                           {prayer.verseRef && (
                             <p className="text-xs text-gray-500 mt-2 text-right">

@@ -90,7 +90,7 @@ const sermonCategories = [
 
 export default function SermonsPage() {
   const [activeCategory, setActiveCategory] = useState("sunday");
-  const [selectedSermon, setSelectedSermon] = useState<any>(null);
+  const [selectedSermon, setSelectedSermon] = useState<{ id: number; title: string; date: string; youtubeUrl: string; speaker: string } | null>(null);
 
   const currentCategory = sermonCategories.find((cat) => cat.id === activeCategory);
 

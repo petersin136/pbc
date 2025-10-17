@@ -63,9 +63,9 @@ export default function AdminSectionsPage() {
       setError("");
       const data = await getSectionsByPage(selectedPage);
       setSections(data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("섹션 로드 오류:", err);
-      setError(err.message || "섹션을 불러오는데 실패했습니다.");
+      setError(err instanceof Error ? err.message : "섹션을 불러오는데 실패했습니다.");
     }
   };
 
@@ -91,9 +91,9 @@ export default function AdminSectionsPage() {
       });
       await loadSections();
       setShowAddModal(false);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("섹션 추가 오류:", err);
-      setError(err.message || "섹션 추가에 실패했습니다.");
+      setError(err instanceof Error ? err.message : "섹션 추가에 실패했습니다.");
     }
   };
 
@@ -106,9 +106,9 @@ export default function AdminSectionsPage() {
       setError("");
       await deleteSection(id);
       await loadSections();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("섹션 삭제 오류:", err);
-      setError(err.message || "섹션 삭제에 실패했습니다.");
+      setError(err instanceof Error ? err.message : "섹션 삭제에 실패했습니다.");
     }
   };
 
@@ -117,9 +117,9 @@ export default function AdminSectionsPage() {
       setError("");
       await updateSection(id, { section_order: newOrder });
       await loadSections();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("순서 변경 오류:", err);
-      setError(err.message || "순서 변경에 실패했습니다.");
+      setError(err instanceof Error ? err.message : "순서 변경에 실패했습니다.");
     }
   };
 
@@ -135,9 +135,9 @@ export default function AdminSectionsPage() {
         { id: previous.id, section_order: current.section_order },
       ]);
       await loadSections();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("순서 변경 오류:", err);
-      setError(err.message || "순서 변경에 실패했습니다.");
+      setError(err instanceof Error ? err.message : "순서 변경에 실패했습니다.");
     }
   };
 
@@ -153,9 +153,9 @@ export default function AdminSectionsPage() {
         { id: next.id, section_order: current.section_order },
       ]);
       await loadSections();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("순서 변경 오류:", err);
-      setError(err.message || "순서 변경에 실패했습니다.");
+      setError(err instanceof Error ? err.message : "순서 변경에 실패했습니다.");
     }
   };
 
@@ -167,12 +167,12 @@ export default function AdminSectionsPage() {
       await loadSections();
       setEditingSection(null);
       setShowContentEditor(false);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("콘텐츠 저장 오류:", err);
       if (err instanceof SyntaxError) {
         setError("JSON 형식이 올바르지 않습니다.");
       } else {
-        setError(err.message || "콘텐츠 저장에 실패했습니다.");
+        setError(err instanceof Error ? err.message : "콘텐츠 저장에 실패했습니다.");
       }
     }
   };
@@ -578,7 +578,7 @@ function ContentEditorModal({
     try {
       JSON.parse(value);
       setJsonError("");
-    } catch (err) {
+    } catch {
       setJsonError("JSON 형식이 올바르지 않습니다.");
     }
   };
@@ -613,7 +613,7 @@ function ContentEditorModal({
         }
 
         // 새 이미지들 추가
-        data.images.forEach((img: any) => {
+        data.images.forEach((img: { url: string; alt: string }) => {
           parsedContent.images.push({
             url: img.url,
             alt: img.alt,
@@ -629,9 +629,9 @@ function ContentEditorModal({
       } else {
         setUploadMessage(`❌ ${data.error || "업로드 실패"}`);
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("업로드 오류:", error);
-      setUploadMessage(`❌ ${error.message || "업로드 중 오류 발생"}`);
+      setUploadMessage(`❌ ${error instanceof Error ? error.message : "업로드 중 오류 발생"}`);
     } finally {
       setUploading(false);
       // 파일 입력 초기화

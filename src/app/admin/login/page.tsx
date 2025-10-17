@@ -57,16 +57,16 @@ export default function AdminLoginPage() {
       // 3. 대시보드로 리다이렉트
       router.push("/admin/dashboard");
       router.refresh();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("로그인 오류:", err);
       
       // 오류 메시지 한국어로 변환
-      if (err.message?.includes("Invalid login credentials")) {
+      if (err instanceof Error && err.message?.includes("Invalid login credentials")) {
         setError("이메일 또는 비밀번호가 올바르지 않습니다.");
-      } else if (err.message?.includes("Email not confirmed")) {
+      } else if (err instanceof Error && err.message?.includes("Email not confirmed")) {
         setError("이메일 인증이 완료되지 않았습니다.");
       } else {
-        setError(err.message || "로그인에 실패했습니다.");
+        setError(err instanceof Error ? err.message : "로그인에 실패했습니다.");
       }
       
       setLoading(false);

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { MenuItem } from "./Header";
 
 interface NavigationProps {
@@ -12,15 +11,6 @@ interface NavigationProps {
 
 export default function Navigation({ menuItems, scrolled }: NavigationProps) {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const pathname = usePathname();
-
-  const isActive = (item: MenuItem): boolean => {
-    if (item.href && pathname === item.href) return true;
-    if (item.children) {
-      return item.children.some((child) => child.href === pathname);
-    }
-    return false;
-  };
 
   return (
     <nav
@@ -28,7 +18,6 @@ export default function Navigation({ menuItems, scrolled }: NavigationProps) {
       aria-label="주 네비게이션"
     >
       {menuItems.map((item) => {
-        const active = isActive(item);
         const hasDropdown = item.children && item.children.length > 0;
         const isOpen = activeDropdown === item.label;
 
