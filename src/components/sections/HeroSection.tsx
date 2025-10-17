@@ -48,23 +48,23 @@ export default function HeroSection({ section }: { section: Section }) {
 
       {/* 콘텐츠 */}
       <div className="relative z-10 text-center text-white px-4 max-w-5xl mx-auto">
-        <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.9), 0 2px 10px rgba(0,0,0,0.7)' }}>
+        <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 animate-fade-in-up leading-tight" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.9), 0 2px 10px rgba(0,0,0,0.7)' }}>
           {heading}
         </h1>
         {subheading && (
-          <p className="text-xl md:text-3xl mb-12 text-gray-50 font-light animate-fade-in-up animation-delay-200" style={{ textShadow: '0 3px 15px rgba(0,0,0,0.9), 0 1px 5px rgba(0,0,0,0.7)' }}>
+          <p className="text-base sm:text-lg md:text-2xl lg:text-3xl mb-8 md:mb-12 text-gray-50 font-light animate-fade-in-up animation-delay-200" style={{ textShadow: '0 3px 15px rgba(0,0,0,0.9), 0 1px 5px rgba(0,0,0,0.7)' }}>
             {subheading}
           </p>
         )}
 
         {/* CTA 버튼 */}
         {buttons && buttons.length > 0 && (
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up animation-delay-400">
+          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center animate-fade-in-up animation-delay-400">
             {buttons.map((button: { text?: string; label?: string; href?: string }, index: number) => (
               <Link
                 key={index}
                 href={button.href || "#"}
-                className={`px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-xl ${
+                className={`px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-sm sm:text-base md:text-lg transition-all duration-300 transform hover:scale-105 shadow-xl ${
                   index === 0
                     ? "bg-white text-gray-900 hover:bg-gray-100"
                     : "bg-white/20 border-2 border-white text-white hover:bg-white/30 backdrop-blur-sm"
@@ -79,11 +79,11 @@ export default function HeroSection({ section }: { section: Section }) {
 
       {/* 성경 구절 (오른쪽 하단) */}
       {(verse || verseEn) && (
-        <div className="absolute bottom-16 md:bottom-12 left-4 right-4 md:left-auto md:right-12 text-center md:text-right text-white animate-fade-in-up animation-delay-400">
+        <div className="absolute bottom-20 sm:bottom-16 md:bottom-12 left-4 right-4 md:left-auto md:right-12 text-center md:text-right text-white animate-fade-in-up animation-delay-400">
           {/* 한글 구절 */}
           {verse && (
             <p 
-              className="text-xs md:text-base lg:text-lg leading-relaxed mb-2 md:whitespace-nowrap px-2 md:px-0"
+              className="text-[11px] sm:text-xs md:text-base lg:text-lg leading-relaxed mb-1.5 md:mb-2 md:whitespace-nowrap px-2 md:px-0"
               style={{ 
                 textShadow: '0 3px 15px rgba(0,0,0,0.95), 0 1px 5px rgba(0,0,0,0.8)',
                 fontFamily: "'Gowun Batang', 'Nanum Myeongjo', 'Georgia', serif",
@@ -98,7 +98,7 @@ export default function HeroSection({ section }: { section: Section }) {
           {/* 영어 구절 */}
           {verseEn && (
             <p 
-              className="text-[10px] md:text-sm lg:text-base leading-relaxed mb-2 md:mb-3 opacity-90 px-2 md:px-0"
+              className="text-[9px] sm:text-[10px] md:text-sm lg:text-base leading-relaxed mb-1.5 md:mb-3 opacity-90 px-2 md:px-0"
               style={{ 
                 textShadow: '0 2px 12px rgba(0,0,0,0.9)',
                 fontFamily: "'Georgia', 'Times New Roman', serif",
@@ -114,7 +114,7 @@ export default function HeroSection({ section }: { section: Section }) {
           {/* 출처 (한글만) */}
           {verseReference && (
             <p 
-              className="text-[9px] md:text-xs opacity-75"
+              className="text-[8px] sm:text-[9px] md:text-xs opacity-75"
               style={{ 
                 textShadow: '0 2px 8px rgba(0,0,0,0.9)',
                 fontWeight: 300,

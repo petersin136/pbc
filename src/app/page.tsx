@@ -124,12 +124,13 @@ export default function HomePage() {
       ))}
 
       {/* Footer */}
-      <footer className="py-12 px-4 bg-gray-900 text-white">
+      <footer className="py-8 sm:py-12 px-4 bg-gray-900 text-white">
         <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-bold mb-4">포천중앙침례교회</h3>
-            <p className="text-gray-400 mb-6">
-              주소: 경기도 포천시 [주소 입력] | 전화: [전화번호]
+          <div className="text-center mb-6 sm:mb-8">
+            <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">포천중앙침례교회</h3>
+            <p className="text-gray-400 text-sm sm:text-base mb-4 sm:mb-6 leading-relaxed">
+              주소: 경기도 포천시 [주소 입력]<br className="sm:hidden" />
+              <span className="hidden sm:inline"> | </span>전화: [전화번호]
             </p>
           </div>
 

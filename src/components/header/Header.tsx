@@ -112,17 +112,17 @@ export default function Header() {
       }`}
     >
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-12">
+        <div className="flex items-center justify-between h-16 sm:h-20 md:h-12">
           {/* 로고 */}
           <Link
             href="/"
-            className="flex items-baseline gap-2 md:gap-3 hover:opacity-80 transition-opacity"
+            className="flex items-baseline gap-1 sm:gap-2 md:gap-3 hover:opacity-80 transition-opacity"
             aria-label="포천중앙침례교회 홈으로 이동"
           >
-            <span className="text-2xl md:text-3xl lg:text-4xl font-bold whitespace-nowrap">
+            <span className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold whitespace-nowrap">
               포천중앙침례교회
             </span>
-            <span className="text-xs md:text-sm lg:text-base font-normal whitespace-nowrap opacity-70">
+            <span className="hidden sm:inline text-[10px] sm:text-xs md:text-sm lg:text-base font-normal whitespace-nowrap opacity-70">
               기독교한국침례회
             </span>
           </Link>

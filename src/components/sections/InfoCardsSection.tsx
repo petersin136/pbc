@@ -48,36 +48,36 @@ export default function InfoCardsSection({ section }: { section: Section }) {
   const infoCard = cards[1];
 
   return (
-    <section className="py-16 md:py-24 bg-[#E8E2DA]">
-      <div className="container mx-auto px-6 md:px-12">
+    <section className="py-12 sm:py-16 md:py-24 bg-[#E8E2DA]">
+      <div className="container mx-auto px-4 sm:px-6 md:px-12">
         <div className="max-w-7xl mx-auto">
           {/* 흰색 카드 컨테이너 */}
-          <div className="bg-white rounded-[32px] shadow-2xl overflow-hidden">
-            <div className="p-8 md:p-16 space-y-16">
+          <div className="bg-white rounded-2xl sm:rounded-3xl md:rounded-[32px] shadow-2xl overflow-hidden">
+            <div className="p-4 sm:p-6 md:p-12 lg:p-16 space-y-8 sm:space-y-12 md:space-y-16">
               {/* 상단: 말씀영상 + 이미지 */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-stretch">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12 lg:gap-16 items-stretch">
                 {/* 왼쪽: 말씀 영상 */}
                 {sermonCard && (
-                  <div className="space-y-8">
-                    <div className="space-y-4">
-                      <h2 className="text-5xl md:text-6xl font-serif text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  <div className="space-y-4 sm:space-y-6 md:space-y-8">
+                    <div className="space-y-2 sm:space-y-3 md:space-y-4">
+                      <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
                         {sermonCard.title}
                       </h2>
-                      <p className="text-gray-600 text-lg leading-relaxed">
+                      <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed">
                         하나님의 말씀을 온라인으로 만나보세요.
                       </p>
                     </div>
 
                     {/* 유튜브 임베드 */}
                     {sermonCard.sermons && sermonCard.sermons.length > 0 && (
-                      <div className="space-y-4">
+                      <div className="space-y-3 sm:space-y-4">
                         {/* 탭 */}
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-wrap gap-1.5 sm:gap-2">
                           {sermonCard.sermons.map((sermon: { category: string; youtubeUrl: string; title?: string }, idx: number) => (
                             <button
                               key={idx}
                               onClick={() => setActiveSermonTab(idx)}
-                              className={`px-5 py-2.5 text-sm font-medium rounded-full transition-all duration-300 ${
+                              className={`px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 md:py-2.5 text-xs sm:text-sm font-medium rounded-full transition-all duration-300 ${
                                 activeSermonTab === idx
                                   ? "bg-gray-900 text-white shadow-md"
                                   : "bg-gray-100 text-gray-700 hover:bg-gray-200"
@@ -90,7 +90,7 @@ export default function InfoCardsSection({ section }: { section: Section }) {
                         
                         {/* 유튜브 */}
                         {sermonCard.sermons[activeSermonTab] && sermonCard.sermons[activeSermonTab].youtubeUrl && (
-                          <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-gray-100 shadow-xl">
+                          <div className="relative w-full aspect-video rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden bg-gray-100 shadow-xl">
                             <iframe
                               src={`https://www.youtube.com/embed/${getYouTubeID(sermonCard.sermons[activeSermonTab].youtubeUrl)}`}
                               title={sermonCard.sermons[activeSermonTab].category}
@@ -107,7 +107,7 @@ export default function InfoCardsSection({ section }: { section: Section }) {
                     {sermonCard.link && (
                       <Link
                         href={sermonCard.link.href || "#"}
-                        className="inline-block px-8 py-4 bg-gray-900 text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                        className="inline-block px-6 sm:px-8 py-3 sm:py-4 bg-gray-900 text-white text-xs sm:text-sm font-medium rounded-full hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                       >
                         {sermonCard.link.text || "전체 설교 보기"}
                       </Link>
@@ -213,28 +213,28 @@ export default function InfoCardsSection({ section }: { section: Section }) {
 
               {/* 하단: 예배 안내 */}
               {infoCard && (
-                <div className="space-y-8">
-                  <div className="space-y-4">
-                    <h3 className="text-5xl md:text-6xl font-serif text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
+                <div className="space-y-4 sm:space-y-6 md:space-y-8">
+                  <div className="space-y-2 sm:space-y-3 md:space-y-4">
+                    <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
                       {infoCard.title}
                     </h3>
                   </div>
 
                   {infoCard.description && (
-                    <p className="text-gray-600 text-lg leading-relaxed max-w-2xl">
+                    <p className="text-gray-600 text-sm sm:text-base md:text-lg leading-relaxed max-w-2xl">
                       {infoCard.description}
                     </p>
                   )}
 
                   {/* 정보 그리드 */}
                   {infoCard.items && infoCard.items.length > 0 && (
-                    <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 md:gap-8">
                       {infoCard.items.map((item: { icon?: string; label: string; value: string }, idx: number) => (
-                        <div key={idx} className="space-y-2">
-                          <div className="text-sm font-medium text-gray-500 uppercase tracking-wider">
+                        <div key={idx} className="space-y-1 sm:space-y-2 p-3 sm:p-0 bg-gray-50 sm:bg-transparent rounded-lg sm:rounded-none">
+                          <div className="text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
                             {item.label}
                           </div>
-                          <div className="text-xl font-semibold text-gray-900">
+                          <div className="text-base sm:text-lg md:text-xl font-semibold text-gray-900">
                             {item.value}
                           </div>
                         </div>
@@ -246,7 +246,7 @@ export default function InfoCardsSection({ section }: { section: Section }) {
                   {infoCard.link && (
                     <Link
                       href={infoCard.link.href || "#"}
-                      className="inline-block px-8 py-4 bg-gray-900 text-white text-sm font-medium rounded-full hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+                      className="inline-block px-6 sm:px-8 py-3 sm:py-4 bg-gray-900 text-white text-xs sm:text-sm font-medium rounded-full hover:bg-gray-800 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
                     >
                       {infoCard.link.text || "오시는 길"}
                     </Link>
