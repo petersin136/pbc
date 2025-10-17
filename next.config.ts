@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 const nextConfig: NextConfig = {
+  // workspace root 명시적 설정
+  outputFileTracingRoot: path.join(__dirname),
   // hostname 명시적 설정으로 시스템 오류 방지
   experimental: {
     serverActions: {
