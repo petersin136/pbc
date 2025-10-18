@@ -22,8 +22,11 @@ export default function HeroSection({ section }: { section: Section }) {
     verseEn,
   } = section.content;
 
+  // 홈페이지인지 확인
+  const isHomePage = section.page === 'home';
+
   return (
-    <section className="relative w-full aspect-video md:aspect-auto md:h-screen flex items-center justify-center overflow-hidden bg-black">
+    <section className={`relative ${isHomePage ? 'h-screen' : 'w-full aspect-video max-h-screen'} flex items-center justify-center overflow-hidden`}>
       {/* 배경 */}
       {backgroundVideo ? (
         <video
@@ -31,13 +34,13 @@ export default function HeroSection({ section }: { section: Section }) {
           loop={videoLoop}
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-contain md:object-cover"
+          className="absolute inset-0 w-full h-full object-cover"
         >
           <source src={backgroundVideo} type="video/mp4" />
         </video>
       ) : backgroundImage ? (
         <div
-          className="absolute inset-0 w-full h-full bg-contain md:bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${backgroundImage})` }}
         />
       ) : (
