@@ -55,7 +55,7 @@ export default function InfoCardsSection({ section }: { section: Section }) {
           <div className="bg-white rounded-2xl sm:rounded-3xl md:rounded-[32px] shadow-2xl overflow-hidden">
             <div className="p-4 sm:p-6 md:p-12 lg:p-16 space-y-8 sm:space-y-12 md:space-y-16">
               {/* 상단: 말씀영상 + 이미지 */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12 lg:gap-16 items-stretch">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12 lg:gap-16 items-start">
                 {/* 왼쪽: 말씀 영상 */}
                 {sermonCard && (
                   <div className="space-y-4 sm:space-y-6 md:space-y-8">
@@ -117,7 +117,7 @@ export default function InfoCardsSection({ section }: { section: Section }) {
 
                 {/* 오른쪽: 이미지 */}
                 {images && images.length > 0 ? (
-                  <div className="relative rounded-2xl overflow-hidden shadow-2xl group">
+                  <div className="relative rounded-2xl overflow-hidden shadow-2xl group self-start">
                     <div className="relative w-full aspect-video bg-gray-100">
                       {images.map((image: { url: string; alt?: string }, index: number) => (
                         <div

@@ -27,8 +27,8 @@ export const menuItems: MenuItem[] = [
     label: "교회소개",
     children: [
       { label: "교회안내", href: "/about" },
-      { label: "담임목사", href: "/about#pastor" },
-      { label: "오시는길", href: "/about#location" }
+      { label: "담임목사", href: "/about/pastor" },
+      { label: "오시는길", href: "/about/location" }
     ]
   },
   {

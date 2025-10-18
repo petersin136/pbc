@@ -15,6 +15,7 @@ export default function HeroSection({ section }: { section: Section }) {
     subheading = "하나님의 사랑과 은혜가 가득한 곳",
     backgroundImage,
     backgroundVideo,
+    videoLoop = true,
     buttons = [],
     verse,
     verseReference,
@@ -22,29 +23,29 @@ export default function HeroSection({ section }: { section: Section }) {
   } = section.content;
 
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative w-full aspect-video md:aspect-auto md:h-screen flex items-center justify-center overflow-hidden bg-black">
       {/* 배경 */}
       {backgroundVideo ? (
         <video
           autoPlay
-          loop
+          loop={videoLoop}
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-contain md:object-cover"
         >
           <source src={backgroundVideo} type="video/mp4" />
         </video>
       ) : backgroundImage ? (
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 w-full h-full bg-contain md:bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${backgroundImage})` }}
         />
       ) : (
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600" />
       )}
 
-      {/* 오버레이 (더 어둡게) */}
-      <div className="absolute inset-0 bg-black/60" />
+      {/* 오버레이 (제목이 있을 때만 표시) */}
+      {heading && <div className="absolute inset-0 bg-black/60" />}
 
       {/* 콘텐츠 */}
       <div className="relative z-10 text-center text-white px-4 max-w-5xl mx-auto">

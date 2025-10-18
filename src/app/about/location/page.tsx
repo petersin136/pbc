@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getSectionsByPage, Section } from "@/lib/supabase/sections";
 import SectionRenderer from "@/components/sections/SectionRenderer";
 
-export default function PastorPage() {
+export default function LocationPage() {
   const [sections, setSections] = useState<Section[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -15,7 +15,7 @@ export default function PastorPage() {
 
   const loadSections = async () => {
     try {
-      const data = await getSectionsByPage("about-pastor");
+      const data = await getSectionsByPage("about-location");
       setSections(data);
     } catch (err: unknown) {
       console.error("섹션 로드 오류:", err);
