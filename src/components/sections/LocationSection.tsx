@@ -36,7 +36,7 @@ export default function LocationSection({ section }: { section: Section }) {
   const googleMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(roadAddress)}`;
 
   return (
-    <section className="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50">
+    <section id="location" className="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50 scroll-mt-20">
       <div className="container mx-auto px-6 md:px-12">
         <div className="max-w-7xl mx-auto">
           {/* 제목 */}

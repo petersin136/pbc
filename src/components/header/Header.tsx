@@ -80,18 +80,7 @@ export const menuItems: MenuItem[] = [
  */
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-
-  // 스크롤 감지하여 헤더 배경 변경
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   // 경로 변경 시 모바일 메뉴 닫기
   useEffect(() => {
@@ -105,11 +94,7 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/95 backdrop-blur-sm shadow-md text-gray-900"
-          : "bg-transparent text-white"
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-black/30 backdrop-blur-sm text-white"
     >
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 sm:h-20 md:h-12">
@@ -128,7 +113,7 @@ export default function Header() {
           </Link>
 
           {/* 데스크톱 네비게이션 */}
-          <Navigation menuItems={menuItems} scrolled={scrolled} />
+          <Navigation menuItems={menuItems} scrolled={false} />
 
           {/* 모바일 햄버거 버튼 */}
           <button
@@ -163,7 +148,7 @@ export default function Header() {
         menuItems={menuItems}
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
-        scrolled={scrolled}
+        scrolled={false}
       />
     </header>
   );

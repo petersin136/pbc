@@ -70,9 +70,9 @@ export default function MobileMenu({
 
       {/* 모바일 메뉴 패널 */}
       <div
-        className={`fixed top-20 left-0 right-0 bottom-0 lg:hidden transition-transform duration-300 ${
+        className={`fixed top-20 left-0 right-0 bottom-0 lg:hidden transition-transform duration-300 bg-white text-gray-900 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
-        } ${scrolled ? "bg-white text-gray-900" : "bg-gray-900 text-white"}`}
+        }`}
         role="dialog"
         aria-modal="true"
         aria-label="모바일 메뉴"
@@ -85,7 +85,7 @@ export default function MobileMenu({
               const isExpanded = expandedMenu === item.label;
 
               return (
-                <li key={item.label} className="border-b border-gray-200/10">
+                <li key={item.label} className="border-b border-gray-200">
                   {/* 메인 메뉴 아이템 */}
                   {item.href ? (
                     // 드롭다운 없는 직접 링크
@@ -94,12 +94,8 @@ export default function MobileMenu({
                       onClick={handleLinkClick}
                       className={`block py-3 px-4 font-medium rounded-lg transition-colors ${
                         active
-                          ? scrolled
-                            ? "bg-gray-100 text-gray-900"
-                            : "bg-white/10 text-white"
-                          : scrolled
-                          ? "hover:bg-gray-50"
-                          : "hover:bg-white/5"
+                          ? "bg-gray-100 text-gray-900"
+                          : "hover:bg-gray-50 text-gray-700"
                       }`}
                       aria-current={active ? "page" : undefined}
                     >
@@ -112,12 +108,8 @@ export default function MobileMenu({
                         onClick={() => toggleAccordion(item.label)}
                         className={`w-full flex items-center justify-between py-3 px-4 font-medium rounded-lg transition-colors ${
                           active
-                            ? scrolled
-                              ? "bg-gray-100 text-gray-900"
-                              : "bg-white/10 text-white"
-                            : scrolled
-                            ? "hover:bg-gray-50"
-                            : "hover:bg-white/5"
+                            ? "bg-gray-100 text-gray-900"
+                            : "hover:bg-gray-50 text-gray-700"
                         }`}
                         aria-expanded={isExpanded}
                         aria-controls={`submenu-${item.label}`}
@@ -162,12 +154,8 @@ export default function MobileMenu({
                                   onClick={handleLinkClick}
                                   className={`block py-2 px-4 rounded-lg transition-colors ${
                                     childActive
-                                      ? scrolled
-                                        ? "bg-gray-200 text-gray-900 font-semibold"
-                                        : "bg-white/20 text-white font-semibold"
-                                      : scrolled
-                                      ? "hover:bg-gray-100 text-gray-700"
-                                      : "hover:bg-white/10 text-gray-300"
+                                      ? "bg-gray-200 text-gray-900 font-semibold"
+                                      : "hover:bg-gray-100 text-gray-700"
                                   }`}
                                   role="menuitem"
                                   aria-current={childActive ? "page" : undefined}
