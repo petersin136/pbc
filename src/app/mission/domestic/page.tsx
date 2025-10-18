@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { getSectionsByPage, Section } from "@/lib/supabase/sections";
 import SectionRenderer from "@/components/sections/SectionRenderer";
+import FiveKMovementSection from "@/components/sections/FiveKMovementSection";
 
 export default function DomesticMissionPage() {
   const [sections, setSections] = useState<Section[]>([]);
@@ -48,9 +49,15 @@ export default function DomesticMissionPage() {
 
   return (
     <main className="min-h-screen">
-      {sections.map((section) => (
-        <SectionRenderer key={section.id} section={section} />
-      ))}
+      {/* Hero 섹션만 표시 (맨 위 사진) */}
+      {sections
+        .filter((section) => section.kind === 'hero')
+        .map((section) => (
+          <SectionRenderer key={section.id} section={section} />
+        ))}
+      
+      {/* 5K운동 섹션 */}
+      <FiveKMovementSection />
     </main>
   );
 }

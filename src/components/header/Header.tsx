@@ -56,15 +56,20 @@ export const menuItems: MenuItem[] = [
     ]
   },
   {
+    label: "교회소식",
+    children: [
+      { label: "주보", href: "/news/bulletin" },
+      { label: "공지사항", href: "/news/notices" },
+      { label: "기도제목", href: "/news/prayer" }
+    ]
+  },
+  {
     label: "목장",
     href: "/lifegroup"
   },
   {
-    label: "교회소식",
-    children: [
-      { label: "공지사항", href: "/news/notices" },
-      { label: "기도제목", href: "/news/prayer" }
-    ]
+    label: "성가대",
+    href: "/choir"
   },
   {
     label: "갤러리",
@@ -98,7 +103,7 @@ export default function Header() {
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-black/30 backdrop-blur-sm text-white"
     >
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-10 sm:h-10 md:h-10">
+        <div className="flex items-center justify-between h-12 md:h-20">
           {/* 로고 */}
           <Link
             href="/"
@@ -106,7 +111,7 @@ export default function Header() {
             aria-label="포천중앙침례교회 홈으로 이동"
           >
             {/* 교회 로고 이미지 */}
-            <div className="relative w-7 h-7 sm:w-8 sm:h-8 md:w-8 md:h-8 flex-shrink-0">
+            <div className="relative w-9 h-9 md:w-14 md:h-14 flex-shrink-0">
               <Image
                 src="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/pbclo-Photoroom.png"
                 alt="포천중앙침례교회 로고"
@@ -118,11 +123,11 @@ export default function Header() {
             </div>
             
             {/* 교회 이름 */}
-            <div className="flex items-baseline gap-1 sm:gap-2 md:gap-3">
-              <span className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold whitespace-nowrap">
+            <div className="flex items-baseline gap-1 md:gap-3">
+              <span className="text-sm md:text-2xl lg:text-3xl xl:text-4xl font-bold whitespace-nowrap">
                 포천중앙침례교회
               </span>
-              <span className="hidden sm:inline text-[8px] sm:text-[9px] md:text-[10px] lg:text-xs font-normal whitespace-nowrap opacity-70">
+              <span className="hidden sm:inline text-[8px] md:text-xs lg:text-base font-normal whitespace-nowrap opacity-70">
                 기독교한국침례회
               </span>
             </div>

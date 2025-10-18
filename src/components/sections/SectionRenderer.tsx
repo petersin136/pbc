@@ -18,6 +18,7 @@ import NoticesSection from "./NoticesSection";
 import PrayerSection from "./PrayerSection";
 import GallerySection from "./GallerySection";
 import LifeGroupSection from "./LifeGroupSection";
+import ImageSliderSection from "./ImageSliderSection";
 
 /**
  * 섹션 타입에 따라 적절한 컴포넌트를 렌더링
@@ -50,6 +51,8 @@ export default function SectionRenderer({ section }: { section: Section }) {
       return <GallerySection section={section} />;
     case "lifegroup":
       return <LifeGroupSection section={section} />;
+    case "image-slider":
+      return <ImageSliderSection section={section} />;
     case "text":
       return <TextSection section={section} />;
     case "image":

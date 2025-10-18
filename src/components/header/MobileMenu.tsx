@@ -43,14 +43,14 @@ export default function MobileMenu({
       {isOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-50 lg:hidden"
-          style={{ top: "40px", zIndex: 40 }}
+          style={{ top: "48px", zIndex: 40 }}
           onClick={onClose}
         />
       )}
 
       {/* 메뉴 패널 */}
       <div
-        className={`fixed top-10 right-0 w-4/5 max-w-sm h-screen bg-black/80 backdrop-blur-lg lg:hidden overflow-y-auto shadow-2xl transition-transform duration-300 ease-in-out ${
+        className={`fixed top-12 right-0 w-4/5 max-w-sm h-screen bg-black/80 backdrop-blur-lg lg:hidden overflow-y-auto shadow-2xl transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
         style={{ zIndex: 50 }}
