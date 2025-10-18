@@ -1,27 +1,51 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import Link from "next/link";
-import { getAllCategories, getAllEvents, GalleryCategory, GalleryEvent } from "@/lib/supabase/gallery";
+import {
+  getAllCategories,
+  getCategoryByNameEn,
+  getEventsByCategory,
+  GalleryCategory,
+  GalleryEvent,
+} from "@/lib/supabase/gallery";
 
-export default function GalleryPage() {
+export default function CategoryGalleryPage() {
+  const params = useParams();
+  const categoryName = params.category as string;
+
   const [categories, setCategories] = useState<GalleryCategory[]>([]);
+  const [currentCategory, setCurrentCategory] = useState<GalleryCategory | null>(null);
   const [events, setEvents] = useState<GalleryEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
   useEffect(() => {
     loadData();
-  }, []);
+  }, [categoryName]);
 
   const loadData = async () => {
     try {
       setError("");
-      const [catsData, eventsData] = await Promise.all([
+      setLoading(true);
+
+      const [catsData, categoryData] = await Promise.all([
         getAllCategories(),
-        getAllEvents()
+        getCategoryByNameEn(categoryName),
       ]);
+
       setCategories(catsData);
+
+      if (!categoryData) {
+        setError("카테고리를 찾을 수 없습니다.");
+        setLoading(false);
+        return;
+      }
+
+      setCurrentCategory(categoryData);
+
+      const eventsData = await getEventsByCategory(categoryData.id);
       setEvents(eventsData);
     } catch (err: unknown) {
       console.error("데이터 로드 오류:", err);
@@ -42,12 +66,18 @@ export default function GalleryPage() {
     );
   }
 
-  if (error) {
+  if (error || !currentCategory) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center text-red-600">
           <p className="text-xl font-semibold">오류가 발생했습니다</p>
-          <p className="mt-2">{error}</p>
+          <p className="mt-2">{error || "카테고리를 찾을 수 없습니다."}</p>
+          <Link
+            href="/gallery"
+            className="mt-4 inline-block px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          >
+            갤러리 홈으로
+          </Link>
         </div>
       </div>
     );
@@ -59,10 +89,14 @@ export default function GalleryPage() {
       <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
         <div className="container mx-auto px-6 md:px-12">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">📸 갤러리</h1>
-            <p className="text-lg md:text-xl text-blue-100">
-              우리 교회의 소중한 순간들을 함께 나눕니다
-            </p>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              📸 {currentCategory.name_kr}
+            </h1>
+            {currentCategory.description && (
+              <p className="text-lg md:text-xl text-blue-100">
+                {currentCategory.description}
+              </p>
+            )}
           </div>
         </div>
       </section>
@@ -73,7 +107,7 @@ export default function GalleryPage() {
           <div className="flex flex-wrap gap-3 justify-center">
             <Link
               href="/gallery"
-              className="px-6 py-2 rounded-full bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors"
+              className="px-6 py-2 rounded-full bg-gray-100 text-gray-700 font-medium hover:bg-gray-200 transition-colors"
             >
               전체 보기
             </Link>
@@ -81,7 +115,11 @@ export default function GalleryPage() {
               <Link
                 key={category.id}
                 href={`/gallery/${category.name_en}`}
-                className="px-6 py-2 rounded-full bg-gray-100 text-gray-700 font-medium hover:bg-gray-200 transition-colors"
+                className={`px-6 py-2 rounded-full font-medium transition-colors ${
+                  category.name_en === categoryName
+                    ? "bg-blue-600 text-white"
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                }`}
               >
                 {category.name_kr}
               </Link>
@@ -95,7 +133,9 @@ export default function GalleryPage() {
         <div className="container mx-auto px-6 md:px-12">
           {events.length === 0 ? (
             <div className="text-center py-20">
-              <p className="text-gray-500 text-lg">아직 등록된 갤러리가 없습니다.</p>
+              <p className="text-gray-500 text-lg">
+                {currentCategory.name_kr}의 갤러리가 아직 없습니다.
+              </p>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -130,14 +170,6 @@ export default function GalleryPage() {
                         </svg>
                       </div>
                     )}
-                    {/* 카테고리 뱃지 */}
-                    {event.category && (
-                      <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-sm font-medium text-gray-700">
-                          {event.category.name_kr}
-                        </span>
-                      </div>
-                    )}
                   </div>
 
                   {/* 정보 */}
@@ -146,10 +178,10 @@ export default function GalleryPage() {
                       {event.title}
                     </h3>
                     <p className="text-sm text-gray-500 mb-3">
-                      {new Date(event.date).toLocaleDateString('ko-KR', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
+                      {new Date(event.date).toLocaleDateString("ko-KR", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
                       })}
                     </p>
                     {event.description && (
@@ -165,3 +197,4 @@ export default function GalleryPage() {
     </main>
   );
 }
+
