@@ -1,14 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
-import { getAllCategories, getAllEvents, GalleryCategory, GalleryEvent } from "@/lib/supabase/gallery";
+import { getAllPhotos, getAllCategories, getPhotosByEvent, getAllEvents, getGoogleDriveThumbnailUrl, GalleryPhoto, GalleryCategory, GalleryEvent } from "@/lib/supabase/gallery";
 
 export default function GalleryPage() {
+  const [photos, setPhotos] = useState<GalleryPhoto[]>([]);
+  const [allPhotos, setAllPhotos] = useState<GalleryPhoto[]>([]);
   const [categories, setCategories] = useState<GalleryCategory[]>([]);
   const [events, setEvents] = useState<GalleryEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>("all");
 
   useEffect(() => {
     loadData();
@@ -17,11 +20,14 @@ export default function GalleryPage() {
   const loadData = async () => {
     try {
       setError("");
-      const [catsData, eventsData] = await Promise.all([
+      const [photosData, categoriesData, eventsData] = await Promise.all([
+        getAllPhotos(),
         getAllCategories(),
         getAllEvents()
       ]);
-      setCategories(catsData);
+      setAllPhotos(photosData);
+      setPhotos(photosData);
+      setCategories(categoriesData);
       setEvents(eventsData);
     } catch (err: unknown) {
       console.error("데이터 로드 오류:", err);
@@ -31,9 +37,33 @@ export default function GalleryPage() {
     }
   };
 
+  const filterByCategory = async (categoryNameEn: string) => {
+    setActiveCategory(categoryNameEn);
+    
+    if (categoryNameEn === "all") {
+      setPhotos(allPhotos);
+      return;
+    }
+
+    // 해당 카테고리의 이벤트들 찾기
+    const categoryEvents = events.filter(
+      event => event.category?.name_en === categoryNameEn
+    );
+
+    // 각 이벤트의 사진들 가져오기
+    const photoPromises = categoryEvents.map(event => 
+      getPhotosByEvent(event.id)
+    );
+    
+    const photoArrays = await Promise.all(photoPromises);
+    const filteredPhotos = photoArrays.flat();
+    
+    setPhotos(filteredPhotos);
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 pt-20">
         <div className="text-center">
           <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
           <p className="mt-4 text-gray-600">로딩 중...</p>
@@ -44,7 +74,7 @@ export default function GalleryPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 pt-20">
         <div className="text-center text-red-600">
           <p className="text-xl font-semibold">오류가 발생했습니다</p>
           <p className="mt-2">{error}</p>
@@ -54,114 +84,163 @@ export default function GalleryPage() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      {/* 히어로 섹션 */}
-      <section className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20">
-        <div className="container mx-auto px-6 md:px-12">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">📸 갤러리</h1>
-            <p className="text-lg md:text-xl text-blue-100">
-              우리 교회의 소중한 순간들을 함께 나눕니다
-            </p>
-          </div>
-        </div>
-      </section>
-
+    <main className="min-h-screen bg-white pt-20">
       {/* 카테고리 필터 */}
-      <section className="py-8 bg-white border-b">
+      <section className="py-8 bg-gray-50 border-b border-gray-200">
         <div className="container mx-auto px-6 md:px-12">
           <div className="flex flex-wrap gap-3 justify-center">
-            <Link
-              href="/gallery"
-              className="px-6 py-2 rounded-full bg-blue-600 text-white font-medium hover:bg-blue-700 transition-colors"
+            <button
+              onClick={() => filterByCategory("all")}
+              className={`px-6 py-2.5 rounded-full font-medium transition-all duration-300 ${
+                activeCategory === "all"
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+              }`}
             >
-              전체 보기
-            </Link>
-            {categories.map((category) => (
-              <Link
-                key={category.id}
-                href={`/gallery/${category.name_en}`}
-                className="px-6 py-2 rounded-full bg-gray-100 text-gray-700 font-medium hover:bg-gray-200 transition-colors"
-              >
-                {category.name_kr}
-              </Link>
-            ))}
+              전체사진
+            </button>
+            <button
+              onClick={() => filterByCategory("church-event")}
+              className={`px-6 py-2.5 rounded-full font-medium transition-all duration-300 ${
+                activeCategory === "church-event"
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+              }`}
+            >
+              교회행사
+            </button>
+            <button
+              onClick={() => filterByCategory("adults")}
+              className={`px-6 py-2.5 rounded-full font-medium transition-all duration-300 ${
+                activeCategory === "adults"
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+              }`}
+            >
+              장년부
+            </button>
+            <button
+              onClick={() => filterByCategory("youth")}
+              className={`px-6 py-2.5 rounded-full font-medium transition-all duration-300 ${
+                activeCategory === "youth"
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+              }`}
+            >
+              청년부
+            </button>
+            <button
+              onClick={() => filterByCategory("students")}
+              className={`px-6 py-2.5 rounded-full font-medium transition-all duration-300 ${
+                activeCategory === "students"
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+              }`}
+            >
+              중고등부
+            </button>
+            <button
+              onClick={() => filterByCategory("children")}
+              className={`px-6 py-2.5 rounded-full font-medium transition-all duration-300 ${
+                activeCategory === "children"
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+              }`}
+            >
+              주일학교
+            </button>
+            <button
+              onClick={() => filterByCategory("preschool")}
+              className={`px-6 py-2.5 rounded-full font-medium transition-all duration-300 ${
+                activeCategory === "preschool"
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+              }`}
+            >
+              유치부
+            </button>
+            <button
+              onClick={() => filterByCategory("choir")}
+              className={`px-6 py-2.5 rounded-full font-medium transition-all duration-300 ${
+                activeCategory === "choir"
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-300"
+              }`}
+            >
+              성가대
+            </button>
           </div>
         </div>
       </section>
 
-      {/* 이벤트 그리드 */}
+      {/* 사진 그리드 */}
       <section className="py-16">
         <div className="container mx-auto px-6 md:px-12">
-          {events.length === 0 ? (
+          {photos.length === 0 ? (
             <div className="text-center py-20">
-              <p className="text-gray-500 text-lg">아직 등록된 갤러리가 없습니다.</p>
+              <p className="text-gray-500 text-lg">아직 등록된 사진이 없습니다.</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {events.map((event) => (
-                <Link
-                  key={event.id}
-                  href={`/gallery/event/${event.id}`}
-                  className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {photos.map((photo) => (
+                <button
+                  key={photo.id}
+                  onClick={() => setSelectedPhoto(photo)}
+                  className="group relative aspect-square bg-gray-200 rounded-lg overflow-hidden hover:shadow-xl transition-all duration-300"
                 >
-                  {/* 커버 이미지 */}
-                  <div className="relative h-64 bg-gray-200">
-                    {event.cover_url ? (
-                      <img
-                        src={event.cover_url}
-                        alt={event.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  <img
+                    alt={photo.file_name || `사진 ${photo.id}`}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    loading="lazy"
+                    src={getGoogleDriveThumbnailUrl(photo.file_url)}
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                    <svg
+                      className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"
                       />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
-                        <svg
-                          className="w-20 h-20 text-gray-400"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1.5}
-                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                          />
-                        </svg>
-                      </div>
-                    )}
-                    {/* 카테고리 뱃지 */}
-                    {event.category && (
-                      <div className="absolute top-4 left-4">
-                        <span className="px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-sm font-medium text-gray-700">
-                          {event.category.name_kr}
-                        </span>
-                      </div>
-                    )}
+                    </svg>
                   </div>
-
-                  {/* 정보 */}
-                  <div className="p-6">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                      {event.title}
-                    </h3>
-                    <p className="text-sm text-gray-500 mb-3">
-                      {new Date(event.date).toLocaleDateString('ko-KR', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
-                    </p>
-                    {event.description && (
-                      <p className="text-gray-600 line-clamp-2">{event.description}</p>
-                    )}
-                  </div>
-                </Link>
+                </button>
               ))}
             </div>
           )}
         </div>
       </section>
+
+      {/* 이미지 모달 */}
+      {selectedPhoto && (
+        <div
+          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+          onClick={() => setSelectedPhoto(null)}
+        >
+          <div className="relative max-w-7xl max-h-[90vh] w-full h-full flex items-center justify-center">
+            <button
+              onClick={() => setSelectedPhoto(null)}
+              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-colors z-10"
+              aria-label="닫기"
+            >
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <img
+              src={getGoogleDriveThumbnailUrl(selectedPhoto.file_url).replace('sz=w400', 'sz=w1200')}
+              alt={selectedPhoto.file_name || `사진 ${selectedPhoto.id}`}
+              className="max-w-full max-h-full object-contain"
+              onClick={(e) => e.stopPropagation()}
+            />
+          </div>
+        </div>
+      )}
     </main>
   );
 }

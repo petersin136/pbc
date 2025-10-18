@@ -134,7 +134,24 @@ export async function getPhotosByEvent(event_id: number): Promise<GalleryPhoto[]
     .from("gallery_photos")
     .select("*")
     .eq("event_id", event_id)
-    .order("uploaded_at", { ascending: true });
+    .order("uploaded_at", { ascending: true});
+
+  if (error) {
+    console.error("사진 조회 오류:", error);
+    throw new Error(error.message);
+  }
+
+  return data || [];
+}
+
+/**
+ * 모든 사진 가져오기
+ */
+export async function getAllPhotos(): Promise<GalleryPhoto[]> {
+  const { data, error } = await supabase
+    .from("gallery_photos")
+    .select("*")
+    .order("uploaded_at", { ascending: false });
 
   if (error) {
     console.error("사진 조회 오류:", error);
