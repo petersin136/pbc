@@ -86,3 +86,23 @@
  GET / 200 in 58ms
  ✓ Compiled in 349ms (878 modules)
  GET / 200 in 126ms
+ ✓ Compiled in 1172ms (856 modules)
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET / 200 in 427ms
+ GET / 200 in 381ms
+ ✓ Compiled /favicon.ico in 227ms (527 modules)
+ GET /favicon.ico 200 in 390ms
+ ✓ Compiled in 363ms (873 modules)
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET / 200 in 199ms
+ GET / 200 in 348ms
+ GET /favicon.ico 200 in 34ms
+ ✓ Compiled in 346ms (873 modules)
+ GET / 200 in 122ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET / 200 in 254ms
+ GET /favicon.ico 200 in 49ms
+ ✓ Compiled in 318ms (873 modules)
+ GET / 200 in 136ms
+ ✓ Compiled in 624ms (873 modules)
+ GET / 200 in 237ms
