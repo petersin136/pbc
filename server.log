@@ -1,0 +1,88 @@
+
+> pbc@0.1.0 dev
+> next dev --hostname localhost --port 3000
+
+   ▲ Next.js 15.5.5
+   - Local:        http://localhost:3000
+   - Network:      http://localhost:3000
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · serverActions
+
+ ✓ Starting...
+ ✓ Ready in 2.9s
+ ○ Compiling / ...
+ ✓ Compiled / in 4.7s (840 modules)
+ GET / 200 in 2685ms
+ ✓ Compiled /favicon.ico in 499ms (517 modules)
+ GET /favicon.ico 200 in 694ms
+ ✓ Compiled in 617ms (840 modules)
+ GET / 200 in 308ms
+ ✓ Compiled in 367ms (840 modules)
+ GET / 200 in 115ms
+ GET / 200 in 367ms
+ ✓ Compiled /favicon.ico in 194ms (517 modules)
+ GET /favicon.ico 200 in 373ms
+ GET / 200 in 453ms
+ GET /favicon.ico 200 in 17ms
+ GET / 200 in 98ms
+ GET /favicon.ico 200 in 18ms
+ ✓ Compiled in 1572ms (840 modules)
+ GET / 200 in 371ms
+ GET / 200 in 323ms
+ GET / 200 in 181ms
+ ✓ Compiled /favicon.ico in 208ms (517 modules)
+ GET /favicon.ico 200 in 17ms
+ ✓ Compiled in 435ms (857 modules)
+ GET / 200 in 338ms
+ GET / 200 in 411ms
+ GET /favicon.ico 200 in 35ms
+ ✓ Compiled in 550ms (840 modules)
+ GET / 200 in 312ms
+ ✓ Compiled in 275ms (840 modules)
+ GET / 200 in 95ms
+ GET / 200 in 312ms
+ ✓ Compiled /favicon.ico in 253ms (517 modules)
+ GET /favicon.ico 200 in 601ms
+ ✓ Compiled in 464ms (857 modules)
+ GET / 200 in 223ms
+ ✓ Compiled in 281ms (840 modules)
+ GET / 200 in 282ms
+ GET / 200 in 313ms
+ ✓ Compiled /favicon.ico in 167ms (517 modules)
+ GET /favicon.ico 200 in 348ms
+ ✓ Compiled in 432ms (857 modules)
+ GET / 200 in 225ms
+ GET / 200 in 305ms
+ GET /favicon.ico 200 in 41ms
+ ✓ Compiled in 411ms (857 modules)
+ GET / 200 in 150ms
+ ✓ Compiled in 292ms (857 modules)
+ GET / 200 in 115ms
+ ✓ Compiled in 310ms (840 modules)
+ GET / 200 in 312ms
+ ○ Compiling /education/highschool ...
+ ✓ Compiled /education/highschool in 614ms (833 modules)
+ GET /education/highschool 200 in 785ms
+ ✓ Compiled in 403ms (847 modules)
+ GET /education/highschool 200 in 193ms
+ GET /education/highschool 200 in 319ms
+ ✓ Compiled /favicon.ico in 247ms (522 modules)
+ GET /favicon.ico 200 in 615ms
+ ✓ Compiled /mission/domestic in 390ms (857 modules)
+ GET /mission/domestic 200 in 586ms
+ ✓ Compiled in 308ms (871 modules)
+ GET /mission/domestic 200 in 156ms
+ GET /mission/domestic 200 in 303ms
+ GET / 200 in 159ms
+ GET /favicon.ico 200 in 24ms
+ ✓ Compiled in 440ms (871 modules)
+ GET / 200 in 217ms
+ GET /mission/domestic 200 in 49ms
+ ✓ Compiled in 365ms (871 modules)
+ GET /mission/domestic 200 in 151ms
+ ✓ Compiled /mission/overseas in 337ms (864 modules)
+ GET /mission/overseas 200 in 445ms
+ GET / 200 in 58ms
+ ✓ Compiled in 349ms (878 modules)
+ GET / 200 in 126ms
