@@ -27,3 +27,4 @@ SELECT
 FROM sections
 WHERE page = 'home' AND kind = 'hero';
 
+

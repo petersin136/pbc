@@ -68,8 +68,12 @@ export const menuItems: MenuItem[] = [
     href: "/lifegroup"
   },
   {
-    label: "성가대",
-    href: "/choir"
+    label: "찬양",
+    children: [
+      { label: "야다 성가대", href: "/choir/yada" },
+      { label: "기쁜소리 찬양단", href: "/choir/joyful" },
+      { label: "테루아 찬양단", href: "/choir/terua" }
+    ]
   },
   {
     label: "갤러리",

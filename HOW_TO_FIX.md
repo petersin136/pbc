@@ -89,3 +89,5 @@ SQL Editor는 service_role 권한으로 실행되기 때문에 RLS를 우회할 
 
 이 방법으로 해결되지 않으면 알려주세요!
 
+
+

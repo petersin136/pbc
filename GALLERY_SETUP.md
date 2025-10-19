@@ -125,3 +125,4 @@ Vercel 대시보드에서 다음 환경 변수를 설정하세요:
 - [GALLERY_SYNC_API.md](./GALLERY_SYNC_API.md) - API 상세 문서
 - [README.md](./README.md) - 프로젝트 전체 가이드
 
+

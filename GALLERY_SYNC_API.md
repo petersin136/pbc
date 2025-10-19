@@ -221,3 +221,4 @@ Vercel Cron Job으로 매일 자동 동기화:
 
 이제 API를 호출하면 Google Drive 폴더의 이미지가 자동으로 Supabase에 동기화됩니다! 🎉
 
+
