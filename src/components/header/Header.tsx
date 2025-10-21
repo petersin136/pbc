@@ -42,6 +42,14 @@ export const menuItems: MenuItem[] = [
     ]
   },
   {
+    label: "찬양",
+    children: [
+      { label: "야다 성가대", href: "/choir/yada" },
+      { label: "기쁜소리 찬양단", href: "/choir/joyful" },
+      { label: "테루아 찬양단", href: "/choir/terua" }
+    ]
+  },
+  {
     label: "양육",
     children: [
       { label: "새신자 양육", href: "/nurture/newcomer" },
@@ -66,14 +74,6 @@ export const menuItems: MenuItem[] = [
   {
     label: "목장",
     href: "/lifegroup"
-  },
-  {
-    label: "찬양",
-    children: [
-      { label: "야다 성가대", href: "/choir/yada" },
-      { label: "기쁜소리 찬양단", href: "/choir/joyful" },
-      { label: "테루아 찬양단", href: "/choir/terua" }
-    ]
   },
   {
     label: "갤러리",

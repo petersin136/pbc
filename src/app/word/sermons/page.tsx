@@ -165,7 +165,7 @@ export default function SermonsPage() {
             /* 설교 목록 */
             <div>
               <div className="flex items-center gap-3 mb-6">
-                <span className={`text-4xl`}>{currentCategory?.icon}</span>
+                <span className="text-4xl">{currentCategory?.icon}</span>
                 <h2 className="text-3xl font-bold text-gray-900">
                   {currentCategory?.name}
                 </h2>

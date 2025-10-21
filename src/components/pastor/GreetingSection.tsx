@@ -104,7 +104,7 @@ export default function GreetingSection({
         initial={{ opacity: 0, y: 50 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
         transition={{ duration: 0.8, delay: 0.6 }}
-        className="relative bg-gray-50 pt-72 md:pt-80 pb-20 overflow-hidden"
+        className="relative bg-gray-50 pt-56 md:pt-64 pb-20 overflow-hidden"
       >
         {/* 옅은 배경 이미지 */}
         <div 
