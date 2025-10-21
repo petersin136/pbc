@@ -27,15 +27,15 @@ export default function InfoCardsSection({ section }: { section: Section }) {
   const infoCard = cards[1];
 
   return (
-    <section className="py-8 sm:py-12 md:py-16 bg-[#E8E2DA] min-h-screen flex items-center">
-      <div className="container mx-auto px-6 sm:px-8 md:px-12 lg:px-16 w-full">
-        <div className="max-w-[1600px] mx-auto">
+    <section className="py-6 sm:py-8 md:py-10 bg-[#E8E2DA] min-h-screen flex items-center">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-10 w-full">
+        <div className="max-w-[1800px] mx-auto">
           {/* 두 개의 카드를 나란히 배치 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-10 lg:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-7 lg:gap-8">
             {/* 왼쪽 카드: 말씀 영상 */}
             {sermonCard && (
               <div className="bg-white rounded-2xl sm:rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden h-full">
-                <div className="p-8 sm:p-10 md:p-12 lg:p-14 flex flex-col h-full">
+                <div className="p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col h-full">
                   <div className="space-y-2 sm:space-y-3 mb-6">
                     <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
                       {sermonCard.title}
@@ -98,7 +98,7 @@ export default function InfoCardsSection({ section }: { section: Section }) {
             {/* 오른쪽 카드: 예배 안내 */}
             {infoCard && (
               <div className="bg-white rounded-2xl sm:rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden h-full">
-                <div className="p-8 sm:p-10 md:p-12 lg:p-14 flex flex-col h-full">
+                <div className="p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col h-full">
                   <div className="space-y-2 sm:space-y-3 mb-6">
                     <h3 className="text-3xl sm:text-4xl md:text-5xl font-serif text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
                       {infoCard.title}

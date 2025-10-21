@@ -20,19 +20,22 @@ export default function ImageSliderSection({ section }: { section: Section }) {
     height = "600px",
   } = section.content;
 
+  // URL이 있는 이미지만 필터링
+  const validImages = images.filter((img: { url: string }) => img.url && img.url.trim() !== '');
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const [imageErrors, setImageErrors] = useState<{ [key: number]: boolean }>({});
 
   // 다음 슬라이드로
   const goToNext = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % images.length);
-  }, [images.length]);
+    setCurrentIndex((prev) => (prev + 1) % validImages.length);
+  }, [validImages.length]);
 
   // 이전 슬라이드로
   const goToPrevious = useCallback(() => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-  }, [images.length]);
+    setCurrentIndex((prev) => (prev - 1 + validImages.length) % validImages.length);
+  }, [validImages.length]);
 
   // 특정 슬라이드로
   const goToSlide = useCallback((index: number) => {
@@ -43,13 +46,34 @@ export default function ImageSliderSection({ section }: { section: Section }) {
 
   // 자동 재생
   useEffect(() => {
-    if (!isAutoPlaying || images.length <= 1) return;
+    if (!isAutoPlaying || validImages.length <= 1) return;
     const interval = setInterval(goToNext, autoPlayInterval);
     return () => clearInterval(interval);
-  }, [isAutoPlaying, images.length, autoPlayInterval, goToNext]);
+  }, [isAutoPlaying, validImages.length, autoPlayInterval, goToNext]);
 
+  // URL이 없는 이미지만 있어도 섹션은 표시 (placeholder로)
   if (!images || images.length === 0) {
     return null;
+  }
+
+  // 유효한 이미지가 없으면 placeholder 표시
+  if (validImages.length === 0) {
+    return (
+      <section 
+        className="relative w-full overflow-hidden bg-gray-900 border-t-[24px] border-b-[24px] border-gray-900"
+        style={{ borderColor: '#000000' }}
+      >
+        <div className="relative w-full aspect-video sm:aspect-video md:h-[500px] lg:h-[600px] xl:h-[750px]">
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-800 text-gray-400">
+            <svg className="w-24 h-24 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <p className="text-xl text-gray-300 mb-2">이미지 슬라이더</p>
+            <p className="text-sm text-gray-500">이미지를 추가해주세요</p>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   return (
@@ -59,7 +83,7 @@ export default function ImageSliderSection({ section }: { section: Section }) {
     >
       {/* 이미지 컨테이너 - 모바일: aspect-video, 데스크톱: 고정 높이 */}
       <div className="relative w-full aspect-video sm:aspect-video md:h-[500px] lg:h-[600px] xl:h-[750px]">
-        {images.map((image: { url: string; alt?: string; caption?: string }, index: number) => (
+        {validImages.map((image: { url: string; alt?: string; caption?: string }, index: number) => (
           <div
             key={index}
             className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
@@ -113,7 +137,7 @@ export default function ImageSliderSection({ section }: { section: Section }) {
       </div>
 
       {/* 화살표 버튼 */}
-      {showArrows && images.length > 1 && (
+      {showArrows && validImages.length > 1 && (
         <>
           <button
             onClick={goToPrevious}
@@ -137,9 +161,9 @@ export default function ImageSliderSection({ section }: { section: Section }) {
       )}
 
       {/* 인디케이터 */}
-      {showIndicators && images.length > 1 && (
+      {showIndicators && validImages.length > 1 && (
         <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex gap-2 sm:gap-3 z-10">
-          {images.map((_: unknown, index: number) => (
+          {validImages.map((_: unknown, index: number) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}

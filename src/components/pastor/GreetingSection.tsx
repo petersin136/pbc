@@ -110,7 +110,7 @@ export default function GreetingSection({
         <div 
           className="absolute top-32 left-0 right-0 bottom-0 opacity-10"
           style={{
-            backgroundImage: 'url(https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/air.jpg)',
+            backgroundImage: 'url(https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/air1.jpg)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
@@ -135,7 +135,7 @@ export default function GreetingSection({
         <div 
           className="absolute top-8 left-0 right-0 bottom-0 opacity-5"
           style={{
-            backgroundImage: 'url(https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/air.jpg)',
+            backgroundImage: 'url(https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/air1.jpg)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}

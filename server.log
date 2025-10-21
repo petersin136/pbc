@@ -1,6 +1,6 @@
 
 > pbc@0.1.0 dev
-> next dev --hostname localhost --port 3000
+> next dev -H localhost
 
    ▲ Next.js 15.5.5
    - Local:        http://localhost:3000
@@ -10,389 +10,103 @@
      · serverActions
 
  ✓ Starting...
- ✓ Ready in 2.9s
+ ✓ Ready in 2.7s
  ○ Compiling / ...
- ✓ Compiled / in 4.7s (840 modules)
- GET / 200 in 2685ms
- ✓ Compiled /favicon.ico in 499ms (517 modules)
- GET /favicon.ico 200 in 694ms
- ✓ Compiled in 617ms (840 modules)
- GET / 200 in 308ms
- ✓ Compiled in 367ms (840 modules)
- GET / 200 in 115ms
- GET / 200 in 367ms
- ✓ Compiled /favicon.ico in 194ms (517 modules)
- GET /favicon.ico 200 in 373ms
- GET / 200 in 453ms
- GET /favicon.ico 200 in 17ms
- GET / 200 in 98ms
- GET /favicon.ico 200 in 18ms
- ✓ Compiled in 1572ms (840 modules)
- GET / 200 in 371ms
- GET / 200 in 323ms
- GET / 200 in 181ms
- ✓ Compiled /favicon.ico in 208ms (517 modules)
- GET /favicon.ico 200 in 17ms
- ✓ Compiled in 435ms (857 modules)
- GET / 200 in 338ms
- GET / 200 in 411ms
- GET /favicon.ico 200 in 35ms
- ✓ Compiled in 550ms (840 modules)
- GET / 200 in 312ms
- ✓ Compiled in 275ms (840 modules)
- GET / 200 in 95ms
- GET / 200 in 312ms
- ✓ Compiled /favicon.ico in 253ms (517 modules)
- GET /favicon.ico 200 in 601ms
- ✓ Compiled in 464ms (857 modules)
- GET / 200 in 223ms
- ✓ Compiled in 281ms (840 modules)
- GET / 200 in 282ms
- GET / 200 in 313ms
- ✓ Compiled /favicon.ico in 167ms (517 modules)
- GET /favicon.ico 200 in 348ms
- ✓ Compiled in 432ms (857 modules)
- GET / 200 in 225ms
- GET / 200 in 305ms
- GET /favicon.ico 200 in 41ms
- ✓ Compiled in 411ms (857 modules)
- GET / 200 in 150ms
- ✓ Compiled in 292ms (857 modules)
- GET / 200 in 115ms
- ✓ Compiled in 310ms (840 modules)
- GET / 200 in 312ms
- ○ Compiling /education/highschool ...
- ✓ Compiled /education/highschool in 614ms (833 modules)
- GET /education/highschool 200 in 785ms
- ✓ Compiled in 403ms (847 modules)
- GET /education/highschool 200 in 193ms
- GET /education/highschool 200 in 319ms
- ✓ Compiled /favicon.ico in 247ms (522 modules)
- GET /favicon.ico 200 in 615ms
- ✓ Compiled /mission/domestic in 390ms (857 modules)
- GET /mission/domestic 200 in 586ms
- ✓ Compiled in 308ms (871 modules)
- GET /mission/domestic 200 in 156ms
- GET /mission/domestic 200 in 303ms
- GET / 200 in 159ms
- GET /favicon.ico 200 in 24ms
- ✓ Compiled in 440ms (871 modules)
- GET / 200 in 217ms
- GET /mission/domestic 200 in 49ms
- ✓ Compiled in 365ms (871 modules)
- GET /mission/domestic 200 in 151ms
- ✓ Compiled /mission/overseas in 337ms (864 modules)
- GET /mission/overseas 200 in 445ms
- GET / 200 in 58ms
- ✓ Compiled in 349ms (878 modules)
- GET / 200 in 126ms
- ✓ Compiled in 1172ms (856 modules)
- ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled / in 3.4s (859 modules)
+ GET / 200 in 4072ms
+ GET / 200 in 121ms
+ GET / 200 in 414ms
+ GET / 200 in 104ms
+ GET / 200 in 215ms
  GET / 200 in 427ms
- GET / 200 in 381ms
- ✓ Compiled /favicon.ico in 227ms (527 modules)
- GET /favicon.ico 200 in 390ms
- ✓ Compiled in 363ms (873 modules)
- ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET / 200 in 199ms
- GET / 200 in 348ms
- GET /favicon.ico 200 in 34ms
- ✓ Compiled in 346ms (873 modules)
- GET / 200 in 122ms
- ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET / 200 in 254ms
- GET /favicon.ico 200 in 49ms
- ✓ Compiled in 318ms (873 modules)
- GET / 200 in 136ms
- ✓ Compiled in 624ms (873 modules)
- GET / 200 in 237ms
- ✓ Compiled in 874ms (856 modules)
- ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET / 200 in 304ms
- GET / 200 in 312ms
- ✓ Compiled /favicon.ico in 223ms (527 modules)
- GET /favicon.ico 200 in 425ms
- ✓ Compiled in 373ms (873 modules)
- ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET / 200 in 217ms
- GET / 200 in 368ms
- GET /favicon.ico 200 in 38ms
- ✓ Compiled in 332ms (873 modules)
- ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET / 200 in 211ms
- GET / 200 in 253ms
- GET /favicon.ico 200 in 37ms
- ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- ✓ Compiled in 451ms (873 modules)
- GET / 200 in 535ms
- GET / 200 in 770ms
- GET /favicon.ico 200 in 38ms
- ✓ Compiled in 241ms (873 modules)
- GET / 200 in 84ms
- GET / 200 in 217ms
- GET /favicon.ico 200 in 37ms
- GET / 200 in 79ms
- GET /favicon.ico 200 in 22ms
- GET / 200 in 124ms
- GET /favicon.ico 200 in 19ms
+ GET / 200 in 213ms
+ ⨯ upstream image response failed for https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/air.jpg 400
+[Error: "url" parameter is valid but upstream response is invalid] {
+  statusCode: 400
+}
+ ○ Compiling /welcome ...
+ ✓ Compiled /welcome in 1193ms (866 modules)
+ GET /welcome 200 in 1586ms
+ GET /welcome 200 in 88ms
+ GET /welcome 200 in 119ms
+ ○ Compiling /about/pastor ...
+ ✓ Compiled /about/pastor in 5.2s (1642 modules)
+ GET /about/pastor 200 in 5494ms
+ GET /about/pastor 200 in 87ms
+ GET /about/pastor 200 in 117ms
+ GET /about/pastor 200 in 96ms
+ GET /about/pastor 200 in 102ms
+ GET /about/pastor 200 in 115ms
+ GET /about/pastor 200 in 90ms
  ○ Compiling /about ...
- ✓ Compiled /about in 969ms (866 modules)
- GET /about 200 in 1199ms
- ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- ✓ Compiled in 664ms (863 modules)
- GET / 200 in 990ms
- GET / 200 in 122ms
- ✓ Compiled /favicon.ico in 277ms (532 modules)
- GET /favicon.ico 200 in 632ms
- ✓ Compiled in 634ms (880 modules)
- ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET / 200 in 345ms
- GET / 200 in 547ms
- GET /favicon.ico 200 in 40ms
- ✓ Compiled in 407ms (875 modules)
- ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET / 200 in 181ms
- GET / 200 in 296ms
- GET /favicon.ico 200 in 26ms
- ✓ Compiled in 640ms (875 modules)
- GET / 200 in 170ms
- ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET / 200 in 402ms
- GET /favicon.ico 200 in 39ms
- GET / 200 in 107ms
- GET /favicon.ico 200 in 18ms
- ✓ Compiled in 807ms (875 modules)
- ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
- GET / 200 in 257ms
- GET / 200 in 186ms
- GET /favicon.ico 200 in 25ms
- ✓ Compiled in 534ms (875 modules)
+ ✓ Compiled /about in 989ms (1649 modules)
+ GET /about 200 in 1162ms
+ ○ Compiling /about/location ...
+ ✓ Compiled /about/location in 1177ms (1656 modules)
+ GET /about/location 200 in 1360ms
+ ○ Compiling /news/bulletin ...
+ ✓ Compiled /news/bulletin in 868ms (1663 modules)
+ GET /news/bulletin 200 in 1032ms
+ ⨯ upstream image response failed for https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/air.jpg 400
+[Error: "url" parameter is valid but upstream response is invalid] {
+  statusCode: 400
+}
+ ⨯ upstream image response failed for https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/air.jpg 400
+ GET / 200 in 742ms
+ ⨯ upstream image response failed for https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/air.jpg 400
+ GET / 200 in 157ms
+ ⨯ upstream image response failed for https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/air.jpg 400
+[Error: "url" parameter is valid but upstream response is invalid] {
+  statusCode: 400
+}
+ GET / 200 in 172ms
+ GET / 200 in 139ms
+ GET / 200 in 47ms
+ ○ Compiling /nurture/newcomer ...
+ ✓ Compiled /nurture/newcomer in 1416ms (1258 modules)
+ GET /nurture/newcomer 200 in 1772ms
+ GET / 200 in 57ms
+ GET / 200 in 440ms
+ GET / 200 in 518ms
+ ✓ Compiled in 1000ms (1272 modules)
+ GET / 200 in 152ms
+ ✓ Compiled in 584ms (1272 modules)
+ GET / 200 in 117ms
+ ✓ Compiled in 398ms (1272 modules)
+ GET / 200 in 98ms
+ ✓ Compiled in 377ms (1272 modules)
+ GET / 200 in 133ms
+ ✓ Compiled in 534ms (1272 modules)
+ GET / 200 in 129ms
+ GET / 200 in 434ms
+ ✓ Compiled in 647ms (1272 modules)
  GET / 200 in 138ms
- ✓ Compiled in 418ms (875 modules)
- GET / 200 in 80ms
- ✓ Compiled in 1266ms (858 modules)
- GET / 200 in 349ms
- GET / 200 in 507ms
- ✓ Compiled /favicon.ico in 179ms (527 modules)
- GET /favicon.ico 200 in 419ms
- ✓ Compiled in 1058ms (875 modules)
- GET / 200 in 1162ms
- GET / 200 in 58ms
- GET / 200 in 52ms
- GET / 200 in 67ms
- GET / 200 in 40ms
- GET / 200 in 449ms
- GET /favicon.ico 200 in 33ms
- GET /education/highschool 200 in 71ms
- GET /education/highschool 200 in 102ms
- GET /favicon.ico 200 in 17ms
- GET / 200 in 30ms
- ○ Compiling /lifegroup ...
- ✓ Compiled /lifegroup in 1784ms (868 modules)
- GET /lifegroup 200 in 2170ms
- GET /lifegroup 200 in 56ms
- ○ Compiling /gallery ...
- ✓ Compiled /gallery in 676ms (877 modules)
- GET /gallery 200 in 781ms
- ✓ Compiled /about/location in 376ms (884 modules)
- GET /about/location 200 in 499ms
- GET /gallery 200 in 59ms
- ✓ Compiled /gallery/event/[event_id] in 378ms (891 modules)
- GET /gallery/event/2 200 in 1319ms
- ✓ Compiled in 1883ms (357 modules)
- GET /gallery/event/2 200 in 106ms
- ✓ Compiled in 819ms (357 modules)
- GET /gallery/event/2 200 in 158ms
- ✓ Compiled in 173ms (357 modules)
- GET /gallery/event/2 200 in 111ms
- ✓ Compiled in 194ms (357 modules)
- GET /gallery/event/2 200 in 56ms
- ○ Compiling /_not-found ...
- ✓ Compiled /_not-found in 1667ms (864 modules)
- GET / 404 in 2329ms
- GET / 200 in 341ms
- GET /gallery/event/2 200 in 100ms
- ⨯ Failed to generate static paths for /gallery/event/[event_id]:
-[Error: Cannot find module './vendor-chunks/@swc.js'
-Require stack:
-- /Users/seung-yongmaegbug/pbc/.next/server/webpack-runtime.js
-- /Users/seung-yongmaegbug/pbc/.next/server/app/gallery/event/[event_id]/page.js
-- /Users/seung-yongmaegbug/pbc/node_modules/next/dist/server/require.js
-- /Users/seung-yongmaegbug/pbc/node_modules/next/dist/server/load-components.js
-- /Users/seung-yongmaegbug/pbc/node_modules/next/dist/build/utils.js
-- /Users/seung-yongmaegbug/pbc/node_modules/next/dist/server/dev/static-paths-worker.js
-- /Users/seung-yongmaegbug/pbc/node_modules/next/dist/compiled/jest-worker/processChild.js] {
-  type: 'Error',
-  code: 'MODULE_NOT_FOUND',
-  requireStack: [Array]
-}
- GET / 200 in 70ms
- GET / 200 in 76ms
- ✓ Compiled /favicon.ico in 149ms (534 modules)
- GET /favicon.ico 200 in 547ms
- GET / 200 in 307ms
-[Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/client-development/9.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/client-development/9.pack.gz'
-}
- ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/client-development/9.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/client-development/9.pack.gz'
-}
- ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/client-development/9.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/client-development/9.pack.gz'
-}
-<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/client-development/9.pack.gz'
-[Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/0.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/0.pack.gz'
-}
- ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/0.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/0.pack.gz'
-}
- ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/0.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/0.pack.gz'
-}
-[Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/1.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/1.pack.gz'
-}
- ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/1.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/1.pack.gz'
-}
- ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/1.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/1.pack.gz'
-}
-[Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/2.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/2.pack.gz'
-}
- ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/2.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/2.pack.gz'
-}
- ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/2.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/2.pack.gz'
-}
-[Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/3.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/3.pack.gz'
-}
- ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/3.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/3.pack.gz'
-}
- ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/3.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/3.pack.gz'
-}
-[Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/7.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/7.pack.gz'
-}
- ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/7.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/7.pack.gz'
-}
- ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/7.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/7.pack.gz'
-}
-[Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/9.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/9.pack.gz'
-}
- ⨯ unhandledRejection: [Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/9.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/9.pack.gz'
-}
- ⨯ unhandledRejection:  [Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/9.pack.gz'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'stat',
-  path: '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/9.pack.gz'
-}
-<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, stat '/Users/seung-yongmaegbug/pbc/.next/cache/webpack/server-development/0.pack.gz'
- ⨯ [Error: ENOENT: no such file or directory, open '/Users/seung-yongmaegbug/pbc/.next/server/app-paths-manifest.json'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/seung-yongmaegbug/pbc/.next/server/app-paths-manifest.json',
-  page: '/'
-}
- ○ Compiling /_error ...
- ✓ Compiled /_error in 5.3s (1199 modules)
- ⨯ [Error: ENOENT: no such file or directory, open '/Users/seung-yongmaegbug/pbc/.next/routes-manifest.json'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/seung-yongmaegbug/pbc/.next/routes-manifest.json'
-}
-[Error: ENOENT: no such file or directory, open '/Users/seung-yongmaegbug/pbc/.next/server/app-paths-manifest.json'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/seung-yongmaegbug/pbc/.next/server/app-paths-manifest.json',
-  page: '/'
-}
- ⨯ [Error: ENOENT: no such file or directory, open '/Users/seung-yongmaegbug/pbc/.next/routes-manifest.json'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/seung-yongmaegbug/pbc/.next/routes-manifest.json'
-}
-[Error: ENOENT: no such file or directory, open '/Users/seung-yongmaegbug/pbc/.next/routes-manifest.json'] {
-  errno: -2,
-  code: 'ENOENT',
-  syscall: 'open',
-  path: '/Users/seung-yongmaegbug/pbc/.next/routes-manifest.json'
-}
- GET / 500 in 9398ms
- GET / 500 in 295ms
-[?25h
+ ✓ Compiled in 380ms (1272 modules)
+ GET / 200 in 128ms
+ GET / 200 in 985ms
+ ○ Compiling /about/pastor ...
+ ✓ Compiled /about/pastor in 2.1s (919 modules)
+ GET /about/pastor 200 in 2469ms
+ ○ Compiling /education/highschool ...
+ ✓ Compiled /education/highschool in 1784ms (1662 modules)
+ GET /education/highschool 200 in 2091ms
+ GET / 200 in 93ms
+ ⨯ upstream image response timed out for https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/1.jpg
+ GET / 200 in 340ms
+ ⨯ upstream image response timed out for https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/1.jpg
+ ○ Compiling /mission/domestic ...
+ ✓ Compiled /mission/domestic in 1119ms (1671 modules)
+ GET /mission/domestic 200 in 1378ms
+ GET / 200 in 98ms
+ GET / 200 in 302ms
+ GET / 200 in 243ms
+ ✓ Compiled in 3.5s (1680 modules)
+ GET / 200 in 385ms
+ ✓ Compiled in 951ms (1680 modules)
+ GET / 200 in 282ms
+ ✓ Compiled in 882ms (1680 modules)
+ GET / 200 in 207ms
+ GET / 200 in 256ms
+ ✓ Compiled in 723ms (1680 modules)
+ GET / 200 in 118ms
+ GET / 200 in 255ms
