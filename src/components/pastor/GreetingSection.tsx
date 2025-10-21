@@ -65,12 +65,12 @@ export default function GreetingSection({
               className="flex-shrink-0 z-20"
             >
               <div className="relative group">
-                <div className="relative w-52 h-[320px] md:w-72 md:h-[450px] rounded-2xl overflow-hidden shadow-2xl transition-transform duration-300 group-hover:scale-105">
+                <div className="relative w-52 h-[320px] md:w-72 md:h-[450px] transition-transform duration-300 group-hover:scale-105">
                   <Image
                     src={photo}
                     alt={name}
                     fill
-                    className="object-contain"
+                    className="object-contain drop-shadow-2xl"
                     priority
                   />
                 </div>

@@ -5,7 +5,7 @@ export default function PastorPage() {
     <main className="min-h-screen">
       <GreetingSection
         name="박상구 목사"
-        photo="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/pas.png"
+        photo="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/11-Photoroom.png"
         backgroundImage="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop"
         mainText="복음으로 세워지고, 사랑으로 세상을 섬기는 교회!"
         detailText={`사랑하는 포천중앙침례교회 가족 여러분, 그리고 이곳을 방문하신 모든 분들께 주님의 이름으로 환영과 축복의 인사를 드립니다.

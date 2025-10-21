@@ -110,3 +110,131 @@
  ✓ Compiled in 723ms (1680 modules)
  GET / 200 in 118ms
  GET / 200 in 255ms
+ ✓ Compiled in 2.7s (1680 modules)
+ GET / 200 in 409ms
+ GET / 200 in 293ms
+ ✓ Compiled in 803ms (1680 modules)
+ GET / 200 in 202ms
+ GET / 200 in 499ms
+ ✓ Compiled in 1483ms (1680 modules)
+ GET / 200 in 357ms
+ GET / 200 in 392ms
+ ✓ Compiled in 2.4s (1680 modules)
+ GET / 200 in 327ms
+ GET / 200 in 521ms
+ ✓ Compiled in 2.2s (1680 modules)
+ GET / 200 in 396ms
+ GET / 200 in 423ms
+ GET / 200 in 123ms
+ GET / 200 in 206ms
+ ○ Compiling /about ...
+ ✓ Compiled /about in 1325ms (930 modules)
+ GET /about 200 in 1502ms
+ GET /about/pastor 200 in 58ms
+ GET /about/pastor 200 in 426ms
+ GET / 200 in 71ms
+ GET /about/pastor 200 in 52ms
+ ✓ Compiled in 1477ms (1680 modules)
+ GET /about/pastor 200 in 808ms
+ GET /about/pastor 200 in 1223ms
+ ✓ Compiled in 706ms (1680 modules)
+ GET /about/pastor 200 in 222ms
+ GET /about/pastor 200 in 212ms
+ ✓ Compiled in 1917ms (1680 modules)
+ GET /about/pastor 200 in 282ms
+ GET /about/pastor 200 in 307ms
+ ✓ Compiled in 771ms (1680 modules)
+ GET /about/pastor 200 in 241ms
+ ✓ Compiled in 2s (1680 modules)
+ GET /about/pastor 200 in 176ms
+ GET /about/pastor 200 in 285ms
+ ✓ Compiled in 924ms (1680 modules)
+ GET /about/pastor 200 in 124ms
+ GET /about/pastor 200 in 193ms
+ ✓ Compiled in 785ms (1680 modules)
+ GET /about/pastor 200 in 104ms
+ ✓ Compiled in 1079ms (1680 modules)
+ GET /about/pastor 200 in 90ms
+ GET /about/pastor 200 in 172ms
+ GET /about/pastor 200 in 106ms
+ ✓ Compiled in 965ms (1680 modules)
+ GET /about/pastor 200 in 97ms
+ GET /about/pastor 200 in 183ms
+ ✓ Compiled in 2.2s (1680 modules)
+ GET /about/pastor 200 in 139ms
+ GET /about/pastor 200 in 379ms
+ ✓ Compiled in 713ms (1680 modules)
+ GET /about/pastor 200 in 88ms
+ ✓ Compiled in 1105ms (1680 modules)
+ GET /about/pastor 200 in 89ms
+ ✓ Compiled in 1460ms (1680 modules)
+ GET /about/pastor 200 in 94ms
+ ✓ Compiled in 729ms (1680 modules)
+ GET /about/pastor 200 in 168ms
+ ✓ Compiled in 615ms (1680 modules)
+ GET /about/pastor 200 in 197ms
+ GET /about/pastor 200 in 185ms
+ ✓ Compiled in 836ms (1680 modules)
+ GET /about/pastor 200 in 147ms
+ ✓ Compiled in 779ms (1680 modules)
+ GET /about/pastor 200 in 106ms
+ ✓ Compiled in 576ms (1680 modules)
+ GET /about/pastor 200 in 101ms
+ GET /about/pastor 200 in 183ms
+ ✓ Compiled in 735ms (1680 modules)
+ GET /about/pastor 200 in 176ms
+ GET /about/pastor 200 in 173ms
+ ✓ Compiled in 1080ms (1680 modules)
+ GET /about/pastor 200 in 446ms
+ GET /about/pastor 200 in 436ms
+ ✓ Compiled in 1310ms (1680 modules)
+ GET /about/pastor 200 in 405ms
+ ✓ Compiled in 1026ms (1680 modules)
+ GET /about/pastor 200 in 110ms
+ ✓ Compiled in 784ms (1680 modules)
+ GET /about/pastor 200 in 187ms
+ GET /about/pastor 200 in 182ms
+ ✓ Compiled in 828ms (1680 modules)
+ GET /about/pastor 200 in 132ms
+ ✓ Compiled in 989ms (1680 modules)
+ GET /about/pastor 200 in 426ms
+ GET /about/pastor 200 in 180ms
+ ✓ Compiled in 477ms (1680 modules)
+ GET /about/pastor 200 in 66ms
+ GET /about/pastor 200 in 210ms
+ ✓ Compiled in 912ms (1680 modules)
+ GET /about/pastor 200 in 251ms
+ ✓ Compiled in 725ms (1680 modules)
+ GET /about/pastor 200 in 92ms
+ ✓ Compiled in 847ms (1680 modules)
+ GET /about/pastor 200 in 223ms
+ ✓ Compiled in 953ms (1680 modules)
+ GET /about/pastor 200 in 234ms
+ ✓ Compiled in 611ms (1680 modules)
+ GET /about/pastor 200 in 79ms
+ GET /about/pastor 200 in 238ms
+ GET /about/pastor 200 in 112ms
+ ✓ Compiled in 2.3s (1680 modules)
+ GET /about/pastor 200 in 192ms
+ ✓ Compiled in 815ms (1680 modules)
+ GET /about/pastor 200 in 244ms
+ ✓ Compiled in 785ms (1680 modules)
+ GET /about/pastor 200 in 100ms
+ GET /about/pastor 200 in 285ms
+ ✓ Compiled in 3.1s (1680 modules)
+ GET /about/pastor 200 in 210ms
+ ✓ Compiled in 1047ms (1680 modules)
+ GET /about/pastor 200 in 270ms
+ GET /about/pastor 200 in 262ms
+ ✓ Compiled in 957ms (1680 modules)
+ GET /about/pastor 200 in 209ms
+ ✓ Compiled in 1068ms (1680 modules)
+ GET /about/pastor 200 in 258ms
+ GET / 200 in 81ms
+ ○ Compiling /welcome ...
+ ✓ Compiled /welcome in 3.2s (1685 modules)
+ GET /welcome 200 in 3583ms
+ GET /welcome 200 in 107ms
+ GET /welcome 200 in 87ms
+ GET / 200 in 67ms
+ GET /about/pastor 200 in 78ms
