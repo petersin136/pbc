@@ -29,3 +29,4 @@ WHERE page = 'home' AND kind = 'hero';
 
 
 
+
