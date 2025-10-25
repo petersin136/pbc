@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { getSectionsByPage, Section } from "@/lib/supabase/sections";
 import SectionRenderer from "@/components/sections/SectionRenderer";
+import CommunitySection from "@/components/sections/CommunitySection";
 
 export default function AboutPage() {
   const [sections, setSections] = useState<Section[]>([]);
@@ -37,7 +38,7 @@ export default function AboutPage() {
     );
   }
 
-  // 오류가 있거나 섹션이 없으면 기본 컨텐츠 표시
+  // 오류가 있거나 섹션이 없으면 기본 컨텐츠 + 커뮤니티 섹션 표시
   if (error || sections.length === 0) {
     return (
       <main className="min-h-screen bg-white">
@@ -88,7 +89,7 @@ export default function AboutPage() {
 
           {/* 관리자 안내 메시지 */}
           {error && (
-            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-12">
               <h3 className="text-lg font-semibold text-yellow-900 mb-2">
                 ⚠️ 관리자 안내
               </h3>
@@ -101,6 +102,9 @@ export default function AboutPage() {
             </div>
           )}
         </div>
+
+        {/* 교회 공동체 섹션 */}
+        <CommunitySection />
       </main>
     );
   }
@@ -110,6 +114,9 @@ export default function AboutPage() {
       {sections.map((section) => (
         <SectionRenderer key={section.id} section={section} />
       ))}
+      
+      {/* 교회 공동체 섹션 */}
+      <CommunitySection />
     </main>
   );
 }

@@ -30,7 +30,7 @@ export default function GreetingSection({
   return (
     <section ref={ref} className="min-h-screen">
       {/* 헤더 타이틀 */}
-      <div className="bg-white py-16 pt-32">
+      <div className="bg-white py-4 pt-20">
         <div className="container mx-auto px-4">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
             담임목사
@@ -38,34 +38,35 @@ export default function GreetingSection({
         </div>
       </div>
 
-      {/* 히어로 섹션 - 배경 이미지 + 목사님 사진 + 인사말 */}
-      <div className="relative h-[380px] md:h-[450px] overflow-visible">
-        {/* 배경 이미지 - 고정 효과 (Parallax) */}
+      {/* 히어로 섹션 - 모바일 극단적 최적화 */}
+      <div className="relative min-h-[600px] sm:min-h-[700px] md:h-[450px] overflow-visible">
+        {/* 배경 이미지 - 모바일 최적화 */}
         <div 
-          className="absolute inset-0"
+          className="absolute inset-0 bg-scroll md:bg-fixed"
           style={{
             backgroundImage: `url(${backgroundImage})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
           }}
         >
           {/* 오버레이 */}
           <div className="absolute inset-0 bg-gradient-to-r from-blue-900/30 to-purple-900/30"></div>
         </div>
 
-        {/* 컨텐츠 - 하단 정렬, 둘 다 박스 밖으로 튀어나오게 */}
-        <div className="relative container mx-auto px-4 h-full flex items-end z-10">
-          <div className="relative w-full flex flex-col md:flex-row items-end gap-6 md:gap-8 pb-0 translate-y-[25%]">
-            {/* 좌측: 목사님 사진 */}
+        {/* 모바일: 세로 배치, 데스크톱: 가로 배치 */}
+        <div className="relative container mx-auto px-4 h-full flex items-center md:items-end z-10">
+          <div className="relative w-full flex flex-col md:flex-row items-center md:items-end gap-4 sm:gap-6 md:gap-8 pb-4 sm:pb-6 md:pb-0 md:translate-y-[25%]">
+            
+            {/* 목사님 사진 - 모바일에서 크기 대폭 축소 */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
               transition={{ duration: 0.8 }}
-              className="flex-shrink-0 z-20"
+              className="flex-shrink-0 z-20 order-1 md:order-none"
             >
               <div className="relative group">
-                <div className="relative w-52 h-[320px] md:w-72 md:h-[450px] transition-transform duration-300 group-hover:scale-110">
+                {/* 모바일: 크기 증가, 태블릿: 중간, 데스크톱: 크게 */}
+                <div className="relative w-40 h-52 sm:w-48 sm:h-64 md:w-72 md:h-[450px] transition-transform duration-300 group-hover:scale-110">
                   <Image
                     src={photo}
                     alt={name}
@@ -75,29 +76,39 @@ export default function GreetingSection({
                   />
                 </div>
                 <div className="text-center mt-1">
-                  <p className="text-3xl md:text-4xl font-bold text-gray-900" style={{ letterSpacing: '0.5em', textShadow: '0 0 1px rgba(0,0,0,0.3), 0 0 2px rgba(0,0,0,0.2)', WebkitTextStroke: '0.5px rgba(0,0,0,0.2)' }}>
+                  <p className="text-lg sm:text-xl md:text-4xl font-bold text-white md:text-gray-900" 
+                     style={{ 
+                       letterSpacing: '0.2em'
+                     }}>
                     박상구
                   </p>
                 </div>
               </div>
             </motion.div>
 
-            {/* 우측: 인사말 카드 - 같은 높이로 맞춤 */}
+            {/* 인사말 카드 - 모바일 극단적 최적화 */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
               transition={{ duration: 0.8, delay: 0.3 }}
-              className="flex-1 z-10 -translate-y-10"
+              className="flex-1 z-10 w-full md:-translate-y-10 order-2 md:order-none"
             >
-              <div className="bg-blue-500/30 backdrop-blur-lg rounded-2xl px-6 py-4 md:px-7 md:py-5 shadow-xl h-[260px] md:h-[380px] flex flex-col justify-center">
-                <h2 className="text-2xl md:text-3xl lg:text-3xl font-bold text-white mb-3 md:mb-4 leading-snug" 
+              {/* 모바일: 높이 자동, 패딩 최소화 */}
+              <div className="bg-blue-500/30 backdrop-blur-lg rounded-xl sm:rounded-2xl px-4 py-3 sm:px-5 sm:py-4 md:px-7 md:py-5 shadow-xl min-h-[180px] sm:min-h-[220px] md:h-[380px] flex flex-col justify-center">
+                
+                {/* 제목 - 모바일에서 매우 작게 */}
+                <h2 className="text-sm sm:text-base md:text-3xl lg:text-3xl font-bold text-white mb-2 sm:mb-3 md:mb-4 leading-tight sm:leading-snug" 
                     style={{ textShadow: '0 2px 10px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.5)' }}>
                   {mainText}
                 </h2>
-                <div className="space-y-2 md:space-y-3 text-white text-lg md:text-xl lg:text-xl leading-relaxed" 
+                
+                {/* 본문 - 모바일에서 극단적으로 작게, 줄간격 줄이기 */}
+                <div className="space-y-1 sm:space-y-2 md:space-y-3 text-white text-xs sm:text-sm md:text-xl lg:text-xl leading-relaxed overflow-hidden" 
                      style={{ textShadow: '0 1px 8px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.4)' }}>
                   {detailText.split("\n\n").map((paragraph, index) => (
-                    <p key={index}>{paragraph}</p>
+                    <p key={index} className="line-clamp-3 sm:line-clamp-none">
+                      {paragraph}
+                    </p>
                   ))}
                 </div>
               </div>
@@ -106,16 +117,16 @@ export default function GreetingSection({
         </div>
       </div>
 
-      {/* 하단 인용구 섹션 - 어두운 배경 이미지 */}
+      {/* 하단 인용구 섹션 - 모바일 극단적 최적화 */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
         transition={{ duration: 0.8, delay: 0.6 }}
-        className="relative bg-gray-200 pt-48 md:pt-56 pb-20 overflow-hidden"
+        className="relative bg-gray-200 pt-16 sm:pt-32 md:pt-56 pb-8 sm:pb-12 md:pb-20 overflow-hidden"
       >
         {/* 배경 이미지 */}
         <div 
-          className="absolute top-32 left-0 right-0 bottom-0 opacity-20"
+          className="absolute top-8 sm:top-16 md:top-32 left-0 right-0 bottom-0 opacity-20"
           style={{
             backgroundImage: 'url(https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/air1.jpg)',
             backgroundSize: 'cover',
@@ -126,23 +137,24 @@ export default function GreetingSection({
         <div className="absolute inset-0 bg-black/20" />
         <div className="relative container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
-            <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white text-center leading-relaxed whitespace-pre-line">
+            {/* 모바일: 원래 크기로 복원, 태블릿: 중간, 데스크톱: 크게 */}
+            <h3 className="text-sm sm:text-lg md:text-3xl lg:text-4xl font-bold text-white text-center leading-relaxed whitespace-pre-line">
               {quote}
             </h3>
           </div>
         </div>
       </motion.div>
 
-      {/* 하단 상세 본문 섹션 - 옅은 배경 이미지 */}
+      {/* 하단 상세 본문 섹션 - 모바일 극단적 최적화 */}
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
         transition={{ duration: 0.8, delay: 0.9 }}
-        className="relative bg-white py-20 overflow-hidden"
+        className="relative bg-white py-8 sm:py-12 md:py-20 overflow-hidden"
       >
         {/* 옅은 배경 이미지 */}
         <div 
-          className="absolute top-8 left-0 right-0 bottom-0 opacity-10"
+          className="absolute top-4 sm:top-6 md:top-8 left-0 right-0 bottom-0 opacity-10"
           style={{
             backgroundImage: 'url(https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/1.jpg)',
             backgroundSize: 'cover',
@@ -150,28 +162,34 @@ export default function GreetingSection({
           }}
         />
         <div className="relative container mx-auto px-4">
-          <div className="max-w-6xl mx-auto space-y-8">
-            <p className="text-gray-700 text-xl leading-loose">
+          <div className="max-w-6xl mx-auto space-y-3 sm:space-y-5 md:space-y-8">
+            
+            {/* 본문 - 모바일에서 극단적으로 작게 */}
+            <p className="text-gray-700 text-sm sm:text-base md:text-xl leading-relaxed">
               포천중앙침례교회는 이 시대의 어둠 속에서도 빛과 소금으로서의 사명을 감당하며, 믿음의 다음 세대를 세우고,
             </p>
-            <p className="text-gray-700 text-xl leading-loose">
+            <p className="text-gray-700 text-sm sm:text-base md:text-xl leading-relaxed">
               지역 사회를 품는 복음적 교회로 서 가고자 합니다.
             </p>
-            <p className="text-gray-700 text-xl leading-loose">
+            <p className="text-gray-700 text-sm sm:text-base md:text-xl leading-relaxed">
               여러분 한 분 한 분이 이 공동체의 귀한 지체로서 예배와 말씀, 사랑과 섬김 안에서 하나님 나라의 기쁨을 함께 누리시길 바랍니다.
             </p>
-            <p className="text-gray-700 text-xl leading-loose">
+            <p className="text-gray-700 text-sm sm:text-base md:text-xl leading-relaxed">
               주님 안에서 여러분의 삶이 날마다 새로워지고, 하나님의 은혜가 가정과 일터 위에 충만히 임하기를 기도합니다.
             </p>
-            <p className="text-gray-700 text-xl leading-loose">
+            <p className="text-gray-700 text-sm sm:text-base md:text-xl leading-relaxed">
               감사합니다.
             </p>
-            <p className="text-gray-900 text-2xl md:text-3xl font-bold mt-12 text-right leading-loose">
-              포천중앙침례교회
-            </p>
-            <p className="text-gray-900 text-2xl md:text-3xl font-bold text-right leading-loose">
-              담임목사 박상구 드림
-            </p>
+            
+            {/* 서명 - 모바일에서 크기 조정 */}
+            <div className="mt-6 sm:mt-8 md:mt-12 text-right space-y-1 sm:space-y-2">
+              <p className="text-gray-900 text-base sm:text-lg md:text-3xl font-bold leading-relaxed">
+                포천중앙침례교회
+              </p>
+              <p className="text-gray-900 text-base sm:text-lg md:text-3xl font-bold leading-relaxed">
+                담임목사 박상구 드림
+              </p>
+            </div>
           </div>
         </div>
       </motion.div>
