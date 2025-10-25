@@ -9,7 +9,7 @@ const cards = [
     subtitle: "처음 오셨나요?",
     bg: "from-[#E57373] to-[#EF9A9A]",
     bgImage: "https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/20250607_164129.jpg",
-    href: "/welcome",
+    href: "/about",
   },
   {
     id: 2,
@@ -30,7 +30,7 @@ const cards = [
   {
     id: 4,
     title: "금주의 주보",
-    subtitle: "2025-10-19",
+    subtitle: "",
     bg: "from-[#64B5F6] to-[#90CAF9]",
     bgImage: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&auto=format&fit=crop&q=80",
     href: "/news/bulletin",

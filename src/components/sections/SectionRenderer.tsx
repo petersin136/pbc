@@ -10,7 +10,6 @@ import CardsSection from "./CardsSection";
 import WelcomeSection from "./WelcomeSection";
 import PastorSection from "./PastorSection";
 import LocationSection from "./LocationSection";
-import ContactSection from "./ContactSection";
 import DepartmentSection from "./DepartmentSection";
 import NurtureSection from "./NurtureSection";
 import MissionSection from "./MissionSection";
@@ -35,8 +34,6 @@ export default function SectionRenderer({ section }: { section: Section }) {
       return <PastorSection section={section} />;
     case "location":
       return <LocationSection section={section} />;
-    case "contact":
-      return <ContactSection section={section} />;
     case "department":
       return <DepartmentSection section={section} />;
     case "nurture":
@@ -61,6 +58,9 @@ export default function SectionRenderer({ section }: { section: Section }) {
       return <VideoSection section={section} />;
     case "cards":
       return <CardsSection section={section} />;
+    case "contact":
+      // contact 섹션은 제거됨 - 아무것도 렌더링하지 않음
+      return null;
     default:
       // 알 수 없는 타입은 기본 텍스트로 표시
       return (

@@ -48,7 +48,19 @@ export default function HeroSection({ section }: { section: Section }) {
       )}
 
       {/* 오버레이 (제목이 있을 때만 표시) */}
-      {heading && <div className="absolute inset-0 bg-black/60" />}
+      {heading && (
+        section.page === 'about' ? (
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+            style={{ 
+              backgroundImage: `url(https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/4.jpg)`,
+              filter: 'brightness(0.6)'
+            }}
+          />
+        ) : (
+          <div className="absolute inset-0 bg-black/60" />
+        )
+      )}
 
       {/* 콘텐츠 */}
       <div className="relative z-10 text-center text-white px-4 max-w-5xl mx-auto">

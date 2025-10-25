@@ -19,7 +19,7 @@ interface CommunityItem {
 const communityData: CommunityItem[] = [
   {
     id: "worship",
-    category: "WORSHIP",
+    category: "WORSHIP", 
     title: "예배공동체",
     subtitle: "포천 중앙침례교회는 전심으로 예배합니다.",
     description: "예배는 우리의 삶을 변화시키는 중요한 순간입니다.\n삶에서 방황을 잃었을 때, 마음이 지칠 때, 우리는 예배를 통해 말씀의 풍성한 은혜와 성령의 충만함으로 힘딤을 얻고\n다시 나아갈 힘을 얻을 수 있습니다.",
@@ -78,23 +78,150 @@ export default function CommunitySection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
+  // 섹션으로 스크롤하는 함수
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(`community-${sectionId}`);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
   return (
     <section ref={ref} className="py-4 md:py-20 bg-gradient-to-br from-gray-50 to-white">
       <div className="container mx-auto px-2 md:px-4">
-        {/* 헤더 */}
+        {/* 헤더 - 더 크고 멋지게 */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-6 md:mb-16"
+          className="text-center mb-8 md:mb-20"
         >
-          <h2 className="text-2xl md:text-5xl font-bold text-gray-900 mb-2 md:mb-4">
+          {/* 메인 제목 */}
+          <motion.h2 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-4xl md:text-6xl lg:text-7xl font-black text-gray-900 mb-4 md:mb-6"
+            style={{
+              background: 'linear-gradient(135deg, #1f2937 0%, #4f46e5 50%, #7c3aed 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              letterSpacing: '-0.02em'
+            }}
+          >
             교회 공동체
-          </h2>
-          <p className="text-sm md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          </motion.h2>
+          
+          {/* 장식 라인 */}
+          <motion.div
+            initial={{ width: 0 }}
+            animate={isInView ? { width: '100%' } : { width: 0 }}
+            transition={{ duration: 1, delay: 0.4 }}
+            className="w-24 md:w-32 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 mx-auto mb-6 md:mb-8 rounded-full"
+          />
+          
+          {/* 부제목 */}
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="text-lg md:text-2xl lg:text-3xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-medium"
+            style={{ lineHeight: '1.6' }}
+          >
             포천중앙침례교회는 다섯 가지 핵심 공동체를 통해<br />
-            하나님의 사랑을 실천하고 나누어갑니다
-          </p>
+            <span className="text-blue-600 font-semibold">하나님의 사랑을 실천하고 나누어갑니다</span>
+          </motion.p>
+          
+          {/* 추가 장식 요소 */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 1, delay: 0.8 }}
+            className="mt-8 md:mt-12 flex justify-center space-x-2"
+          >
+            <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+            <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+            <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+          </motion.div>
+        </motion.div>
+
+        {/* 5개 공동체 카테고리 간판 */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+          transition={{ duration: 0.8, delay: 1 }}
+          className="mb-12 md:mb-20"
+        >
+          <div className="flex flex-wrap justify-center gap-3 md:gap-6">
+            {communityData.map((item, index) => (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                animate={isInView ? { opacity: 1, scale: 1, y: 0 } : { opacity: 0, scale: 0.8, y: 20 }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: 1.2 + (index * 0.1),
+                  type: "spring",
+                  stiffness: 100
+                }}
+                whileHover={{ 
+                  scale: 1.05,
+                  y: -5,
+                  transition: { duration: 0.2 }
+                }}
+                className="group cursor-pointer"
+                onClick={() => scrollToSection(item.id)}
+              >
+                <div className="flex flex-col items-center">
+                  {/* 간판 */}
+                  <div className={`
+                    relative overflow-hidden
+                    px-4 md:px-8 py-3 md:py-4 
+                    rounded-full
+                    bg-gradient-to-r ${item.color}
+                    text-white font-bold text-xs md:text-sm lg:text-base
+                    shadow-lg hover:shadow-xl
+                    transform transition-all duration-300
+                    border-2 border-white/20
+                    backdrop-blur-sm
+                  `}>
+                    {/* 반짝이는 효과 */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 transform -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+                    
+                    {/* 텍스트 */}
+                    <span className="relative z-10 tracking-wider">
+                      {item.category}
+                    </span>
+                    
+                    {/* 하단 글로우 효과 */}
+                    <div className={`absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-3/4 h-1 bg-gradient-to-r ${item.color} opacity-50 blur-sm group-hover:opacity-80 transition-opacity duration-300`}></div>
+                  </div>
+                  
+                  {/* 한글 제목 */}
+                  <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }}
+                    transition={{ duration: 0.5, delay: 1.4 + (index * 0.1) }}
+                    className="mt-3 md:mt-4 text-sm md:text-lg lg:text-xl font-bold text-gray-800 group-hover:text-gray-900 transition-colors duration-300"
+                  >
+                    {item.title}
+                  </motion.p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          
+          {/* 간판들 아래 장식 라인 */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={isInView ? { scaleX: 1 } : { scaleX: 0 }}
+            transition={{ duration: 1, delay: 1.8 }}
+            className="mt-8 md:mt-12 w-full max-w-4xl mx-auto h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"
+          />
         </motion.div>
 
         {/* 공동체 섹션들 */}
@@ -102,10 +229,11 @@ export default function CommunitySection() {
           {communityData.map((item, index) => (
             <motion.div
               key={item.id}
+              id={`community-${item.id}`}
               initial={{ opacity: 0, y: 50 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
               transition={{ duration: 0.8, delay: index * 0.2 }}
-              className="relative overflow-hidden"
+              className="relative overflow-hidden scroll-mt-20"
             >
               {/* 배경 그라디언트 */}
               <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-5 rounded-3xl`} />
