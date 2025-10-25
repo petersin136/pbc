@@ -5,18 +5,31 @@
 
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+// 환경 변수 확인 및 디버깅
+console.log('🔍 Environment Check:', {
+  url: supabaseUrl,
+  keyExists: !!supabaseAnonKey,
+  keyLength: supabaseAnonKey?.length
+});
+
+// 환경 변수가 없으면 에러
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('❌ Missing Supabase environment variables!');
+  console.error('NEXT_PUBLIC_SUPABASE_URL:', supabaseUrl);
+  console.error('NEXT_PUBLIC_SUPABASE_ANON_KEY exists:', !!supabaseAnonKey);
+}
 
 /**
  * 클라이언트 사이드 Supabase 클라이언트
  * 
- * 주의: 환경 변수가 설정되지 않으면 실제 로그인 시 오류가 발생합니다.
- * .env.local 파일에 NEXT_PUBLIC_SUPABASE_URL과 NEXT_PUBLIC_SUPABASE_ANON_KEY를 설정하세요.
+ * 환경 변수가 설정되지 않으면 기본값을 사용하되 에러 로그를 출력합니다.
  */
 export const supabase = createClient(
-  supabaseUrl || "https://placeholder.supabase.co",
-  supabaseAnonKey || "placeholder-anon-key"
+  supabaseUrl || "https://czbffjnslwauemngpayh.supabase.co",
+  supabaseAnonKey || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6YmZmam5zbHdhdWVtbmdwYXloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA2MjU5ODIsImV4cCI6MjA3NjIwMTk4Mn0.LcBQvfZTxqEnxZgLzHaUuukZEB9mPb5KG_VBeIcFy1M"
 );
 
 /**
