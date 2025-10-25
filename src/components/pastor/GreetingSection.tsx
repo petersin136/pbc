@@ -142,7 +142,7 @@ export default function GreetingSection({
       >
         {/* 옅은 배경 이미지 */}
         <div 
-          className="absolute top-8 left-0 right-0 bottom-0 opacity-10"
+          className="absolute top-8 left-0 right-0 bottom-0 opacity-15"
           style={{
             backgroundImage: 'url(https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/1.jpg)',
             backgroundSize: 'cover',
@@ -151,19 +151,19 @@ export default function GreetingSection({
         />
         <div className="relative container mx-auto px-4">
           <div className="max-w-6xl mx-auto space-y-8">
-            <p className="text-gray-700 text-xl leading-loose">
+            <p className="text-gray-700 text-xl leading-loose font-semibold">
               포천중앙침례교회는 이 시대의 어둠 속에서도 빛과 소금으로서의 사명을 감당하며, 믿음의 다음 세대를 세우고,
             </p>
-            <p className="text-gray-700 text-xl leading-loose">
+            <p className="text-gray-700 text-xl leading-loose font-semibold">
               지역 사회를 품는 복음적 교회로 서 가고자 합니다.
             </p>
-            <p className="text-gray-700 text-xl leading-loose">
+            <p className="text-gray-700 text-xl leading-loose font-semibold">
               여러분 한 분 한 분이 이 공동체의 귀한 지체로서 예배와 말씀, 사랑과 섬김 안에서 하나님 나라의 기쁨을 함께 누리시길 바랍니다.
             </p>
-            <p className="text-gray-700 text-xl leading-loose">
+            <p className="text-gray-700 text-xl leading-loose font-semibold">
               주님 안에서 여러분의 삶이 날마다 새로워지고, 하나님의 은혜가 가정과 일터 위에 충만히 임하기를 기도합니다.
             </p>
-            <p className="text-gray-700 text-xl leading-loose">
+            <p className="text-gray-700 text-xl leading-loose font-semibold">
               감사합니다.
             </p>
             <p className="text-gray-900 text-2xl md:text-3xl font-bold mt-12 text-right leading-loose">
