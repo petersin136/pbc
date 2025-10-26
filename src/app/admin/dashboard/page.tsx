@@ -114,107 +114,38 @@ export default function AdminDashboardPage() {
           환영합니다! 👋
         </h1>
 
+        {/* 안내 메시지 */}
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-8 border border-indigo-200">
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
+              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                📋 통합 콘텐츠 관리 시스템
+              </h3>
+              <p className="text-gray-700 mb-3">
+                모든 페이지 콘텐츠는 <strong>섹션 관리</strong>에서 통합 관리됩니다.
+              </p>
+              <ul className="text-sm text-gray-600 space-y-1 ml-4 list-disc">
+                <li>공지사항, 기도제목, 간증 등 모든 콘텐츠 추가/수정</li>
+                <li>텍스트와 이미지를 간단하게 업로드</li>
+                <li>개발 지식 없이도 쉽게 관리 가능</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         {/* 관리 메뉴 그리드 */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* 공지사항 관리 */}
-          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+        <div className="grid md:grid-cols-2 gap-6">
+          {/* 섹션 관리 - 메인 기능 */}
+          <div className="bg-gradient-to-br from-indigo-500 to-purple-600 p-8 rounded-xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
                 <svg
-                  className="w-6 h-6 text-blue-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900">공지사항</h3>
-            </div>
-            <p className="text-gray-600 mb-4">
-              교회 공지사항을 작성하고 관리합니다.
-            </p>
-            <Link
-              href="/admin/notices"
-              className="inline-block text-blue-600 hover:text-blue-700 font-medium"
-            >
-              관리하기 →
-            </Link>
-          </div>
-
-          {/* 설교 관리 */}
-          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                <svg
-                  className="w-6 h-6 text-purple-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900">설교</h3>
-            </div>
-            <p className="text-gray-600 mb-4">
-              주일 설교 영상과 음성을 업로드합니다.
-            </p>
-            <Link
-              href="/admin/sermons"
-              className="inline-block text-purple-600 hover:text-purple-700 font-medium"
-            >
-              관리하기 →
-            </Link>
-          </div>
-
-          {/* 갤러리 관리 */}
-          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center">
-                <svg
-                  className="w-6 h-6 text-pink-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900">갤러리</h3>
-            </div>
-            <p className="text-gray-600 mb-4">
-              교회 활동 사진과 영상을 관리합니다.
-            </p>
-            <Link
-              href="/admin/gallery"
-              className="inline-block text-pink-600 hover:text-pink-700 font-medium"
-            >
-              관리하기 →
-            </Link>
-          </div>
-
-          {/* 섹션 관리 (NEW) */}
-          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow border-2 border-indigo-200">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
-                <svg
-                  className="w-6 h-6 text-indigo-600"
+                  className="w-8 h-8 text-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -227,27 +158,32 @@ export default function AdminDashboardPage() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900">
-                섹션 관리 <span className="text-sm text-indigo-600">(NEW)</span>
-              </h3>
+              <div>
+                <h3 className="text-2xl font-bold text-white">섹션 관리</h3>
+                <p className="text-indigo-100 text-sm">통합 콘텐츠 관리</p>
+              </div>
             </div>
-            <p className="text-gray-600 mb-4">
-              페이지별 섹션 구조를 관리합니다.
+            <p className="text-white/90 mb-6 leading-relaxed">
+              모든 페이지의 콘텐츠를 한 곳에서 관리하세요.<br/>
+              공지사항, 기도제목, 간증 등을 쉽게 추가하고 수정할 수 있습니다.
             </p>
             <Link
               href="/admin/sections"
-              className="inline-block text-indigo-600 hover:text-indigo-700 font-medium"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-indigo-600 rounded-lg hover:bg-indigo-50 font-semibold transition-colors"
             >
-              관리하기 →
+              시작하기
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
             </Link>
           </div>
 
-          {/* 기도제목 관리 */}
-          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+          {/* 갤러리 관리 */}
+          <div className="bg-gradient-to-br from-pink-500 to-rose-600 p-8 rounded-xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
                 <svg
-                  className="w-6 h-6 text-green-600"
+                  className="w-8 h-8 text-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -256,94 +192,62 @@ export default function AdminDashboardPage() {
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900">기도제목</h3>
+              <div>
+                <h3 className="text-2xl font-bold text-white">갤러리</h3>
+                <p className="text-pink-100 text-sm">사진 및 영상 관리</p>
+              </div>
             </div>
-            <p className="text-gray-600 mb-4">
-              주간 기도제목을 등록하고 관리합니다.
+            <p className="text-white/90 mb-6 leading-relaxed">
+              교회 활동 사진과 영상을 업로드하고 관리하세요.<br/>
+              카테고리별로 정리하여 성도들과 공유할 수 있습니다.
             </p>
             <Link
-              href="/admin/prayer"
-              className="inline-block text-green-600 hover:text-green-700 font-medium"
+              href="/admin/gallery"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white text-pink-600 rounded-lg hover:bg-pink-50 font-semibold transition-colors"
             >
-              관리하기 →
+              관리하기
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
             </Link>
           </div>
+        </div>
 
-          {/* 간증 관리 */}
-          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                <svg
-                  className="w-6 h-6 text-yellow-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
-                  />
-                </svg>
+        {/* 빠른 가이드 */}
+        <div className="mt-8 bg-white rounded-xl p-6 shadow-md">
+          <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+            💡 빠른 시작 가이드
+          </h3>
+          <div className="grid md:grid-cols-3 gap-4 text-sm">
+            <div className="flex gap-3">
+              <div className="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center font-bold flex-shrink-0">1</div>
+              <div>
+                <p className="font-semibold text-gray-900">페이지 선택</p>
+                <p className="text-gray-600">섹션 관리에서 수정할 페이지를 선택하세요</p>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900">간증</h3>
             </div>
-            <p className="text-gray-600 mb-4">
-              성도들의 간증을 등록하고 관리합니다.
-            </p>
-            <Link
-              href="/admin/testimony"
-              className="inline-block text-yellow-600 hover:text-yellow-700 font-medium"
-            >
-              관리하기 →
-            </Link>
+            <div className="flex gap-3">
+              <div className="w-8 h-8 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center font-bold flex-shrink-0">2</div>
+              <div>
+                <p className="font-semibold text-gray-900">콘텐츠 작성</p>
+                <p className="text-gray-600">텍스트와 이미지를 추가하거나 수정하세요</p>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <div className="w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center font-bold flex-shrink-0">3</div>
+              <div>
+                <p className="font-semibold text-gray-900">즉시 반영</p>
+                <p className="text-gray-600">저장하면 바로 웹사이트에 표시됩니다</p>
+              </div>
+            </div>
           </div>
-
-          {/* 설정 (admin만) */}
-          {userRole === "admin" && (
-            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow border-2 border-red-200">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-                  <svg
-                    className="w-6 h-6 text-red-600"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-semibold text-gray-900">
-                  설정 <span className="text-sm text-red-600">(Admin)</span>
-                </h3>
-              </div>
-              <p className="text-gray-600 mb-4">
-                사용자 관리 및 시스템 설정을 변경합니다.
-              </p>
-              <Link
-                href="/admin/settings"
-                className="inline-block text-red-600 hover:text-red-700 font-medium"
-              >
-                관리하기 →
-              </Link>
-            </div>
-          )}
         </div>
       </main>
     </div>

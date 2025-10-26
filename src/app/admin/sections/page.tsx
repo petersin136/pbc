@@ -514,6 +514,12 @@ function SimpleFormEditor({
         body: formData,
       });
 
+      // HTTP 상태 코드 먼저 확인!
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `서버 오류 (${response.status})`);
+      }
+
       const data = await response.json();
 
       if (data.success && data.images && data.images.length > 0) {
@@ -521,9 +527,16 @@ function SimpleFormEditor({
           ...content,
           [field]: data.images[0].url,
         });
-        alert("✅ 이미지가 업로드되었습니다!");
+        
+        // 압축 정보 표시
+        const img = data.images[0];
+        const message = img.compressed 
+          ? `✅ 이미지 업로드 완료!\n📦 압축: ${img.originalSize} → ${img.compressedSize}`
+          : "✅ 이미지가 업로드되었습니다!";
+        
+        alert(message);
       } else {
-        alert(`❌ ${data.error || "업로드 실패"}`);
+        throw new Error(data.error || "업로드 실패");
       }
     } catch (error: unknown) {
       console.error("업로드 오류:", error);

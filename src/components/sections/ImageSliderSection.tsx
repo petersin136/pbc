@@ -14,14 +14,21 @@ import { useState, useEffect, useCallback } from "react";
 export default function ImageSliderSection({ section }: { section: Section }) {
   const {
     images = [],
+    backgroundImage,
     autoPlayInterval = 3000,
     showArrows = true,
     showIndicators = true,
     height = "600px",
   } = section.content;
 
+  // images 배열이 없으면 backgroundImage를 사용
+  let imageList = images;
+  if ((!images || images.length === 0) && backgroundImage) {
+    imageList = [{ url: backgroundImage, alt: section.title || "이미지" }];
+  }
+
   // URL이 있는 이미지만 필터링
-  const validImages = images.filter((img: { url: string }) => img.url && img.url.trim() !== '');
+  const validImages = imageList.filter((img: { url: string }) => img.url && img.url.trim() !== '');
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -51,8 +58,8 @@ export default function ImageSliderSection({ section }: { section: Section }) {
     return () => clearInterval(interval);
   }, [isAutoPlaying, validImages.length, autoPlayInterval, goToNext]);
 
-  // URL이 없는 이미지만 있어도 섹션은 표시 (placeholder로)
-  if (!images || images.length === 0) {
+  // 이미지가 하나도 없으면 null 반환
+  if (!imageList || imageList.length === 0) {
     return null;
   }
 
@@ -99,7 +106,7 @@ export default function ImageSliderSection({ section }: { section: Section }) {
                   src={image.url}
                   alt={image.alt || `슬라이드 ${index + 1}`}
                   fill
-                  className="object-cover"
+                  className="object-contain"
                   priority={index === 0}
                   onError={() => setImageErrors(prev => ({ ...prev, [index]: true }))}
                 />
