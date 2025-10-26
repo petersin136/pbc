@@ -53,8 +53,19 @@ export default function LocationSection({ section }: { section: Section }) {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-            {/* 왼쪽: 구글 맵 + 약도 */}
+            {/* 왼쪽: 약도 + 구글 맵 */}
             <div className="order-2 lg:order-1 animate-fade-in-up animation-delay-200 space-y-6">
+              {/* 약도 카드 */}
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300">
+                <div className="relative overflow-hidden rounded-xl border border-gray-300 aspect-square">
+                  <img
+                    src="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/Gemini_Generated_Image_oerey2oerey2oere.jpg"
+                    alt="포천중앙침례교회 약도"
+                    className="w-full h-full object-contain bg-gray-50 p-2"
+                  />
+                </div>
+              </div>
+              
               <div className="relative w-full h-[400px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
                 <iframe
                   src={googleMapEmbedUrl}
@@ -66,17 +77,6 @@ export default function LocationSection({ section }: { section: Section }) {
                   referrerPolicy="no-referrer-when-downgrade"
                   className="absolute inset-0"
                 />
-              </div>
-              
-              {/* 약도 카드 */}
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300">
-                <div className="relative overflow-hidden rounded-xl border border-gray-300 aspect-square">
-                  <img
-                    src="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/Gemini_Generated_Image_oerey2oerey2oere.jpg"
-                    alt="포천중앙침례교회 약도"
-                    className="w-full h-full object-contain bg-gray-50 p-2"
-                  />
-                </div>
               </div>
             </div>
 
