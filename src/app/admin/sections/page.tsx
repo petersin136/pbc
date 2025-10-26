@@ -164,63 +164,63 @@ export default function AdminSectionsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* 헤더 */}
+      {/* 헤더 - 모바일 최적화 */}
       <header className="bg-white shadow-sm sticky top-0 z-40">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <Link href="/admin/dashboard" className="text-xl font-bold text-gray-900 hover:text-blue-600">
+        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="w-full sm:w-auto">
+              <Link href="/admin/dashboard" className="text-lg sm:text-xl font-bold text-gray-900 hover:text-blue-600 block">
                 포천중앙침례교회 관리자
               </Link>
-              <p className="text-sm text-gray-600 mt-1">📝 섹션 관리 (쉬운 편집 모드)</p>
+              <p className="text-xs sm:text-sm text-gray-600 mt-1">📝 섹션 관리 (쉬운 편집 모드)</p>
             </div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 w-full sm:w-auto">
               <Link
                 href="/"
                 target="_blank"
-                className="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors font-medium text-sm"
+                className="flex-1 sm:flex-none px-3 sm:px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors font-medium text-xs sm:text-sm text-center"
               >
-                🌐 사이트 보기
+                🌐 사이트
               </Link>
-              <button
-                onClick={handleLogout}
-                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium text-sm"
-              >
-                로그아웃
-              </button>
+            <button
+              onClick={handleLogout}
+                className="flex-1 sm:flex-none px-3 sm:px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium text-xs sm:text-sm"
+            >
+              로그아웃
+            </button>
             </div>
           </div>
         </div>
       </header>
 
-      {/* 메인 콘텐츠 */}
-      <main className="container mx-auto px-4 py-8">
+      {/* 메인 콘텐츠 - 모바일 최적화 */}
+      <main className="container mx-auto px-3 sm:px-4 py-4 sm:py-8">
         {/* 안내 메시지 */}
-        <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 rounded">
+        <div className="bg-blue-50 border-l-4 border-blue-500 p-3 sm:p-4 mb-4 sm:mb-6 rounded">
           <div className="flex items-start">
             <div className="flex-shrink-0">
-              <svg className="h-5 w-5 text-blue-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="h-4 w-4 sm:h-5 sm:w-5 text-blue-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <div className="ml-3">
-              <p className="text-sm text-blue-700">
+            <div className="ml-2 sm:ml-3">
+              <p className="text-xs sm:text-sm text-blue-700">
                 <strong>사용법:</strong> 페이지를 선택하고, 섹션을 추가하거나 수정하세요. 수정 버튼을 누르면 간단한 폼이 나옵니다!
               </p>
             </div>
           </div>
         </div>
 
-        {/* 페이지 선택 & 추가 버튼 */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-          <div className="flex items-center gap-3 flex-1">
-            <label className="text-sm font-semibold text-gray-700 whitespace-nowrap">
+        {/* 페이지 선택 & 추가 버튼 - 모바일 최적화 */}
+        <div className="flex flex-col gap-3 mb-4 sm:mb-6">
+          <div className="flex items-center gap-2 sm:gap-3 w-full">
+            <label className="text-xs sm:text-sm font-semibold text-gray-700 whitespace-nowrap">
               📄 페이지:
             </label>
             <select
               value={selectedPage}
               onChange={(e) => setSelectedPage(e.target.value)}
-              className="flex-1 sm:flex-none px-4 py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-medium"
+              className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 font-medium text-sm"
             >
               {PAGES.map((page) => (
                 <option key={page.value} value={page.value}>
@@ -232,9 +232,9 @@ export default function AdminSectionsPage() {
 
           <button
             onClick={() => setShowAddModal(true)}
-            className="w-full sm:w-auto px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-md hover:shadow-lg font-semibold flex items-center justify-center gap-2"
+            className="w-full px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all shadow-md hover:shadow-lg font-semibold flex items-center justify-center gap-2 text-sm sm:text-base"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
             새 섹션 추가
@@ -329,18 +329,20 @@ function SectionCard({
     SECTION_KINDS.find((k) => k.value === section.kind)?.label || section.kind;
 
   return (
-    <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all p-6 border-2 border-transparent hover:border-blue-100">
-      <div className="flex items-start justify-between gap-4">
+    <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all p-4 sm:p-6 border-2 border-transparent hover:border-blue-100">
+      {/* 모바일: 세로 레이아웃 / 데스크탑: 가로 레이아웃 */}
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+        {/* 섹션 정보 */}
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-3 mb-3">
-            <span className="px-4 py-1.5 bg-gradient-to-r from-blue-100 to-blue-200 text-blue-700 rounded-full text-sm font-bold whitespace-nowrap">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 mb-3">
+            <span className="px-3 py-1 bg-gradient-to-r from-blue-100 to-blue-200 text-blue-700 rounded-full text-xs sm:text-sm font-bold whitespace-nowrap w-fit">
               {kindLabel}
             </span>
-            <h3 className="text-lg font-bold text-gray-900 truncate">
+            <h3 className="text-base sm:text-lg font-bold text-gray-900 break-words">
               {section.title}
             </h3>
           </div>
-          <div className="text-sm text-gray-600 space-y-1">
+          <div className="text-xs sm:text-sm text-gray-600 space-y-1">
             <p className="flex items-center gap-2">
               <span className="font-medium">📊 순서:</span> {section.section_order}번째
             </p>
@@ -350,27 +352,27 @@ function SectionCard({
           </div>
         </div>
 
-        {/* 액션 버튼 */}
-        <div className="flex items-center gap-2 flex-shrink-0">
+        {/* 액션 버튼 - 모바일 최적화 */}
+        <div className="flex items-center gap-2 w-full sm:w-auto">
           {/* 위/아래 이동 */}
-          <div className="flex flex-col gap-1">
+          <div className="flex sm:flex-col gap-2 sm:gap-1">
             <button
               onClick={onMoveUp}
               disabled={index === 0}
-              className="p-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-lg disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              className="flex-1 sm:flex-none p-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-lg disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
               title="위로 이동"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
               </svg>
             </button>
             <button
               onClick={onMoveDown}
               disabled={index === totalCount - 1}
-              className="p-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-lg disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
+              className="flex-1 sm:flex-none p-2 text-gray-600 hover:bg-blue-50 hover:text-blue-600 rounded-lg disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
               title="아래로 이동"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </button>
@@ -379,7 +381,7 @@ function SectionCard({
           {/* 수정 버튼 */}
           <button
             onClick={onEdit}
-            className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors font-medium shadow-sm"
+            className="flex-1 sm:flex-none px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors font-medium shadow-sm text-sm"
             title="내용 수정"
           >
             ✏️ 수정
@@ -388,10 +390,10 @@ function SectionCard({
           {/* 삭제 버튼 */}
           <button
             onClick={onDelete}
-            className="px-4 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors font-medium shadow-sm"
+            className="flex-1 sm:flex-none px-4 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg transition-colors font-medium shadow-sm text-sm"
             title="삭제"
           >
-            🗑️ 삭제
+            🗑️
           </button>
         </div>
       </div>
@@ -420,19 +422,19 @@ function AddSectionModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 animate-fade-in">
-      <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
-        <h2 className="text-2xl font-bold mb-6 text-gray-900">✨ 새 섹션 추가</h2>
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-3 sm:p-4 animate-fade-in">
+      <div className="bg-white rounded-xl sm:rounded-2xl max-w-md w-full p-4 sm:p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-gray-900">✨ 새 섹션 추가</h2>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
+            <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
               📦 섹션 타입
             </label>
             <select
               value={kind}
               onChange={(e) => setKind(e.target.value)}
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
               required
             >
               {SECTION_KINDS.map((option) => (
@@ -444,32 +446,32 @@ function AddSectionModal({
           </div>
 
           <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
+            <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
               ✏️ 섹션 제목
             </label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-3 sm:px-4 py-2 sm:py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
               placeholder="예: 메인 배너, 환영 인사 등"
               required
             />
           </div>
 
-          <div className="flex gap-3 pt-4">
+          <div className="flex gap-2 sm:gap-3 pt-2 sm:pt-4">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
+              className="flex-1 px-3 sm:px-4 py-2 sm:py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-semibold text-sm"
             >
               취소
             </button>
             <button
               type="submit"
-              className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold shadow-md"
+              className="flex-1 px-3 sm:px-4 py-2 sm:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold shadow-md text-sm"
             >
-              ✅ 추가하기
+              ✅ 추가
             </button>
           </div>
         </form>
@@ -566,58 +568,58 @@ function SimpleFormEditor({
     const commonFields = (
       <>
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
             제목
           </label>
           <input
             type="text"
             value={content.heading as string || ""}
             onChange={(e) => setContent({ ...content, heading: e.target.value })}
-            className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
             placeholder="섹션 제목"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
             부제목
           </label>
           <input
             type="text"
             value={content.subheading as string || ""}
             onChange={(e) => setContent({ ...content, subheading: e.target.value })}
-            className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
             placeholder="부제목"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
             설명
           </label>
           <textarea
             value={content.description as string || ""}
             onChange={(e) => setContent({ ...content, description: e.target.value })}
-            className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
             rows={3}
             placeholder="설명 텍스트"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
             📸 배경 이미지
           </label>
-          <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-2">
             <input
               type="text"
               value={content.backgroundImage as string || ""}
               onChange={(e) => setContent({ ...content, backgroundImage: e.target.value })}
-              className="flex-1 px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="flex-1 px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
               placeholder="이미지 URL"
             />
-            <label className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 cursor-pointer font-medium whitespace-nowrap">
-              {uploading ? "업로드중..." : "파일 선택"}
+            <label className="px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 cursor-pointer font-medium whitespace-nowrap text-center text-sm">
+              {uploading ? "업로드중..." : "📁 파일 선택"}
               <input
                 type="file"
                 accept="image/*"
@@ -638,36 +640,36 @@ function SimpleFormEditor({
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 overflow-auto">
-      <div className="bg-white rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden flex flex-col my-8">
-        <div className="p-6 border-b bg-gradient-to-r from-blue-600 to-blue-700 text-white">
-          <h2 className="text-2xl font-bold">✏️ {section.title} 수정</h2>
-          <p className="text-sm text-blue-100 mt-1">
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-3 sm:p-4 overflow-auto">
+      <div className="bg-white rounded-xl sm:rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-hidden flex flex-col my-4 sm:my-8">
+        <div className="p-4 sm:p-6 border-b bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+          <h2 className="text-lg sm:text-2xl font-bold">✏️ {section.title} 수정</h2>
+          <p className="text-xs sm:text-sm text-blue-100 mt-1">
             {SECTION_KINDS.find((k) => k.value === section.kind)?.label || section.kind}
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="flex-1 flex flex-col overflow-hidden">
-          <div className="flex-1 overflow-auto p-6 space-y-4">
+          <div className="flex-1 overflow-auto p-4 sm:p-6 space-y-3 sm:space-y-4">
             {/* 제목 수정 */}
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
                 📝 섹션 제목
               </label>
               <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 font-medium"
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 font-medium text-sm"
                 required
               />
             </div>
 
             {/* 모드 전환 버튼 */}
-            <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-              <span className="text-sm font-medium text-gray-700">
-                {showJsonMode ? "🔧 전문가 모드 (JSON)" : "😊 간단한 모드"}
-              </span>
+            <div className="flex items-center justify-between p-2 sm:p-3 bg-gray-50 rounded-lg">
+              <span className="text-xs sm:text-sm font-medium text-gray-700">
+                {showJsonMode ? "🔧 전문가 모드" : "😊 간단한 모드"}
+                </span>
               <button
                 type="button"
                 onClick={() => {
@@ -676,44 +678,44 @@ function SimpleFormEditor({
                     setJsonContent(JSON.stringify(content, null, 2));
                   }
                 }}
-                className="px-3 py-1 text-sm bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-100 font-medium"
+                className="px-2 sm:px-3 py-1 text-xs sm:text-sm bg-white border-2 border-gray-300 rounded-lg hover:bg-gray-100 font-medium"
               >
-                {showJsonMode ? "간단한 모드로" : "JSON 모드로"}
+                {showJsonMode ? "간단히" : "JSON"}
               </button>
             </div>
 
             {/* 필드 렌더링 */}
             {showJsonMode ? (
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
                   JSON 콘텐츠 (전문가용)
                 </label>
-                <textarea
+            <textarea
                   value={jsonContent}
                   onChange={(e) => setJsonContent(e.target.value)}
-                  className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 font-mono text-sm"
-                  rows={15}
-                  spellCheck={false}
-                />
+                  className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 font-mono text-xs sm:text-sm"
+                  rows={12}
+              spellCheck={false}
+            />
               </div>
             ) : (
               renderFields()
             )}
           </div>
 
-          <div className="flex gap-3 p-6 border-t bg-gray-50">
+          <div className="flex gap-2 sm:gap-3 p-4 sm:p-6 border-t bg-gray-50">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
+              className="flex-1 px-3 sm:px-4 py-2 sm:py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-semibold text-sm"
             >
               취소
             </button>
             <button
               type="submit"
-              className="flex-1 px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold shadow-md"
+              className="flex-1 px-3 sm:px-4 py-2 sm:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-semibold shadow-md text-sm"
             >
-              ✅ 저장하기
+              ✅ 저장
             </button>
           </div>
         </form>
