@@ -37,10 +37,10 @@ export default function InfoCardsSection({ section }: { section: Section }) {
               <div className="bg-white rounded-2xl sm:rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden h-full">
                 <div className="p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col h-full">
                   <div className="space-y-2 sm:space-y-3 mb-6">
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
+                    <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
                       {sermonCard.title}
                     </h2>
-                    <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                    <p className="text-gray-600 text-base sm:text-lg md:text-xl leading-relaxed">
                       하나님의 말씀을 온라인으로 만나보세요.
                     </p>
                   </div>
@@ -100,13 +100,13 @@ export default function InfoCardsSection({ section }: { section: Section }) {
               <div className="bg-white rounded-2xl sm:rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden h-full">
                 <div className="p-6 sm:p-8 md:p-10 lg:p-12 flex flex-col h-full">
                   <div className="space-y-2 sm:space-y-3 mb-6">
-                    <h3 className="text-3xl sm:text-4xl md:text-5xl font-serif text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
+                    <h3 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif text-gray-900" style={{ fontFamily: "'Playfair Display', serif" }}>
                       {infoCard.title}
                     </h3>
                   </div>
 
                   {infoCard.description && (
-                    <p className="text-gray-600 text-sm sm:text-base leading-relaxed mb-8">
+                    <p className="text-gray-600 text-base sm:text-lg md:text-xl leading-relaxed mb-8">
                       {infoCard.description}
                     </p>
                   )}
@@ -116,10 +116,10 @@ export default function InfoCardsSection({ section }: { section: Section }) {
                     <div className="grid grid-cols-2 gap-5 sm:gap-6 md:gap-8 flex-grow">
                       {infoCard.items.map((item: { icon?: string; label: string; value: string }, idx: number) => (
                         <div key={idx} className="space-y-3 p-5 sm:p-6 bg-gray-50 rounded-xl">
-                          <div className="text-sm sm:text-base font-medium text-gray-500 uppercase tracking-wider">
+                          <div className="text-base sm:text-lg md:text-xl font-medium text-gray-500 uppercase tracking-wider">
                             {item.label}
                           </div>
-                          <div className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900">
+                          <div className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold text-gray-900">
                             {item.value}
                           </div>
                         </div>

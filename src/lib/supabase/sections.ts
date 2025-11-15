@@ -164,6 +164,7 @@ export const SECTION_KINDS = [
   { value: "notices", label: "📢 공지사항" },
   { value: "prayer", label: "🙏 기도제목" },
   { value: "mission", label: "🌍 선교" },
+  { value: "5k-movement", label: "🚀 5K 운동" },
   { value: "nurture", label: "🌱 양육" },
   { value: "gallery", label: "📸 갤러리" },
 ] as const;

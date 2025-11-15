@@ -33,16 +33,16 @@ export default function ImageSection({ section }: { section: Section }) {
         {/* 제목 영역 */}
         {(section.title || heading) && (
           <div className="text-center mb-8 md:mb-12">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 text-gray-900">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 text-gray-900">
               {section.title || heading}
             </h2>
             {subheading && (
-              <p className="text-lg md:text-xl text-gray-600 mb-4">
+              <p className="text-xl md:text-2xl lg:text-3xl text-gray-600 mb-4">
                 {subheading}
               </p>
             )}
             {description && (
-              <p className="text-base md:text-lg text-gray-600 max-w-3xl mx-auto whitespace-pre-line">
+              <p className="text-lg md:text-xl lg:text-2xl text-gray-600 max-w-3xl mx-auto whitespace-pre-line">
                 {description}
               </p>
             )}
@@ -64,7 +64,7 @@ export default function ImageSection({ section }: { section: Section }) {
 
         {/* 캡션 */}
         {caption && (
-          <p className="text-center text-gray-600 mt-6 text-base md:text-lg italic">
+          <p className="text-center text-gray-600 mt-6 text-lg md:text-xl lg:text-2xl italic">
             {caption}
           </p>
         )}

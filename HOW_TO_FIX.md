@@ -99,3 +99,4 @@ SQL Editor는 service_role 권한으로 실행되기 때문에 RLS를 우회할 
 
 
 
+

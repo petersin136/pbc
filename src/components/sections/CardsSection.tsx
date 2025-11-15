@@ -18,7 +18,7 @@ export default function CardsSection({ section }: { section: Section }) {
   return (
     <section className="py-24 px-4 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto max-w-6xl">
-        <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-gray-900">
+        <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-center mb-16 text-gray-900">
           {section.title}
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -50,12 +50,12 @@ export default function CardsSection({ section }: { section: Section }) {
               </div>
 
               {/* 제목 */}
-              <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
                 {card.title}
               </h3>
 
               {/* 설명 */}
-              <p className="text-gray-600 leading-relaxed">
+              <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
                 {card.description}
               </p>
 

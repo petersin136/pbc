@@ -56,12 +56,12 @@ export default function DepartmentSection({ section }: { section: Section }) {
         <div className="max-w-6xl mx-auto">
           {/* 헤더 */}
           <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-4">
               {section.title}
             </h2>
             <div className={`w-20 h-1 ${colors.accent} mx-auto mb-8`}></div>
             {description && (
-              <p className="text-lg md:text-xl text-gray-700 leading-relaxed max-w-3xl mx-auto whitespace-pre-wrap">
+              <p className="text-xl md:text-2xl lg:text-3xl text-gray-700 leading-relaxed max-w-3xl mx-auto whitespace-pre-wrap">
                 {description}
               </p>
             )}
@@ -84,7 +84,7 @@ export default function DepartmentSection({ section }: { section: Section }) {
           {/* 프로그램 테이블 */}
           {programs && programs.length > 0 && (
             <div className="mb-16 animate-fade-in-up animation-delay-400">
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center">
+              <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-8 text-center">
                 프로그램 안내
               </h3>
               <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
@@ -92,10 +92,10 @@ export default function DepartmentSection({ section }: { section: Section }) {
                   <table className="w-full">
                     <thead className={`bg-gradient-to-r ${colors.gradient} text-white`}>
                       <tr>
-                        <th className="px-6 py-4 text-left font-semibold">프로그램명</th>
-                        <th className="px-6 py-4 text-left font-semibold">시간</th>
-                        <th className="px-6 py-4 text-left font-semibold">장소</th>
-                        <th className="px-6 py-4 text-left font-semibold">담당</th>
+                        <th className="px-6 py-4 text-left font-semibold text-base md:text-lg">프로그램명</th>
+                        <th className="px-6 py-4 text-left font-semibold text-base md:text-lg">시간</th>
+                        <th className="px-6 py-4 text-left font-semibold text-base md:text-lg">장소</th>
+                        <th className="px-6 py-4 text-left font-semibold text-base md:text-lg">담당</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -104,16 +104,16 @@ export default function DepartmentSection({ section }: { section: Section }) {
                           key={index}
                           className="border-b border-gray-100 hover:bg-gray-50 transition-colors"
                         >
-                          <td className="px-6 py-4 font-medium text-gray-900">
+                          <td className="px-6 py-4 font-medium text-gray-900 text-base md:text-lg">
                             {program.name}
                           </td>
-                          <td className="px-6 py-4 text-gray-700">
+                          <td className="px-6 py-4 text-gray-700 text-base md:text-lg">
                             {program.time}
                           </td>
-                          <td className="px-6 py-4 text-gray-700">
+                          <td className="px-6 py-4 text-gray-700 text-base md:text-lg">
                             {program.place}
                           </td>
-                          <td className="px-6 py-4 text-gray-700">
+                          <td className="px-6 py-4 text-gray-700 text-base md:text-lg">
                             {program.leader || "-"}
                           </td>
                         </tr>
@@ -129,19 +129,19 @@ export default function DepartmentSection({ section }: { section: Section }) {
           {contact && Object.keys(contact).length > 0 && (
             <div className="text-center animate-fade-in-up animation-delay-600">
               <div className="inline-block bg-gray-100 rounded-xl px-8 py-6">
-                <h4 className="text-lg font-semibold text-gray-900 mb-3">문의하기</h4>
+                <h4 className="text-xl md:text-2xl font-semibold text-gray-900 mb-3">문의하기</h4>
                 {contact.name && (
-                  <p className="text-gray-700 mb-2">
+                  <p className="text-lg md:text-xl text-gray-700 mb-2">
                     <span className="font-medium">담당:</span> {contact.name}
                   </p>
                 )}
                 {contact.phone && (
-                  <p className="text-gray-700 mb-2">
+                  <p className="text-lg md:text-xl text-gray-700 mb-2">
                     <span className="font-medium">전화:</span> {contact.phone}
                   </p>
                 )}
                 {contact.email && (
-                  <p className="text-gray-700">
+                  <p className="text-lg md:text-xl text-gray-700">
                     <span className="font-medium">이메일:</span> {contact.email}
                   </p>
                 )}

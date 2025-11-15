@@ -1,6 +1,7 @@
 "use client";
 
 import { Section } from "@/lib/supabase/sections";
+import Image from "next/image";
 
 /**
  * 기도제목 섹션 컴포넌트
@@ -8,25 +9,54 @@ import { Section } from "@/lib/supabase/sections";
 export default function PrayerSection({ section }: { section: Section }) {
   const {
     description = "",
-    prayers = []
+    prayers = [],
+    headerImage
   } = section.content;
+
+  const hasHeaderImage = headerImage && (headerImage as string).trim() !== "";
 
   return (
     <section className="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50">
       <div className="container mx-auto px-6 md:px-12">
         <div className="max-w-4xl mx-auto">
-          {/* 헤더 */}
-          <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              {section.title}
-            </h2>
-            <div className="w-20 h-1 bg-purple-600 mx-auto mb-8"></div>
-            {description && (
+          {/* 헤더 이미지 (있는 경우에만 표시) */}
+          {hasHeaderImage ? (
+            <div className="mb-12 animate-fade-in-up">
+              <div className="relative w-full h-64 md:h-80 rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src={headerImage as string}
+                  alt={section.title}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-2">
+                    {section.title}
+                  </h2>
+                  <div className="w-20 h-1 bg-purple-400"></div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* 헤더 이미지가 없을 때는 일반 헤더 */
+            <div className="text-center mb-16 animate-fade-in-up">
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                {section.title}
+              </h2>
+              <div className="w-20 h-1 bg-purple-600 mx-auto mb-8"></div>
+            </div>
+          )}
+
+          {/* 설명 */}
+          {description && (
+            <div className="text-center mb-16 animate-fade-in-up animation-delay-200">
               <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
                 {description}
               </p>
-            )}
-          </div>
+            </div>
+          )}
 
           {/* 기도제목 목록 */}
           {prayers && prayers.length > 0 ? (

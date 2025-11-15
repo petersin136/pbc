@@ -42,7 +42,7 @@ export default function TextSection({ section }: { section: Section }) {
       >
         {/* 제목 */}
         {heading && (
-          <h2 className={`text-3xl md:text-4xl lg:text-5xl font-bold mb-6 ${
+          <h2 className={`text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 ${
             backgroundImage ? "text-white drop-shadow-lg" : "text-gray-900"
           }`}>
             {heading}
@@ -51,7 +51,7 @@ export default function TextSection({ section }: { section: Section }) {
 
         {/* 부제목 */}
         {subheading && (
-          <p className={`text-lg md:text-xl mb-8 ${
+          <p className={`text-xl md:text-2xl lg:text-3xl mb-8 ${
             backgroundImage ? "text-white/90 drop-shadow-lg" : "text-gray-600"
           }`}>
             {subheading}
@@ -61,7 +61,7 @@ export default function TextSection({ section }: { section: Section }) {
         {/* 본문 텍스트 */}
         {text && (
           <div
-            className={`prose prose-lg max-w-none leading-relaxed whitespace-pre-line ${
+            className={`prose prose-xl md:prose-2xl max-w-none leading-relaxed whitespace-pre-line text-lg md:text-xl lg:text-2xl ${
               backgroundImage 
                 ? "text-white/95 drop-shadow-lg prose-invert" 
                 : "text-gray-700"

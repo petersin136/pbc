@@ -498,6 +498,10 @@ function SimpleFormEditor({
   const [showJsonMode, setShowJsonMode] = useState(false);
   const [jsonContent, setJsonContent] = useState(JSON.stringify(section.content, null, 2));
 
+  // 기도제목/공지사항 추가용 상태
+  const [newPrayer, setNewPrayer] = useState({ title: "", content: "", date: "", category: "", urgent: false, requestedBy: "" });
+  const [newNotice, setNewNotice] = useState({ title: "", content: "", date: "", important: false, category: "", author: "" });
+
   // 이미지 업로드
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
     const files = e.target.files;
@@ -563,9 +567,440 @@ function SimpleFormEditor({
     }
   };
 
+  // 배열을 텍스트로 변환 (줄바꿈으로 구분)
+  const arrayToText = (arr: unknown[]): string => {
+    if (!Array.isArray(arr)) return "";
+    return arr.map((item) => String(item)).join("\n");
+  };
+
+  // 텍스트를 배열로 변환 (줄바꿈으로 구분)
+  const textToArray = (text: string): string[] => {
+    return text.split("\n").filter((line) => line.trim() !== "");
+  };
+
   const renderFields = () => {
-    // 공통 필드들
-    const commonFields = (
+    // 섹션 타입별 맞춤 필드
+    switch (section.kind) {
+      case "pastor":
+        return (
+          <>
+            <div className="bg-blue-50 border-l-4 border-blue-500 p-3 mb-4 rounded">
+              <p className="text-xs text-blue-700">
+                💡 <strong>참고:</strong> 이 섹션은 실제 웹페이지에 표시되는 필드들입니다. 아래 순서대로 입력하세요.
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                👤 이름
+              </label>
+              <input
+                type="text"
+                value={(content.name as string) || ""}
+                onChange={(e) => setContent({ ...content, name: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="예: 박상구"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📸 목사님 사진
+              </label>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="text"
+                  value={(content.photo as string) || ""}
+                  onChange={(e) => setContent({ ...content, photo: e.target.value })}
+                  className="flex-1 px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                  placeholder="이미지 URL"
+                />
+                <label className="px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 cursor-pointer font-medium whitespace-nowrap text-center text-sm">
+                  {uploading ? "업로드중..." : "📁 파일 선택"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleImageUpload(e, "photo")}
+                    disabled={uploading}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+              {content.photo && (
+                <img src={content.photo as string} alt="미리보기" className="mt-2 w-full h-32 object-cover rounded-lg" />
+              )}
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                🖼️ 배경 이미지 (산 배경)
+              </label>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="text"
+                  value={(content.backgroundImage as string) || ""}
+                  onChange={(e) => setContent({ ...content, backgroundImage: e.target.value })}
+                  className="flex-1 px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                  placeholder="배경 이미지 URL"
+                />
+                <label className="px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 cursor-pointer font-medium whitespace-nowrap text-center text-sm">
+                  {uploading ? "업로드중..." : "📁 파일 선택"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleImageUpload(e, "backgroundImage")}
+                    disabled={uploading}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+              {content.backgroundImage && (
+                <img src={content.backgroundImage as string} alt="미리보기" className="mt-2 w-full h-32 object-cover rounded-lg" />
+              )}
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📝 메인 텍스트 (큰 제목 - 파란 박스 안)
+              </label>
+              <input
+                type="text"
+                value={(content.mainText as string) || ""}
+                onChange={(e) => setContent({ ...content, mainText: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="예: 복음으로 세워지고, 사랑으로 세상을 섬기는 교회!"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📝 상세 인사말 (파란 박스 안 본문)
+              </label>
+              <textarea
+                value={(content.detailText as string) || ""}
+                onChange={(e) => setContent({ ...content, detailText: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                rows={6}
+                placeholder="인사말 본문을 입력하세요 (여러 줄 가능)"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                💬 인용구 (회색 배경 섹션)
+              </label>
+              <textarea
+                value={(content.quote as string) || ""}
+                onChange={(e) => setContent({ ...content, quote: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                rows={3}
+                placeholder="인용구를 입력하세요"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📄 하단 본문 (흰 배경 섹션)
+              </label>
+              <textarea
+                value={(content.bodyText as string) || ""}
+                onChange={(e) => setContent({ ...content, bodyText: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                rows={8}
+                placeholder="하단 본문을 입력하세요 (여러 줄 가능)"
+              />
+            </div>
+          </>
+        );
+
+      case "location":
+        return (
+          <>
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📝 설명
+              </label>
+              <textarea
+                value={(content.description as string) || ""}
+                onChange={(e) => setContent({ ...content, description: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                rows={2}
+                placeholder="교회 위치 안내 설명"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                🏠 도로명 주소
+              </label>
+              <input
+                type="text"
+                value={(content.roadAddress as string) || ""}
+                onChange={(e) => setContent({ ...content, roadAddress: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="예: 경기 포천시 중앙로105번길 23-2"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                🏘️ 지번 주소
+              </label>
+              <input
+                type="text"
+                value={(content.jibunAddress as string) || ""}
+                onChange={(e) => setContent({ ...content, jibunAddress: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="예: 경기 포천시 신읍동 135-10"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📞 전화번호
+              </label>
+              <input
+                type="text"
+                value={(content.phone as string) || ""}
+                onChange={(e) => setContent({ ...content, phone: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="예: 031-1234-5678"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                🚗 주차 안내
+              </label>
+              <input
+                type="text"
+                value={(content.parking as string) || ""}
+                onChange={(e) => setContent({ ...content, parking: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="예: 교회 주차장 이용 가능 (20대)"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                🚌 대중교통 안내
+              </label>
+              <input
+                type="text"
+                value={(content.bus as string) || ""}
+                onChange={(e) => setContent({ ...content, bus: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="예: 버스: 37, 38번 이용 (신읍동 정류장 하차)"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                🚙 자가용 안내
+              </label>
+              <input
+                type="text"
+                value={(content.car as string) || ""}
+                onChange={(e) => setContent({ ...content, car: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="예: 네비게이션: '포천중앙침례교회' 또는 주소 검색"
+              />
+            </div>
+          </>
+        );
+
+      case "department":
+        return (
+          <>
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📋 부서명
+              </label>
+              <input
+                type="text"
+                value={(content.departmentName as string) || ""}
+                onChange={(e) => setContent({ ...content, departmentName: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="부서명"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📝 설명
+              </label>
+              <textarea
+                value={(content.description as string) || ""}
+                onChange={(e) => setContent({ ...content, description: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                rows={4}
+                placeholder="부서 소개"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                🎨 색상
+              </label>
+              <select
+                value={(content.color as string) || "blue"}
+                onChange={(e) => setContent({ ...content, color: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+              >
+                <option value="blue">파란색</option>
+                <option value="purple">보라색</option>
+                <option value="green">초록색</option>
+                <option value="pink">분홍색</option>
+                <option value="orange">주황색</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📸 이미지
+              </label>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="text"
+                  value={(content.image as string) || ""}
+                  onChange={(e) => setContent({ ...content, image: e.target.value })}
+                  className="flex-1 px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                  placeholder="이미지 URL"
+                />
+                <label className="px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 cursor-pointer font-medium whitespace-nowrap text-center text-sm">
+                  {uploading ? "업로드중..." : "📁 파일 선택"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleImageUpload(e, "image")}
+                    disabled={uploading}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+              {content.image && (
+                <img src={content.image as string} alt="미리보기" className="mt-2 w-full h-32 object-cover rounded-lg" />
+              )}
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📞 연락처 - 담당자 이름
+              </label>
+              <input
+                type="text"
+                value={((content.contact as { name?: string })?.name as string) || ""}
+                onChange={(e) => setContent({ ...content, contact: { ...(content.contact as object), name: e.target.value } })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="담당자 이름"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📞 연락처 - 전화번호
+              </label>
+              <input
+                type="text"
+                value={((content.contact as { phone?: string })?.phone as string) || ""}
+                onChange={(e) => setContent({ ...content, contact: { ...(content.contact as object), phone: e.target.value } })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="전화번호"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📧 연락처 - 이메일
+              </label>
+              <input
+                type="email"
+                value={((content.contact as { email?: string })?.email as string) || ""}
+                onChange={(e) => setContent({ ...content, contact: { ...(content.contact as object), email: e.target.value } })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="이메일"
+              />
+            </div>
+          </>
+        );
+
+      case "nurture":
+        return (
+          <>
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📋 프로그램명
+              </label>
+              <input
+                type="text"
+                value={(content.programName as string) || ""}
+                onChange={(e) => setContent({ ...content, programName: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="프로그램명"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📝 설명
+              </label>
+              <textarea
+                value={(content.description as string) || ""}
+                onChange={(e) => setContent({ ...content, description: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                rows={4}
+                placeholder="프로그램 소개"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                🎨 색상
+              </label>
+              <select
+                value={(content.color as string) || "orange"}
+                onChange={(e) => setContent({ ...content, color: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+              >
+                <option value="blue">파란색</option>
+                <option value="purple">보라색</option>
+                <option value="green">초록색</option>
+                <option value="orange">주황색</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📸 이미지
+              </label>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="text"
+                  value={(content.image as string) || ""}
+                  onChange={(e) => setContent({ ...content, image: e.target.value })}
+                  className="flex-1 px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                  placeholder="이미지 URL"
+                />
+                <label className="px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 cursor-pointer font-medium whitespace-nowrap text-center text-sm">
+                  {uploading ? "업로드중..." : "📁 파일 선택"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleImageUpload(e, "image")}
+                    disabled={uploading}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+              {content.image && (
+                <img src={content.image as string} alt="미리보기" className="mt-2 w-full h-32 object-cover rounded-lg" />
+              )}
+            </div>
+          </>
+        );
+
+      case "hero":
+        return (
       <>
         <div>
           <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
@@ -573,7 +1008,118 @@ function SimpleFormEditor({
           </label>
           <input
             type="text"
-            value={content.heading as string || ""}
+                value={(content.heading as string) || ""}
+                onChange={(e) => setContent({ ...content, heading: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="메인 제목"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                부제목
+              </label>
+              <input
+                type="text"
+                value={(content.subheading as string) || ""}
+                onChange={(e) => setContent({ ...content, subheading: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="부제목"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📸 배경 이미지
+              </label>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="text"
+                  value={(content.backgroundImage as string) || ""}
+                  onChange={(e) => setContent({ ...content, backgroundImage: e.target.value })}
+                  className="flex-1 px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                  placeholder="이미지 URL"
+                />
+                <label className="px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 cursor-pointer font-medium whitespace-nowrap text-center text-sm">
+                  {uploading ? "업로드중..." : "📁 파일 선택"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleImageUpload(e, "backgroundImage")}
+                    disabled={uploading}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+              {content.backgroundImage && (
+                <img src={content.backgroundImage as string} alt="미리보기" className="mt-2 w-full h-32 object-cover rounded-lg" />
+              )}
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📹 배경 동영상 URL
+              </label>
+              <input
+                type="text"
+                value={(content.backgroundVideo as string) || ""}
+                onChange={(e) => setContent({ ...content, backgroundVideo: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="동영상 URL"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📖 성경 구절 (한글)
+              </label>
+              <textarea
+                value={(content.verse as string) || ""}
+                onChange={(e) => setContent({ ...content, verse: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                rows={2}
+                placeholder="성경 구절"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📖 성경 구절 (영어)
+              </label>
+              <textarea
+                value={(content.verseEn as string) || ""}
+                onChange={(e) => setContent({ ...content, verseEn: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                rows={2}
+                placeholder="Bible verse in English"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📖 성경 구절 출처
+              </label>
+              <input
+                type="text"
+                value={(content.verseReference as string) || ""}
+                onChange={(e) => setContent({ ...content, verseReference: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="예: 요한복음 3:16"
+              />
+            </div>
+          </>
+        );
+
+      case "text":
+        return (
+          <>
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                제목
+              </label>
+              <input
+                type="text"
+                value={(content.heading as string) || ""}
             onChange={(e) => setContent({ ...content, heading: e.target.value })}
             className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
             placeholder="섹션 제목"
@@ -586,7 +1132,94 @@ function SimpleFormEditor({
           </label>
           <input
             type="text"
-            value={content.subheading as string || ""}
+                value={(content.subheading as string) || ""}
+                onChange={(e) => setContent({ ...content, subheading: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="부제목"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                본문 텍스트
+              </label>
+              <textarea
+                value={(content.text as string) || (content.description as string) || ""}
+                onChange={(e) => setContent({ ...content, text: e.target.value, description: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                rows={6}
+                placeholder="본문 내용"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                정렬
+              </label>
+              <select
+                value={(content.alignment as string) || "center"}
+                onChange={(e) => setContent({ ...content, alignment: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+              >
+                <option value="center">가운데</option>
+                <option value="left">왼쪽</option>
+                <option value="right">오른쪽</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📸 배경 이미지
+              </label>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="text"
+                  value={(content.backgroundImage as string) || ""}
+                  onChange={(e) => setContent({ ...content, backgroundImage: e.target.value })}
+                  className="flex-1 px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                  placeholder="이미지 URL"
+                />
+                <label className="px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 cursor-pointer font-medium whitespace-nowrap text-center text-sm">
+                  {uploading ? "업로드중..." : "📁 파일 선택"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleImageUpload(e, "backgroundImage")}
+                    disabled={uploading}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+              {content.backgroundImage && (
+                <img src={content.backgroundImage as string} alt="미리보기" className="mt-2 w-full h-32 object-cover rounded-lg" />
+              )}
+            </div>
+          </>
+        );
+
+      case "image":
+        return (
+          <>
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                제목
+              </label>
+              <input
+                type="text"
+                value={(content.heading as string) || ""}
+                onChange={(e) => setContent({ ...content, heading: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="섹션 제목"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                부제목
+              </label>
+              <input
+                type="text"
+                value={(content.subheading as string) || ""}
             onChange={(e) => setContent({ ...content, subheading: e.target.value })}
             className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
             placeholder="부제목"
@@ -598,7 +1231,550 @@ function SimpleFormEditor({
             설명
           </label>
           <textarea
-            value={content.description as string || ""}
+                value={(content.description as string) || ""}
+                onChange={(e) => setContent({ ...content, description: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                rows={3}
+                placeholder="설명 텍스트"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📸 이미지
+              </label>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="text"
+                  value={(content.backgroundImage as string) || (content.src as string) || (content.image as string) || (content.url as string) || ""}
+                  onChange={(e) => setContent({ ...content, backgroundImage: e.target.value, src: e.target.value, image: e.target.value, url: e.target.value })}
+                  className="flex-1 px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                  placeholder="이미지 URL"
+                />
+                <label className="px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 cursor-pointer font-medium whitespace-nowrap text-center text-sm">
+                  {uploading ? "업로드중..." : "📁 파일 선택"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleImageUpload(e, "backgroundImage")}
+                    disabled={uploading}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+              {(content.backgroundImage || content.src || content.image || content.url) && (
+                <img src={(content.backgroundImage || content.src || content.image || content.url) as string} alt="미리보기" className="mt-2 w-full h-32 object-cover rounded-lg" />
+              )}
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                캡션
+              </label>
+              <input
+                type="text"
+                value={(content.caption as string) || ""}
+                onChange={(e) => setContent({ ...content, caption: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="이미지 캡션"
+              />
+            </div>
+          </>
+        );
+
+      case "prayer":
+        const prayers = (content.prayers as Array<Record<string, unknown>>) || [];
+        
+        return (
+          <>
+            <div className="bg-purple-50 border-l-4 border-purple-500 p-3 mb-4 rounded">
+              <p className="text-xs text-purple-700">
+                💡 <strong>참고:</strong> 기도제목은 카드 형태로 표시됩니다. 아래에서 각 기도제목을 추가하세요.
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                🖼️ 헤더 이미지 (상단 큰 이미지) <span className="text-gray-500 font-normal">(선택사항)</span>
+              </label>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="text"
+                  value={(content.headerImage as string) || ""}
+                  onChange={(e) => setContent({ ...content, headerImage: e.target.value || undefined })}
+                  className="flex-1 px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                  placeholder="이미지 URL (선택사항 - 비워두면 이미지 없음)"
+                />
+                <label className="px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 cursor-pointer font-medium whitespace-nowrap text-center text-sm">
+                  {uploading ? "업로드중..." : "📁 파일 선택"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleImageUpload(e, "headerImage")}
+                    disabled={uploading}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+              {content.headerImage && (content.headerImage as string).trim() !== "" && (
+                <div className="mt-2">
+                  <img src={content.headerImage as string} alt="미리보기" className="w-full h-32 object-cover rounded-lg" />
+                  <button
+                    type="button"
+                    onClick={() => setContent({ ...content, headerImage: undefined })}
+                    className="mt-2 text-xs text-red-600 hover:text-red-800 underline"
+                  >
+                    이미지 제거
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📝 섹션 설명
+              </label>
+              <textarea
+                value={(content.description as string) || ""}
+                onChange={(e) => setContent({ ...content, description: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                rows={2}
+                placeholder="기도제목 섹션 상단에 표시될 설명"
+              />
+            </div>
+
+            {/* 기존 기도제목 목록 */}
+            {prayers.length > 0 && (
+              <div className="mb-4">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                  📋 등록된 기도제목 ({prayers.length}개)
+                </label>
+                <div className="space-y-2 max-h-40 overflow-y-auto border-2 border-gray-200 rounded-lg p-3">
+                  {prayers.map((prayer, idx) => (
+                    <div key={idx} className="bg-purple-50 p-2 rounded flex items-center justify-between">
+                      <span className="text-sm font-medium text-gray-900 flex-1 truncate">
+                        {idx + 1}. {prayer.title as string || "제목 없음"}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updated = prayers.filter((_, i) => i !== idx);
+                          setContent({ ...content, prayers: updated });
+                        }}
+                        className="ml-2 text-red-600 hover:text-red-800 text-xs"
+                      >
+                        삭제
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* 새 기도제목 추가 폼 */}
+            <div className="border-2 border-purple-200 rounded-lg p-4 bg-purple-50">
+              <h4 className="text-sm font-bold text-gray-900 mb-3">➕ 새 기도제목 추가</h4>
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">제목 *</label>
+                  <input
+                    type="text"
+                    value={newPrayer.title}
+                    onChange={(e) => setNewPrayer({ ...newPrayer, title: e.target.value })}
+                    className="w-full px-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 text-sm"
+                    placeholder="예: 환우들을 위한 기도"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">내용 *</label>
+                  <textarea
+                    value={newPrayer.content}
+                    onChange={(e) => setNewPrayer({ ...newPrayer, content: e.target.value })}
+                    className="w-full px-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 text-sm"
+                    rows={3}
+                    placeholder="기도 내용을 입력하세요"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-700 mb-1">날짜 *</label>
+                    <input
+                      type="date"
+                      value={newPrayer.date}
+                      onChange={(e) => setNewPrayer({ ...newPrayer, date: e.target.value })}
+                      className="w-full px-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-700 mb-1">분류</label>
+                    <input
+                      type="text"
+                      value={newPrayer.category}
+                      onChange={(e) => setNewPrayer({ ...newPrayer, category: e.target.value })}
+                      className="w-full px-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 text-sm"
+                      placeholder="예: 치유"
+                    />
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={newPrayer.urgent}
+                      onChange={(e) => setNewPrayer({ ...newPrayer, urgent: e.target.checked })}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-xs text-gray-700">긴급</span>
+                  </label>
+                  <div className="flex-1">
+                    <label className="block text-xs font-semibold text-gray-700 mb-1">요청자</label>
+                    <input
+                      type="text"
+                      value={newPrayer.requestedBy}
+                      onChange={(e) => setNewPrayer({ ...newPrayer, requestedBy: e.target.value })}
+                      className="w-full px-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 text-sm"
+                      placeholder="예: 교회"
+                    />
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (newPrayer.title && newPrayer.content && newPrayer.date) {
+                      const updated = [...prayers, { ...newPrayer }];
+                      setContent({ ...content, prayers: updated });
+                      setNewPrayer({ title: "", content: "", date: "", category: "", urgent: false, requestedBy: "" });
+                    } else {
+                      alert("제목, 내용, 날짜는 필수입니다.");
+                    }
+                  }}
+                  className="w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 font-semibold text-sm"
+                >
+                  ➕ 기도제목 추가
+                </button>
+              </div>
+            </div>
+          </>
+        );
+
+      case "notices":
+        const notices = (content.notices as Array<Record<string, unknown>>) || [];
+        
+        return (
+          <>
+            <div className="bg-blue-50 border-l-4 border-blue-500 p-3 mb-4 rounded">
+              <p className="text-xs text-blue-700">
+                💡 <strong>참고:</strong> 공지사항은 카드 형태로 표시됩니다. 아래에서 각 공지사항을 추가하세요.
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                🖼️ 헤더 이미지 (상단 큰 이미지) <span className="text-gray-500 font-normal">(선택사항)</span>
+              </label>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="text"
+                  value={(content.headerImage as string) || ""}
+                  onChange={(e) => setContent({ ...content, headerImage: e.target.value || undefined })}
+                  className="flex-1 px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                  placeholder="이미지 URL (선택사항 - 비워두면 이미지 없음)"
+                />
+                <label className="px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 cursor-pointer font-medium whitespace-nowrap text-center text-sm">
+                  {uploading ? "업로드중..." : "📁 파일 선택"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleImageUpload(e, "headerImage")}
+                    disabled={uploading}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+              {content.headerImage && (content.headerImage as string).trim() !== "" && (
+                <div className="mt-2">
+                  <img src={content.headerImage as string} alt="미리보기" className="w-full h-32 object-cover rounded-lg" />
+                  <button
+                    type="button"
+                    onClick={() => setContent({ ...content, headerImage: undefined })}
+                    className="mt-2 text-xs text-red-600 hover:text-red-800 underline"
+                  >
+                    이미지 제거
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📝 섹션 설명
+              </label>
+              <textarea
+                value={(content.description as string) || ""}
+                onChange={(e) => setContent({ ...content, description: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                rows={2}
+                placeholder="공지사항 섹션 상단에 표시될 설명"
+              />
+            </div>
+
+            {/* 기존 공지사항 목록 */}
+            {notices.length > 0 && (
+              <div className="mb-4">
+                <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                  📋 등록된 공지사항 ({notices.length}개)
+                </label>
+                <div className="space-y-2 max-h-40 overflow-y-auto border-2 border-gray-200 rounded-lg p-3">
+                  {notices.map((notice, idx) => (
+                    <div key={idx} className="bg-blue-50 p-2 rounded flex items-center justify-between">
+                      <span className="text-sm font-medium text-gray-900 flex-1 truncate">
+                        {idx + 1}. {notice.title as string || "제목 없음"}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const updated = notices.filter((_, i) => i !== idx);
+                          setContent({ ...content, notices: updated });
+                        }}
+                        className="ml-2 text-red-600 hover:text-red-800 text-xs"
+                      >
+                        삭제
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* 새 공지사항 추가 폼 */}
+            <div className="border-2 border-blue-200 rounded-lg p-4 bg-blue-50">
+              <h4 className="text-sm font-bold text-gray-900 mb-3">➕ 새 공지사항 추가</h4>
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">제목 *</label>
+                  <input
+                    type="text"
+                    value={newNotice.title}
+                    onChange={(e) => setNewNotice({ ...newNotice, title: e.target.value })}
+                    className="w-full px-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                    placeholder="예: 새해 예배 안내"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700 mb-1">내용 *</label>
+                  <textarea
+                    value={newNotice.content}
+                    onChange={(e) => setNewNotice({ ...newNotice, content: e.target.value })}
+                    className="w-full px-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                    rows={3}
+                    placeholder="공지사항 내용을 입력하세요"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-700 mb-1">날짜 *</label>
+                    <input
+                      type="date"
+                      value={newNotice.date}
+                      onChange={(e) => setNewNotice({ ...newNotice, date: e.target.value })}
+                      className="w-full px-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-700 mb-1">분류</label>
+                    <input
+                      type="text"
+                      value={newNotice.category}
+                      onChange={(e) => setNewNotice({ ...newNotice, category: e.target.value })}
+                      className="w-full px-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                      placeholder="예: 예배"
+                    />
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={newNotice.important}
+                      onChange={(e) => setNewNotice({ ...newNotice, important: e.target.checked })}
+                      className="w-4 h-4"
+                    />
+                    <span className="text-xs text-gray-700">중요</span>
+                  </label>
+                  <div className="flex-1">
+                    <label className="block text-xs font-semibold text-gray-700 mb-1">작성자</label>
+                    <input
+                      type="text"
+                      value={newNotice.author}
+                      onChange={(e) => setNewNotice({ ...newNotice, author: e.target.value })}
+                      className="w-full px-3 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                      placeholder="예: 교회"
+                    />
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (newNotice.title && newNotice.content && newNotice.date) {
+                      const updated = [...notices, { ...newNotice }];
+                      setContent({ ...content, notices: updated });
+                      setNewNotice({ title: "", content: "", date: "", important: false, category: "", author: "" });
+                    } else {
+                      alert("제목, 내용, 날짜는 필수입니다.");
+                    }
+                  }}
+                  className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold text-sm"
+                >
+                  ➕ 공지사항 추가
+                </button>
+              </div>
+            </div>
+          </>
+        );
+
+      case "5k-movement":
+        return (
+          <>
+            <div className="bg-red-50 border-l-4 border-red-500 p-3 mb-4 rounded">
+              <p className="text-xs text-red-700">
+                💡 <strong>참고:</strong> 5K 운동 섹션은 자동으로 예쁜 양식으로 표시됩니다. 기본 내용이 포함되어 있으며 필요시 수정하세요.
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                🖼️ 히어로 이미지 (상단 큰 이미지) <span className="text-gray-500 font-normal">(선택사항)</span>
+              </label>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <input
+                  type="text"
+                  value={(content.heroImage as string) || ""}
+                  onChange={(e) => setContent({ ...content, heroImage: e.target.value || undefined })}
+                  className="flex-1 px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                  placeholder="이미지 URL (선택사항 - 비워두면 이미지 없음)"
+                />
+                <label className="px-3 sm:px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 cursor-pointer font-medium whitespace-nowrap text-center text-sm">
+                  {uploading ? "업로드중..." : "📁 파일 선택"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleImageUpload(e, "heroImage")}
+                    disabled={uploading}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+              {content.heroImage && (content.heroImage as string).trim() !== "" && (
+                <div className="mt-2">
+                  <img src={content.heroImage as string} alt="미리보기" className="w-full h-32 object-cover rounded-lg" />
+                  <button
+                    type="button"
+                    onClick={() => setContent({ ...content, heroImage: undefined })}
+                    className="mt-2 text-xs text-red-600 hover:text-red-800 underline"
+                  >
+                    이미지 제거
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📝 부제목
+              </label>
+              <input
+                type="text"
+                value={(content.subtitle as string) || ""}
+                onChange={(e) => setContent({ ...content, subtitle: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="NCMN 5대 운동 중 하나로써..."
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📄 교회 부흥 운동 설명
+              </label>
+              <textarea
+                value={(content.description as string) || ""}
+                onChange={(e) => setContent({ ...content, description: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                rows={4}
+                placeholder="교회 반경, 내가 사는 반경 5km안에 있는 복음이 필요한 모든 분께 찾아가 맞춤형 섬김으로 영혼구원에 이르게 하는 사역"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                📋 4대 사역 커스터마이징 (JSON 형식 - 선택사항)
+              </label>
+              <textarea
+                value={JSON.stringify((content.fourMinistries as unknown[]) || [], null, 2)}
+                onChange={(e) => {
+                  try {
+                    const parsed = JSON.parse(e.target.value);
+                    setContent({ ...content, fourMinistries: parsed });
+                  } catch {
+                    // JSON 파싱 실패 시 무시
+                  }
+                }}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm font-mono"
+                rows={8}
+                placeholder={`예시:
+[
+  {
+    "title": "복음전파사역",
+    "icon": "📖",
+    "description": "설명...",
+    "color": "from-blue-500 to-blue-600",
+    "bgColor": "bg-blue-50",
+    "borderColor": "border-blue-200"
+  }
+]`}
+              />
+              <p className="text-xs text-gray-500 mt-1">
+                비워두면 기본 4대 사역이 표시됩니다. JSON 형식으로 커스터마이징 가능합니다.
+              </p>
+            </div>
+          </>
+        );
+
+      default:
+        // 기본 공통 필드들
+        return (
+          <>
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                제목
+              </label>
+              <input
+                type="text"
+                value={(content.heading as string) || ""}
+                onChange={(e) => setContent({ ...content, heading: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="섹션 제목"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                부제목
+              </label>
+              <input
+                type="text"
+                value={(content.subheading as string) || ""}
+                onChange={(e) => setContent({ ...content, subheading: e.target.value })}
+                className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
+                placeholder="부제목"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">
+                설명
+              </label>
+              <textarea
+                value={(content.description as string) || ""}
             onChange={(e) => setContent({ ...content, description: e.target.value })}
             className="w-full px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
             rows={3}
@@ -613,7 +1789,7 @@ function SimpleFormEditor({
           <div className="flex flex-col sm:flex-row gap-2">
             <input
               type="text"
-              value={content.backgroundImage as string || ""}
+                  value={(content.backgroundImage as string) || ""}
               onChange={(e) => setContent({ ...content, backgroundImage: e.target.value })}
               className="flex-1 px-3 sm:px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 text-sm"
               placeholder="이미지 URL"
@@ -635,8 +1811,7 @@ function SimpleFormEditor({
         </div>
       </>
     );
-
-    return commonFields;
+    }
   };
 
   return (

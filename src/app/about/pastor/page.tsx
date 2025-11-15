@@ -1,12 +1,61 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { getSectionsByPage, Section } from "@/lib/supabase/sections";
+import SectionRenderer from "@/components/sections/SectionRenderer";
 import GreetingSection from "@/components/pastor/GreetingSection";
 
 /**
- * 담임목사 페이지 - GreetingSection 전용
- * (섹션 관리 시스템과 분리된 독립 페이지)
+ * 담임목사 페이지
+ * - 섹션 관리 시스템의 데이터를 우선 사용
+ * - 섹션이 없으면 기본 GreetingSection 사용 (하위 호환성)
  */
 export default function PastorPage() {
+  const [sections, setSections] = useState<Section[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    loadSections();
+  }, []);
+
+  const loadSections = async () => {
+    try {
+      const data = await getSectionsByPage("about");
+      // pastor 타입의 섹션만 필터링
+      const pastorSections = data.filter((s) => s.kind === "pastor");
+      setSections(pastorSections);
+    } catch (err: unknown) {
+      console.error("섹션 로드 오류:", err);
+      setError(err instanceof Error ? err.message : "섹션을 불러오는데 실패했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          <p className="mt-4 text-gray-600">로딩 중...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // 섹션 데이터가 있으면 섹션 관리 시스템 사용
+  if (sections.length > 0) {
+    return (
+      <main className="min-h-screen">
+        {sections.map((section) => (
+          <SectionRenderer key={section.id} section={section} />
+        ))}
+      </main>
+    );
+  }
+
+  // 섹션이 없으면 기본 GreetingSection 사용 (하위 호환성)
   return (
     <main className="min-h-screen">
       <GreetingSection

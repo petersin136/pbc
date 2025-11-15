@@ -41,12 +41,12 @@ export default function LocationSection({ section }: { section: Section }) {
         <div className="max-w-7xl mx-auto">
           {/* 제목 */}
           <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-4">
               {section.title}
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-6"></div>
             {description && (
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              <p className="text-xl md:text-2xl lg:text-3xl text-gray-600 max-w-2xl mx-auto">
                 {description}
               </p>
             )}
@@ -92,20 +92,20 @@ export default function LocationSection({ section }: { section: Section }) {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-gray-900 mb-4">교회 주소</h3>
+                    <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">교회 주소</h3>
                     
                     {/* 도로명 주소 */}
                     <div className="mb-4">
-                      <p className="text-xs text-gray-500 mb-1">도로명</p>
-                      <p className="text-lg font-semibold text-gray-900 leading-relaxed">
+                      <p className="text-sm md:text-base text-gray-500 mb-1">도로명</p>
+                      <p className="text-xl md:text-2xl font-semibold text-gray-900 leading-relaxed">
                         {roadAddress}
                       </p>
                     </div>
 
                     {/* 지번 주소 */}
                     <div className="mb-4">
-                      <p className="text-xs text-gray-500 mb-1">지번</p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm md:text-base text-gray-500 mb-1">지번</p>
+                      <p className="text-base md:text-lg text-gray-600">
                         {jibunAddress}
                       </p>
                     </div>
@@ -147,8 +147,8 @@ export default function LocationSection({ section }: { section: Section }) {
                       </svg>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500">전화문의</p>
-                      <a href={`tel:${phone}`} className="text-base font-semibold text-gray-900 hover:text-blue-600 transition-colors">
+                      <p className="text-sm md:text-base text-gray-500">전화문의</p>
+                      <a href={`tel:${phone}`} className="text-lg md:text-xl font-semibold text-gray-900 hover:text-blue-600 transition-colors">
                         {phone}
                       </a>
                     </div>
@@ -164,8 +164,8 @@ export default function LocationSection({ section }: { section: Section }) {
                       </svg>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500">주차안내</p>
-                      <p className="text-sm font-medium text-gray-900">{parking}</p>
+                      <p className="text-sm md:text-base text-gray-500">주차안내</p>
+                      <p className="text-base md:text-lg font-medium text-gray-900">{parking}</p>
                     </div>
                   </div>
                 )}
@@ -173,7 +173,7 @@ export default function LocationSection({ section }: { section: Section }) {
 
               {/* 교통 안내 카드 */}
               <div className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
-                <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                   <span className="text-2xl">🚗</span>
                   오시는 길
                 </h3>
@@ -187,8 +187,8 @@ export default function LocationSection({ section }: { section: Section }) {
                         </svg>
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm font-semibold text-gray-900 mb-1">대중교통</p>
-                        <p className="text-sm text-gray-600 leading-relaxed">{bus}</p>
+                        <p className="text-base md:text-lg font-semibold text-gray-900 mb-1">대중교통</p>
+                        <p className="text-base md:text-lg text-gray-600 leading-relaxed">{bus}</p>
                       </div>
                     </div>
                   )}
@@ -202,8 +202,8 @@ export default function LocationSection({ section }: { section: Section }) {
                         </svg>
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm font-semibold text-gray-900 mb-1">자가용</p>
-                        <p className="text-sm text-gray-600 leading-relaxed">{car}</p>
+                        <p className="text-base md:text-lg font-semibold text-gray-900 mb-1">자가용</p>
+                        <p className="text-base md:text-lg text-gray-600 leading-relaxed">{car}</p>
                       </div>
                     </div>
                   )}
