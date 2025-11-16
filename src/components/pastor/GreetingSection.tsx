@@ -32,7 +32,7 @@ export default function GreetingSection({
       {/* 헤더 타이틀 */}
       <div className="bg-white py-4 pt-20">
         <div className="container mx-auto px-4">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900">
+          <h1 className="text-5xl md:text-6xl font-bold text-gray-900">
             담임목사
           </h1>
         </div>
@@ -76,11 +76,13 @@ export default function GreetingSection({
                   />
                 </div>
                 <div className="text-center mt-1">
-                  <p className="text-lg sm:text-xl md:text-4xl font-bold text-white md:text-gray-900" 
-                     style={{ 
-                       letterSpacing: '0.2em'
-                     }}>
-                    박상구
+                  <p
+                    className="text-xl sm:text-2xl md:text-4xl font-bold text-white md:text-gray-900"
+                    style={{
+                      letterSpacing: "0.2em",
+                    }}
+                  >
+                    박상구 목사
                   </p>
                 </div>
               </div>
@@ -94,16 +96,16 @@ export default function GreetingSection({
               className="flex-1 z-10 w-full md:-translate-y-10 order-2 md:order-none"
             >
               {/* 모바일: 카드 크기 증가 */}
-              <div className="bg-blue-500/30 backdrop-blur-lg rounded-xl sm:rounded-2xl px-6 py-6 sm:px-7 sm:py-7 md:px-7 md:py-5 shadow-xl min-h-[280px] sm:min-h-[320px] md:h-[380px] flex flex-col justify-center">
+              <div className="bg-blue-500/30 backdrop-blur-lg rounded-xl sm:rounded-2xl px-6 py-6 sm:px-7 sm:py-7 md:px-5 md:py-5 lg:px-6 shadow-xl min-h-[280px] sm:min-h-[320px] md:h-[380px] flex flex-col justify-center">
                 
                 {/* 제목 - 모바일 폰트 크게 */}
-                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl font-bold text-white mb-3 sm:mb-4 md:mb-4 leading-snug" 
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold text-white mb-4 sm:mb-5 md:mb-5 leading-snug" 
                     style={{ textShadow: '0 2px 10px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.5)' }}>
                   {mainText}
                 </h2>
                 
                 {/* 본문 - 모바일 폰트 크게 */}
-                <div className="space-y-2 sm:space-y-3 md:space-y-3 text-white text-base sm:text-lg md:text-xl lg:text-xl leading-relaxed overflow-hidden" 
+                <div className="space-y-2 sm:space-y-3 md:space-y-3 text-white text-lg sm:text-xl md:text-2xl lg:text-2xl leading-relaxed overflow-hidden md:max-w-4xl lg:max-w-5xl xl:max-w-6xl md:mx-auto" 
                      style={{ textShadow: '0 1px 8px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.4)' }}>
                   {detailText.split("\n\n").map((paragraph, index) => (
                     <p key={index} className="sm:line-clamp-none">
@@ -136,9 +138,9 @@ export default function GreetingSection({
         {/* 어두운 오버레이 */}
         <div className="absolute inset-0 bg-black/20" />
         <div className="relative container mx-auto px-4">
-          <div className="max-w-5xl mx-auto">
+          <div className="max-w-[1400px] mx-auto">
             {/* 모바일 폰트 크게 */}
-            <h3 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white text-center leading-relaxed whitespace-pre-line">
+            <h3 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white text-center leading-relaxed whitespace-pre-line mx-auto">
               {quote}
             </h3>
           </div>
@@ -162,31 +164,31 @@ export default function GreetingSection({
           }}
         />
         <div className="relative container mx-auto px-4">
-          <div className="max-w-6xl mx-auto space-y-4 sm:space-y-6 md:space-y-8">
+          <div className="max-w-[1400px] mx-auto space-y-4 sm:space-y-6 md:space-y-8">
             
             {/* 본문 - 모바일 폰트 크게 */}
-            <p className="text-gray-700 text-base sm:text-lg md:text-xl leading-relaxed">
+            <p className="text-gray-700 text-lg sm:text-xl md:text-2xl leading-relaxed">
               포천중앙침례교회는 이 시대의 어둠 속에서도 빛과 소금으로서의 사명을 감당하며, 믿음의 다음 세대를 세우고,
             </p>
-            <p className="text-gray-700 text-base sm:text-lg md:text-xl leading-relaxed">
+            <p className="text-gray-700 text-lg sm:text-xl md:text-2xl leading-relaxed">
               지역 사회를 품는 복음적 교회로 서 가고자 합니다.
             </p>
-            <p className="text-gray-700 text-base sm:text-lg md:text-xl leading-relaxed">
+            <p className="text-gray-700 text-lg sm:text-xl md:text-2xl leading-relaxed">
               여러분 한 분 한 분이 이 공동체의 귀한 지체로서 예배와 말씀, 사랑과 섬김 안에서 하나님 나라의 기쁨을 함께 누리시길 바랍니다.
             </p>
-            <p className="text-gray-700 text-base sm:text-lg md:text-xl leading-relaxed">
+            <p className="text-gray-700 text-lg sm:text-xl md:text-2xl leading-relaxed">
               주님 안에서 여러분의 삶이 날마다 새로워지고, 하나님의 은혜가 가정과 일터 위에 충만히 임하기를 기도합니다.
             </p>
-            <p className="text-gray-700 text-base sm:text-lg md:text-xl leading-relaxed">
+            <p className="text-gray-700 text-lg sm:text-xl md:text-2xl leading-relaxed">
               감사합니다.
             </p>
             
             {/* 서명 - 모바일 폰트 크게 */}
             <div className="mt-8 sm:mt-10 md:mt-12 text-right space-y-2 sm:space-y-3">
-              <p className="text-gray-900 text-lg sm:text-xl md:text-3xl font-bold leading-relaxed">
+              <p className="text-gray-900 text-xl sm:text-2xl md:text-3xl font-bold leading-relaxed">
                 포천중앙침례교회
               </p>
-              <p className="text-gray-900 text-lg sm:text-xl md:text-3xl font-bold leading-relaxed">
+              <p className="text-gray-900 text-xl sm:text-2xl md:text-3xl font-bold leading-relaxed">
                 담임목사 박상구 드림
               </p>
             </div>

@@ -140,32 +140,28 @@ export default function PrayerSection({ section }: { section: Section }) {
 
           {/* 기도 요청 안내 */}
           <div className="mt-12 text-center animate-fade-in-up animation-delay-400">
-            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-2xl shadow-2xl p-8">
-              <h3 className="text-2xl font-bold mb-3">기도 제목을 나누고 싶으신가요?</h3>
-              <p className="text-purple-100 mb-6">
-                교회 공동체와 함께 기도하고 싶은 제목이 있으시다면 언제든지 나눠주세요.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="tel:031-1234-5678"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-600 rounded-full font-semibold hover:bg-gray-100 transition-colors shadow-lg"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                  전화하기
-                </a>
-                <a
-                  href="mailto:prayer@pbc.com"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-600 rounded-full font-semibold hover:bg-gray-100 transition-colors shadow-lg"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  이메일 보내기
-                </a>
+              <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-2xl shadow-2xl p-8">
+                <h3 className="text-2xl font-bold mb-3">기도 제목을 나누고 싶으신가요?</h3>
+                <p className="text-purple-100 mb-6">
+                  교회 공동체와 함께 기도하고 싶은 제목이 있으시다면 언제든지 나눠주세요.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <a
+                    href="sms:01063315078"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-600 rounded-full font-semibold hover:bg-gray-100 transition-colors shadow-lg"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M7 8h10M7 12h6m-9 8h14a2 2 0 002-2V6a2 2 0 00-2-2H4a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
+                    </svg>
+                    문자 보내기 (담임목사님)
+                  </a>
+                </div>
               </div>
-            </div>
           </div>
         </div>
       </div>

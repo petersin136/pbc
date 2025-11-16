@@ -134,3 +134,4 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=여기에_아논키
 
 
 
+
