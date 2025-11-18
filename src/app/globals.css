@@ -49,20 +49,12 @@ html {
   scroll-behavior: smooth;
 }
 
-/* 스크롤바 스타일링 */
+/* 스크롤바 숨기기 */
 ::-webkit-scrollbar {
-  width: 10px;
+  display: none; /* Chrome, Safari, Edge */
 }
 
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
+* {
+  -ms-overflow-style: none; /* IE, Edge */
+  scrollbar-width: none; /* Firefox */
 }
