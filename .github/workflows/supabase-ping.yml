@@ -38,24 +38,26 @@ jobs:
         run: |
           echo "Pinging Supabase to prevent auto-pause..."
           
-          # 간단한 SELECT 쿼리로 DB 활성화
+          # GET 요청으로 간단한 SELECT 쿼리 실행 (더 안정적)
+          # sections 테이블에서 id만 1개 조회
           response=$(curl -s -w "\n%{http_code}" \
-            -X POST \
+            -X GET \
             -H "apikey: ${SUPABASE_ANON_KEY}" \
             -H "Authorization: Bearer ${SUPABASE_ANON_KEY}" \
-            -H "Content-Type: application/json" \
-            -H "Prefer: return=minimal" \
+            -H "Accept: application/json" \
             "${SUPABASE_URL}/rest/v1/sections?select=id&limit=1")
           
           http_code=$(echo "$response" | tail -n1)
           body=$(echo "$response" | sed '$d')
           
+          echo "HTTP Status: $http_code"
+          echo "Response: $body"
+          
           if [ "$http_code" -eq 200 ] || [ "$http_code" -eq 206 ]; then
-            echo "✅ Supabase ping successful! (HTTP $http_code)"
-            echo "Response: $body"
+            echo "✅ Supabase ping successful! Database is active."
           else
             echo "❌ Supabase ping failed! (HTTP $http_code)"
-            echo "Response: $body"
+            echo "Error details: $body"
             exit 1
           fi
 
