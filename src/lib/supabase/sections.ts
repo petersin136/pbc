@@ -194,7 +194,6 @@ export const PAGES = [
   { value: "mission-domestic", label: "🌍 선교 > 국내선교" },
   { value: "mission-overseas", label: "🌍 선교 > 해외선교" },
   { value: "lifegroup", label: "👥 목장" },
-  { value: "news-bulletin", label: "📰 소식 > 주보" },
   { value: "news-notices", label: "📰 소식 > 공지사항" },
   { value: "news-prayer", label: "📰 소식 > 기도제목" },
   { value: "news-testimony", label: "📰 소식 > 간증" },
