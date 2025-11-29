@@ -22,3 +22,4 @@ SELECT COUNT(*) as remaining_bulletin_sections
 FROM sections
 WHERE page = 'news-bulletin';
 
+
