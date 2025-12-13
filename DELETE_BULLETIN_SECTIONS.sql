@@ -23,3 +23,4 @@ FROM sections
 WHERE page = 'news-bulletin';
 
 
+
