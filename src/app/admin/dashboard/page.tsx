@@ -38,10 +38,10 @@ export default function AdminDashboardPage() {
   ];
 
   const educationSections = [
-    { icon: "🎓", label: "청년부", href: "/admin/sections?page=education-youth" },
-    { icon: "📚", label: "중고등부", href: "/admin/sections?page=education-highschool" },
-    { icon: "✏️", label: "주일학교", href: "/admin/sections?page=education-sunday-school" },
-    { icon: "🧸", label: "유치부", href: "/admin/sections?page=education-kindergarten" },
+    { icon: "🎓", label: "청년부", href: "/admin/education/youth" },
+    { icon: "📚", label: "중고등부", href: "/admin/education/highschool" },
+    { icon: "✏️", label: "주일학교", href: "/admin/education/sunday-school" },
+    { icon: "🧸", label: "유치부", href: "/admin/education/kindergarten" },
   ];
 
   const allSections = [
