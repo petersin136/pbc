@@ -37,6 +37,13 @@ export default function AdminDashboardPage() {
     },
   ];
 
+  const educationSections = [
+    { icon: "🎓", label: "청년부", href: "/admin/sections?page=education-youth" },
+    { icon: "📚", label: "중고등부", href: "/admin/sections?page=education-highschool" },
+    { icon: "✏️", label: "주일학교", href: "/admin/sections?page=education-sunday-school" },
+    { icon: "🧸", label: "유치부", href: "/admin/sections?page=education-kindergarten" },
+  ];
+
   const allSections = [
     { icon: "📋", label: "정보 카드", href: "/admin/content-cards" },
     { icon: "📝", label: "텍스트 섹션", href: "/admin/text-sections" },
@@ -77,6 +84,25 @@ export default function AdminDashboardPage() {
                 </h3>
                 <p className="text-sm text-gray-600">{action.description}</p>
               </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* 교육부서 */}
+      <div className="mb-8">
+        <h2 className="text-xl font-bold text-gray-900 mb-4">교육부서</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {educationSections.map((section) => (
+            <Link
+              key={section.href}
+              href={section.href}
+              className="flex items-center gap-3 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all border border-gray-200 hover:border-green-300"
+            >
+              <span className="text-2xl">{section.icon}</span>
+              <span className="text-sm font-medium text-gray-900">
+                {section.label}
+              </span>
             </Link>
           ))}
         </div>
