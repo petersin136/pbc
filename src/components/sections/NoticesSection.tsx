@@ -61,7 +61,12 @@ export default function NoticesSection({ section }: { section: Section }) {
           {/* 공지사항 목록 */}
           {notices && notices.length > 0 ? (
             <div className="space-y-6 animate-fade-in-up animation-delay-200">
-              {notices.map((notice: { title: string; date: string; content: string }, index: number) => (
+              {[...notices]
+                .sort((a: { date: string }, b: { date: string }) => {
+                  // 날짜 기준 내림차순 정렬 (최신이 위로)
+                  return new Date(b.date).getTime() - new Date(a.date).getTime();
+                })
+                .map((notice: { title: string; date: string; content: string }, index: number) => (
                 <div
                   key={index}
                   className={`bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all transform hover:-translate-y-1 ${

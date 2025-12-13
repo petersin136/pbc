@@ -61,7 +61,12 @@ export default function PrayerSection({ section }: { section: Section }) {
           {/* 기도제목 목록 */}
           {prayers && prayers.length > 0 ? (
             <div className="space-y-6 animate-fade-in-up animation-delay-200">
-              {prayers.map((prayer: { title: string; content: string; date: string }, index: number) => (
+              {[...prayers]
+                .sort((a: { date: string }, b: { date: string }) => {
+                  // 날짜 기준 내림차순 정렬 (최신이 위로)
+                  return new Date(b.date).getTime() - new Date(a.date).getTime();
+                })
+                .map((prayer: { title: string; content: string; date: string }, index: number) => (
                 <div
                   key={index}
                   className="bg-gradient-to-br from-purple-50 to-white rounded-xl shadow-lg p-6 md:p-8 border-l-4 border-purple-500 hover:shadow-2xl transition-all transform hover:-translate-y-1"
