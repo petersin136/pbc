@@ -99,7 +99,7 @@ export default function GreetingSection({
               <div className="bg-blue-500/30 backdrop-blur-lg rounded-xl sm:rounded-2xl px-6 py-6 sm:px-7 sm:py-7 md:px-5 md:py-5 lg:px-6 shadow-xl min-h-[280px] sm:min-h-[320px] md:h-[380px] flex flex-col justify-center">
                 
                 {/* 제목 - 모바일 폰트 크게 */}
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold text-white mb-4 sm:mb-5 md:mb-5 leading-snug" 
+                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold text-white mb-4 sm:mb-5 md:mb-5 leading-snug whitespace-pre-line" 
                     style={{ textShadow: '0 2px 10px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.5)' }}>
                   {mainText}
                 </h2>
@@ -108,7 +108,7 @@ export default function GreetingSection({
                 <div className="space-y-2 sm:space-y-3 md:space-y-3 text-white text-lg sm:text-xl md:text-2xl lg:text-2xl leading-relaxed overflow-hidden md:max-w-4xl lg:max-w-5xl xl:max-w-6xl md:mx-auto" 
                      style={{ textShadow: '0 1px 8px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.4)' }}>
                   {detailText.split("\n\n").map((paragraph, index) => (
-                    <p key={index} className="sm:line-clamp-none">
+                    <p key={index} className="sm:line-clamp-none whitespace-pre-line">
                       {paragraph}
                     </p>
                   ))}
@@ -168,7 +168,7 @@ export default function GreetingSection({
             
             {/* 본문 - 모바일 폰트 크게 */}
             {bodyText.split("\n\n").map((paragraph, index) => (
-              <p key={index} className="text-gray-700 text-lg sm:text-xl md:text-2xl leading-relaxed">
+              <p key={index} className="text-gray-700 text-lg sm:text-xl md:text-2xl leading-relaxed whitespace-pre-line">
                 {paragraph}
               </p>
             ))}
