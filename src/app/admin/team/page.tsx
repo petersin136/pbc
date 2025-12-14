@@ -15,10 +15,10 @@ import {
   LoadingSpinner,
   Modal,
   TextField,
+  TextAreaField,
   ImageUploadField,
   SelectField,
 } from "@/components/admin/AdminComponents";
-import TiptapEditor from "@/components/admin/TiptapEditor";
 
 export default function TeamAdminPage() {
   const [loading, setLoading] = useState(true);
@@ -259,7 +259,7 @@ function PastorFormModal({
 
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
-            인사말 내용 (Tiptap 에디터)
+            인사말 내용
           </label>
           <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
             <p className="text-sm text-gray-700 mb-2">
@@ -272,12 +272,15 @@ function PastorFormModal({
               <li><strong>6번째 이후:</strong> 하단 본문 (흰색 배경)</li>
             </ul>
             <p className="text-xs text-gray-500 mt-2">
-              💡 단락 구분은 <strong>Enter 2번</strong>으로 하세요!
+              💡 단락 구분은 <strong>Enter 2번</strong> (빈 줄 추가)으로 하세요!
             </p>
           </div>
-          <TiptapEditor
-            content={greeting}
+          <TextAreaField
+            label=""
+            value={greeting}
             onChange={setGreeting}
+            placeholder="인사말을 입력하세요. 각 단락은 Enter 2번으로 구분합니다."
+            rows={20}
           />
         </div>
 
