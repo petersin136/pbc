@@ -105,8 +105,9 @@ export default function TiptapEditor({ content, onChange }: TiptapEditorProps) {
                 ? "bg-blue-600 text-white"
                 : "bg-white text-gray-700 hover:bg-gray-200"
             }`}
+            title="큰 제목"
           >
-            H1
+            큰제목
           </button>
           <button
             type="button"
@@ -116,8 +117,9 @@ export default function TiptapEditor({ content, onChange }: TiptapEditorProps) {
                 ? "bg-blue-600 text-white"
                 : "bg-white text-gray-700 hover:bg-gray-200"
             }`}
+            title="중간 제목"
           >
-            H2
+            중제목
           </button>
           <button
             type="button"
@@ -127,8 +129,9 @@ export default function TiptapEditor({ content, onChange }: TiptapEditorProps) {
                 ? "bg-blue-600 text-white"
                 : "bg-white text-gray-700 hover:bg-gray-200"
             }`}
+            title="작은 제목"
           >
-            H3
+            소제목
           </button>
         </div>
 
