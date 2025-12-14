@@ -89,6 +89,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { icon: "🧸", label: "유치부", href: "/admin/education/kindergarten" },
   ];
 
+  const choirMenuItems = [
+    { icon: "🎵", label: "야다 성가대", href: "/admin/choir/yada" },
+    { icon: "🎶", label: "기쁜소리 찬양단", href: "/admin/choir/joyful" },
+    { icon: "🎼", label: "테루아 찬양단", href: "/admin/choir/terua" },
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* 사이드바 */}
@@ -144,6 +150,33 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors ${
                           isActive
                             ? "bg-green-50 text-green-600"
+                            : "text-gray-700 hover:bg-gray-100"
+                        }`}
+                      >
+                        <span className="text-lg">{item.icon}</span>
+                        <span className="text-sm">{item.label}</span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+
+            {/* 찬양 섹션 */}
+            <div className="mt-6">
+              <div className="px-4 mb-2">
+                <h3 className="text-xs font-semibold text-gray-500 uppercase">찬양</h3>
+              </div>
+              <ul className="space-y-1">
+                {choirMenuItems.map((item) => {
+                  const isActive = pathname === item.href;
+                  return (
+                    <li key={item.href}>
+                      <Link
+                        href={item.href}
+                        className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors ${
+                          isActive
+                            ? "bg-purple-50 text-purple-600"
                             : "text-gray-700 hover:bg-gray-100"
                         }`}
                       >
@@ -227,7 +260,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <div className="flex-1 lg:flex-none">
               <h2 className="text-lg font-semibold text-gray-900">
                 {menuItems.find((item) => item.href === pathname)?.label || 
-                 educationMenuItems.find((item) => item.href === pathname)?.label || 
+                 educationMenuItems.find((item) => item.href === pathname)?.label ||
+                 choirMenuItems.find((item) => item.href === pathname)?.label || 
                  "관리자"}
               </h2>
             </div>

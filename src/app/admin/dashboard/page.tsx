@@ -44,6 +44,12 @@ export default function AdminDashboardPage() {
     { icon: "🧸", label: "유치부", href: "/admin/education/kindergarten" },
   ];
 
+  const choirSections = [
+    { icon: "🎵", label: "야다 성가대", href: "/admin/choir/yada" },
+    { icon: "🎶", label: "기쁜소리 찬양단", href: "/admin/choir/joyful" },
+    { icon: "🎼", label: "테루아 찬양단", href: "/admin/choir/terua" },
+  ];
+
   const allSections = [
     { icon: "📋", label: "정보 카드", href: "/admin/content-cards" },
     { icon: "📝", label: "텍스트 섹션", href: "/admin/text-sections" },
@@ -98,6 +104,25 @@ export default function AdminDashboardPage() {
               key={section.href}
               href={section.href}
               className="flex items-center gap-3 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all border border-gray-200 hover:border-green-300"
+            >
+              <span className="text-2xl">{section.icon}</span>
+              <span className="text-sm font-medium text-gray-900">
+                {section.label}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* 찬양 */}
+      <div className="mb-8">
+        <h2 className="text-xl font-bold text-gray-900 mb-4">찬양</h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+          {choirSections.map((section) => (
+            <Link
+              key={section.href}
+              href={section.href}
+              className="flex items-center gap-3 p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition-all border border-gray-200 hover:border-purple-300"
             >
               <span className="text-2xl">{section.icon}</span>
               <span className="text-sm font-medium text-gray-900">
