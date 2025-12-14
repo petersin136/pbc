@@ -155,6 +155,28 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 })}
               </ul>
             </div>
+
+            {/* 고급 기능 섹션 */}
+            <div className="mt-6 pt-6 border-t border-gray-200">
+              <div className="px-4 mb-2">
+                <h3 className="text-xs font-semibold text-gray-500 uppercase">고급 기능</h3>
+              </div>
+              <ul className="space-y-1">
+                <li>
+                  <Link
+                    href="/admin/sections"
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg font-medium transition-colors ${
+                      pathname === "/admin/sections"
+                        ? "bg-orange-50 text-orange-600"
+                        : "text-gray-700 hover:bg-gray-100"
+                    }`}
+                  >
+                    <span className="text-lg">⚙️</span>
+                    <span className="text-sm">전체 섹션 관리</span>
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </nav>
 
           {/* 하단 버튼 */}
