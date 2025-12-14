@@ -29,11 +29,11 @@ const cards = [
   },
   {
     id: 4,
-    title: "갤러리",
-    subtitle: "교회의 소중한 순간들",
+    title: "기도제목",
+    subtitle: "함께 기도하며 나누는 제목들",
     bg: "from-[#64B5F6] to-[#90CAF9]",
     bgImage: "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&auto=format&fit=crop&q=80",
-    href: "/gallery",
+    href: "/news/prayer",
   },
 ];
 
