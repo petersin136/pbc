@@ -17,7 +17,6 @@ import {
   TextField,
   TextAreaField,
   ImageUploadField,
-  SelectField,
 } from "@/components/admin/AdminComponents";
 
 export default function TeamAdminPage() {
@@ -218,7 +217,7 @@ function PastorFormModal({
       name,
       position,
       image,
-      greeting, // HTML 형식으로 저장
+      greeting, // 일반 텍스트로 저장
     };
     await onSave({ title, content });
   };
