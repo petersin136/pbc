@@ -135,7 +135,9 @@ export default function YouthAdminPage() {
           onClose={() => setShowAddModal(false)}
           onSave={async (data) => {
             try {
-              const maxOrder = Math.max(...sections.map((s) => s.section_order), 0);
+              // 전체 페이지의 섹션을 조회하여 최대 section_order 계산 (Hero 포함)
+              const allSections = await getSectionsByPage(PAGE_ID);
+              const maxOrder = Math.max(...allSections.map((s) => s.section_order), 0);
               await createSection({
                 page: PAGE_ID,
                 kind: data.kind,
