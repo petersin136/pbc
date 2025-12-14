@@ -33,11 +33,15 @@ export default function TeamAdminPage() {
   const loadSections = async () => {
     try {
       setLoading(true);
+      console.log("섹션 로드 시작:", selectedPage);
       const data = await getSectionsByPage(selectedPage);
+      console.log("전체 섹션:", data);
       const teamSections = data.filter((s) => s.kind === "pastor");
+      console.log("목사 섹션:", teamSections);
       setSections(teamSections);
     } catch (error) {
       console.error("섹션 로드 오류:", error);
+      alert(`섹션을 불러오는데 실패했습니다: ${error instanceof Error ? error.message : String(error)}`);
     } finally {
       setLoading(false);
     }
@@ -149,21 +153,25 @@ export default function TeamAdminPage() {
           onClose={() => setShowAddModal(false)}
           onSave={async (data) => {
             try {
+              console.log("저장 시작:", { page: selectedPage, data });
               const allSections = await getSectionsByPage(selectedPage);
               const maxOrder = Math.max(...allSections.map((s) => s.section_order), 0);
-              await createSection({
+              const newSection = await createSection({
                 page: selectedPage,
                 kind: "pastor",
                 title: data.title,
                 content: data.content,
                 section_order: maxOrder + 1,
               });
+              console.log("저장 완료:", newSection);
+              
+              // 저장 후 즉시 다시 로드
               await loadSections();
               setShowAddModal(false);
-              alert("추가되었습니다!");
+              alert("추가되었습니다! 페이지를 새로고침하면 반영됩니다.");
             } catch (error) {
               console.error("추가 오류:", error);
-              alert("추가에 실패했습니다.");
+              alert(`추가에 실패했습니다: ${error instanceof Error ? error.message : String(error)}`);
             }
           }}
         />
@@ -176,16 +184,20 @@ export default function TeamAdminPage() {
           onClose={() => setEditingSection(null)}
           onSave={async (data) => {
             try {
+              console.log("수정 시작:", { id: editingSection.id, data });
               await updateSection(editingSection.id, {
                 title: data.title,
                 content: data.content,
               });
+              console.log("수정 완료");
+              
+              // 저장 후 즉시 다시 로드
               await loadSections();
               setEditingSection(null);
-              alert("저장되었습니다!");
+              alert("저장되었습니다! 페이지를 새로고침하면 반영됩니다.");
             } catch (error) {
               console.error("저장 오류:", error);
-              alert("저장에 실패했습니다.");
+              alert(`저장에 실패했습니다: ${error instanceof Error ? error.message : String(error)}`);
             }
           }}
         />

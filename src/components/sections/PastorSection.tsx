@@ -11,15 +11,14 @@ export default function PastorSection({ section }: { section: Section }) {
     greeting = "",
   } = section.content;
 
-  // greeting을 3개 필드로 분리
-  // 첫 번째 단락: mainText
-  // 나머지: detailText, quote, bodyText로 구분
+  // greeting을 단락별로 분리
+  // \n\n으로 구분된 단락들을 그대로 사용
   const paragraphs = (greeting as string).split("\n\n").filter(p => p.trim());
   
   const mainText = paragraphs[0] || "복음으로 세워지고, 사랑으로 세상을 섬기는 교회!";
-  const detailText = paragraphs.slice(1, 4).join("<br><br>") || "";
-  const quote = paragraphs[4] || "여러분 한 분 한 분이 이 공동체의 귀한 지체로서 예배와 말씀,<br>사랑과 섬김 안에서 하나님 나라의 기쁨을 함께 누리시길 바랍니다.";
-  const bodyText = paragraphs.slice(5).join("<br><br>") || "";
+  const detailText = paragraphs.slice(1, 4).join("\n\n") || "";
+  const quote = paragraphs[4] || "여러분 한 분 한 분이 이 공동체의 귀한 지체로서 예배와 말씀,\n사랑과 섬김 안에서 하나님 나라의 기쁨을 함께 누리시길 바랍니다.";
+  const bodyText = paragraphs.slice(5).join("\n\n") || "";
 
   return (
     <GreetingSection
