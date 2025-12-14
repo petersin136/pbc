@@ -104,15 +104,26 @@ export default function PrayerAdminPage() {
           onClose={() => setShowAddModal(false)}
           onSave={async (data) => {
             try {
-              // 전체 페이지의 섹션을 조회하여 최대 section_order 계산 (Hero 포함)
+              // 전체 페이지의 섹션 조회
               const allSections = await getSectionsByPage(PAGE_ID);
-              const maxOrder = Math.max(...allSections.map((s) => s.section_order), 0);
+              
+              // Hero 섹션의 order 찾기
+              const heroSection = allSections.find((s) => s.kind === "hero");
+              const heroOrder = heroSection?.section_order || 0;
+              
+              // 기존 prayer 섹션들의 order를 +1 증가 (아래로 밀어내기)
+              const prayerSections = allSections.filter((s) => s.kind === "prayer");
+              for (const section of prayerSections) {
+                await updateSection(section.id, { section_order: section.section_order + 1 });
+              }
+              
+              // 새 섹션을 Hero 바로 다음에 추가
               await createSection({
                 page: PAGE_ID,
                 kind: "prayer",
                 title: data.title,
                 content: data.content,
-                section_order: maxOrder + 1,
+                section_order: heroOrder + 1,
               });
               await loadSections();
               setShowAddModal(false);
