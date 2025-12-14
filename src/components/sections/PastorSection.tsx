@@ -1,59 +1,36 @@
 "use client";
 
 import { Section } from "@/lib/supabase/sections";
-import Image from "next/image";
+import GreetingSection from "@/components/pastor/GreetingSection";
 
 export default function PastorSection({ section }: { section: Section }) {
   const {
-    name = "담임목사",
+    name = "박상구",
     position = "담임목사",
     image,
     greeting = "",
   } = section.content;
 
+  // greeting을 3개 필드로 분리
+  // 첫 번째 단락: mainText
+  // 나머지: detailText, quote, bodyText로 구분
+  const paragraphs = (greeting as string).split("\n\n").filter(p => p.trim());
+  
+  const mainText = paragraphs[0] || "복음으로 세워지고, 사랑으로 세상을 섬기는 교회!";
+  const detailText = paragraphs.slice(1, 4).join("<br><br>") || "";
+  const quote = paragraphs[4] || "여러분 한 분 한 분이 이 공동체의 귀한 지체로서 예배와 말씀,<br>사랑과 섬김 안에서 하나님 나라의 기쁨을 함께 누리시길 바랍니다.";
+  const bodyText = paragraphs.slice(5).join("<br><br>") || "";
+
   return (
-    <section className="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50">
-      <div className="container mx-auto px-6 md:px-12">
-        <div className="max-w-5xl mx-auto">
-          {/* 헤더 */}
-          <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              {section.title || "목사 인사말"}
-            </h2>
-            <div className="w-20 h-1 bg-blue-600 mx-auto mb-8"></div>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-12 items-start">
-            {/* 프로필 이미지 */}
-            {image && (
-              <div className="md:col-span-1 animate-fade-in-up">
-                <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
-                  <Image
-                    src={image as string}
-                    alt={name as string}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                </div>
-                <div className="mt-6 text-center">
-                  <h3 className="text-2xl font-bold text-gray-900">{name as string}</h3>
-                  <p className="text-lg text-gray-600 mt-2">{position as string}</p>
-                </div>
-              </div>
-            )}
-
-            {/* 인사말 내용 (HTML 렌더링) */}
-            <div className={`${image ? "md:col-span-2" : "md:col-span-3"} animate-fade-in-up animation-delay-200`}>
-              <div 
-                className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-strong:text-gray-900 prose-img:rounded-xl prose-img:shadow-lg"
-                dangerouslySetInnerHTML={{ __html: greeting as string }}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <GreetingSection
+      name={`${name} ${position}`.trim()}
+      photo={(image as string) || "https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/park.png"}
+      backgroundImage="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop"
+      mainText={mainText}
+      detailText={detailText}
+      quote={quote}
+      bodyText={bodyText}
+    />
   );
 }
 

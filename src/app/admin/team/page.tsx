@@ -238,7 +238,7 @@ function PastorFormModal({
           label="목사님 성함"
           value={name}
           onChange={setName}
-          placeholder="예: 김철수"
+          placeholder="예: 박상구"
           required
         />
 
@@ -259,15 +259,26 @@ function PastorFormModal({
 
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-2">
-            인사말 내용
+            인사말 내용 (Tiptap 에디터)
           </label>
+          <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <p className="text-sm text-gray-700 mb-2">
+              <strong>📝 작성 가이드:</strong>
+            </p>
+            <ul className="text-sm text-gray-600 space-y-1 list-disc list-inside">
+              <li><strong>1번째 단락:</strong> 대제목 (파란 박스 상단)</li>
+              <li><strong>2~4번째 단락:</strong> 파란 박스 본문</li>
+              <li><strong>5번째 단락:</strong> 중간 인용구 (회색 배경)</li>
+              <li><strong>6번째 이후:</strong> 하단 본문 (흰색 배경)</li>
+            </ul>
+            <p className="text-xs text-gray-500 mt-2">
+              💡 단락 구분은 <strong>Enter 2번</strong>으로 하세요!
+            </p>
+          </div>
           <TiptapEditor
             content={greeting}
             onChange={setGreeting}
           />
-          <p className="text-xs text-gray-500 mt-2">
-            툴바를 사용하여 텍스트를 꾸밀 수 있습니다. 이미지도 삽입 가능합니다.
-          </p>
         </div>
 
         <div className="flex gap-3 pt-4">

@@ -104,15 +104,12 @@ export default function GreetingSection({
                   {mainText}
                 </h2>
                 
-                {/* 본문 - 모바일 폰트 크게 */}
-                <div className="space-y-2 sm:space-y-3 md:space-y-3 text-white text-lg sm:text-xl md:text-2xl lg:text-2xl leading-relaxed overflow-hidden md:max-w-4xl lg:max-w-5xl xl:max-w-6xl md:mx-auto" 
-                     style={{ textShadow: '0 1px 8px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.4)' }}>
-                  {detailText.split("\n\n").map((paragraph, index) => (
-                    <p key={index} className="sm:line-clamp-none">
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
+                {/* 본문 - 모바일 폰트 크게, HTML 렌더링 지원 */}
+                <div 
+                  className="space-y-2 sm:space-y-3 md:space-y-3 text-white text-lg sm:text-xl md:text-2xl lg:text-2xl leading-relaxed overflow-hidden md:max-w-4xl lg:max-w-5xl xl:max-w-6xl md:mx-auto prose prose-invert prose-lg max-w-none prose-p:my-2" 
+                  style={{ textShadow: '0 1px 8px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.4)' }}
+                  dangerouslySetInnerHTML={{ __html: detailText }}
+                />
               </div>
             </motion.div>
           </div>
@@ -139,10 +136,11 @@ export default function GreetingSection({
         <div className="absolute inset-0 bg-black/20" />
         <div className="relative container mx-auto px-4">
           <div className="max-w-[1400px] mx-auto">
-            {/* 모바일 폰트 크게 */}
-            <h3 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white text-center leading-relaxed whitespace-pre-line mx-auto">
-              {quote}
-            </h3>
+            {/* 모바일 폰트 크게, HTML 렌더링 지원 */}
+            <div 
+              className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white text-center leading-relaxed whitespace-pre-line mx-auto prose prose-invert prose-2xl max-w-none"
+              dangerouslySetInnerHTML={{ __html: quote }}
+            />
           </div>
         </div>
       </motion.div>
@@ -166,32 +164,11 @@ export default function GreetingSection({
         <div className="relative container mx-auto px-4">
           <div className="max-w-[1400px] mx-auto space-y-4 sm:space-y-6 md:space-y-8">
             
-            {/* 본문 - 모바일 폰트 크게 */}
-            <p className="text-gray-700 text-lg sm:text-xl md:text-2xl leading-relaxed">
-              포천중앙침례교회는 이 시대의 어둠 속에서도 빛과 소금으로서의 사명을 감당하며, 믿음의 다음 세대를 세우고,
-            </p>
-            <p className="text-gray-700 text-lg sm:text-xl md:text-2xl leading-relaxed">
-              지역 사회를 품는 복음적 교회로 서 가고자 합니다.
-            </p>
-            <p className="text-gray-700 text-lg sm:text-xl md:text-2xl leading-relaxed">
-              여러분 한 분 한 분이 이 공동체의 귀한 지체로서 예배와 말씀, 사랑과 섬김 안에서 하나님 나라의 기쁨을 함께 누리시길 바랍니다.
-            </p>
-            <p className="text-gray-700 text-lg sm:text-xl md:text-2xl leading-relaxed">
-              주님 안에서 여러분의 삶이 날마다 새로워지고, 하나님의 은혜가 가정과 일터 위에 충만히 임하기를 기도합니다.
-            </p>
-            <p className="text-gray-700 text-lg sm:text-xl md:text-2xl leading-relaxed">
-              감사합니다.
-            </p>
-            
-            {/* 서명 - 모바일 폰트 크게 */}
-            <div className="mt-8 sm:mt-10 md:mt-12 text-right space-y-2 sm:space-y-3">
-              <p className="text-gray-900 text-xl sm:text-2xl md:text-3xl font-bold leading-relaxed">
-                포천중앙침례교회
-              </p>
-              <p className="text-gray-900 text-xl sm:text-2xl md:text-3xl font-bold leading-relaxed">
-                담임목사 박상구 드림
-              </p>
-            </div>
+            {/* 본문 - 모바일 폰트 크게, HTML 렌더링 지원 */}
+            <div 
+              className="prose prose-lg prose-p:text-gray-700 prose-p:text-lg sm:prose-p:text-xl md:prose-p:text-2xl prose-p:leading-relaxed max-w-none"
+              dangerouslySetInnerHTML={{ __html: bodyText }}
+            />
           </div>
         </div>
       </motion.div>
