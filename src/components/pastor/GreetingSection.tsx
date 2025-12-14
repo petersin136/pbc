@@ -98,15 +98,16 @@ export default function GreetingSection({
               {/* 모바일: 카드 크기 증가 */}
               <div className="bg-blue-500/30 backdrop-blur-lg rounded-xl sm:rounded-2xl px-6 py-6 sm:px-7 sm:py-7 md:px-5 md:py-5 lg:px-6 shadow-xl min-h-[280px] sm:min-h-[320px] md:h-[380px] flex flex-col justify-center">
                 
-                {/* 제목 - 모바일 폰트 크게 */}
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold text-white mb-4 sm:mb-5 md:mb-5 leading-snug" 
-                    style={{ textShadow: '0 2px 10px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.5)' }}>
-                  {mainText}
-                </h2>
+                {/* 제목 - 모바일 폰트 크게, HTML 렌더링 */}
+                <div 
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold text-white mb-4 sm:mb-5 md:mb-5 leading-snug prose prose-invert prose-2xl max-w-none prose-headings:text-white prose-p:text-white prose-strong:text-white" 
+                  style={{ textShadow: '0 2px 10px rgba(0,0,0,0.3), 0 1px 3px rgba(0,0,0,0.5)' }}
+                  dangerouslySetInnerHTML={{ __html: mainText }}
+                />
                 
                 {/* 본문 - 모바일 폰트 크게, HTML 렌더링 지원 */}
                 <div 
-                  className="space-y-2 sm:space-y-3 md:space-y-3 text-white text-lg sm:text-xl md:text-2xl lg:text-2xl leading-relaxed overflow-hidden md:max-w-4xl lg:max-w-5xl xl:max-w-6xl md:mx-auto prose prose-invert prose-lg max-w-none prose-p:my-2" 
+                  className="space-y-2 sm:space-y-3 md:space-y-3 text-white text-lg sm:text-xl md:text-2xl lg:text-2xl leading-relaxed overflow-hidden md:max-w-4xl lg:max-w-5xl xl:max-w-6xl md:mx-auto prose prose-invert prose-lg max-w-none prose-p:my-2 prose-p:text-white prose-strong:text-white" 
                   style={{ textShadow: '0 1px 8px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.4)' }}
                   dangerouslySetInnerHTML={{ __html: detailText }}
                 />
