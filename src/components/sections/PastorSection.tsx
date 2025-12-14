@@ -1,38 +1,59 @@
 "use client";
 
 import { Section } from "@/lib/supabase/sections";
-import GreetingSection from "@/components/pastor/GreetingSection";
+import Image from "next/image";
 
 export default function PastorSection({ section }: { section: Section }) {
   const {
-    name = "박상구",
-    title = "목사",
-    photo,
-    description = "",
-    education = [],
-    ministry = [],
-    // GreetingSection 필드들
-    backgroundImage,
-    mainText,
-    detailText,
-    quote,
-    bodyText,
+    name = "담임목사",
+    position = "담임목사",
+    image,
+    greeting = "",
   } = section.content;
 
-  // name에서 "목사" 제거 (GreetingSection이 자동으로 추가)
-  const displayName = (name as string).replace(/\s*목사\s*$/, "").trim() || "박상구";
-  
-  // 항상 GreetingSection 사용 (실제 웹페이지와 일치)
   return (
-    <GreetingSection
-      name={displayName ? `${displayName} 목사` : "담임목사"}
-      photo={(photo as string) || "https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/park.png"}
-      backgroundImage={(backgroundImage as string) || "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop"}
-      mainText={(mainText as string) || "복음으로 세워지고, 사랑으로 세상을 섬기는 교회!"}
-      detailText={(detailText as string) || (description as string) || ""}
-      quote={(quote as string) || ""}
-      bodyText={(bodyText as string) || ""}
-    />
+    <section className="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50">
+      <div className="container mx-auto px-6 md:px-12">
+        <div className="max-w-5xl mx-auto">
+          {/* 헤더 */}
+          <div className="text-center mb-16 animate-fade-in-up">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+              {section.title || "목사 인사말"}
+            </h2>
+            <div className="w-20 h-1 bg-blue-600 mx-auto mb-8"></div>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-12 items-start">
+            {/* 프로필 이미지 */}
+            {image && (
+              <div className="md:col-span-1 animate-fade-in-up">
+                <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
+                  <Image
+                    src={image as string}
+                    alt={name as string}
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
+                <div className="mt-6 text-center">
+                  <h3 className="text-2xl font-bold text-gray-900">{name as string}</h3>
+                  <p className="text-lg text-gray-600 mt-2">{position as string}</p>
+                </div>
+              </div>
+            )}
+
+            {/* 인사말 내용 (HTML 렌더링) */}
+            <div className={`${image ? "md:col-span-2" : "md:col-span-3"} animate-fade-in-up animation-delay-200`}>
+              <div 
+                className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-p:leading-relaxed prose-strong:text-gray-900 prose-img:rounded-xl prose-img:shadow-lg"
+                dangerouslySetInnerHTML={{ __html: greeting as string }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
