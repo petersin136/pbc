@@ -7,7 +7,6 @@ import {
   updateSection,
   deleteSection,
   Section,
-  PAGES,
 } from "@/lib/supabase/sections";
 import {
   SectionCard,
@@ -19,20 +18,20 @@ import {
 } from "@/components/admin/AdminComponents";
 
 export default function AnnouncementsAdminPage() {
+  const PAGE_ID = "news-notices"; // 고정된 페이지 ID
   const [loading, setLoading] = useState(true);
   const [sections, setSections] = useState<Section[]>([]);
-  const [selectedPage, setSelectedPage] = useState("news-notices");
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingSection, setEditingSection] = useState<Section | null>(null);
 
   useEffect(() => {
     loadSections();
-  }, [selectedPage]);
+  }, []);
 
   const loadSections = async () => {
     try {
       setLoading(true);
-      const data = await getSectionsByPage(selectedPage);
+      const data = await getSectionsByPage(PAGE_ID);
       const noticeSections = data.filter((s) => s.kind === "notices");
       setSections(noticeSections);
     } catch (error) {
@@ -66,19 +65,6 @@ export default function AnnouncementsAdminPage() {
         <p className="text-gray-600 mb-4">
           교회 공지사항을 작성하고 관리합니다.
         </p>
-
-        <div className="flex items-center gap-4 mb-4">
-          <label className="text-sm font-semibold text-gray-700 whitespace-nowrap">페이지 선택:</label>
-          <select
-            value={selectedPage}
-            onChange={(e) => setSelectedPage(e.target.value)}
-            className="flex-1 max-w-md px-4 py-2 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 font-medium"
-          >
-            {PAGES.map((page) => (
-              <option key={page.value} value={page.value}>{page.label}</option>
-            ))}
-          </select>
-        </div>
 
         <button
           onClick={handleAdd}
@@ -114,13 +100,13 @@ export default function AnnouncementsAdminPage() {
 
       {showAddModal && (
         <AnnouncementFormModal
-          page={selectedPage}
+          page={PAGE_ID}
           onClose={() => setShowAddModal(false)}
           onSave={async (data) => {
             try {
               const maxOrder = Math.max(...sections.map((s) => s.section_order), 0);
               await createSection({
-                page: selectedPage,
+                page: PAGE_ID,
                 kind: "notices",
                 title: data.title,
                 content: data.content,
@@ -139,7 +125,7 @@ export default function AnnouncementsAdminPage() {
 
       {editingSection && (
         <AnnouncementFormModal
-          page={selectedPage}
+          page={PAGE_ID}
           section={editingSection}
           onClose={() => setEditingSection(null)}
           onSave={async (data) => {
