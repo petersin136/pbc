@@ -205,19 +205,41 @@ function PastorFormModal({
   onClose: () => void;
   onSave: (data: { title: string; content: Record<string, unknown> }) => Promise<void>;
 }) {
+  // greeting에서 각 파트 추출
+  const existingGreeting = (section?.content.greeting as string) || "";
+  const paragraphs = existingGreeting.split("\n\n").filter(p => p.trim());
+  
   const [title, setTitle] = useState(section?.title || "");
   const [name, setName] = useState((section?.content.name as string) || "");
   const [position, setPosition] = useState((section?.content.position as string) || "");
   const [image, setImage] = useState((section?.content.image as string) || "");
-  const [greeting, setGreeting] = useState((section?.content.greeting as string) || "");
+  
+  // 각 섹션별 개별 상태
+  const [mainText, setMainText] = useState(paragraphs[0] || "");
+  const [detailPart1, setDetailPart1] = useState(paragraphs[1] || "");
+  const [detailPart2, setDetailPart2] = useState(paragraphs[2] || "");
+  const [detailPart3, setDetailPart3] = useState(paragraphs[3] || "");
+  const [quote, setQuote] = useState(paragraphs[4] || "");
+  const [bodyText, setBodyText] = useState(paragraphs.slice(5).join("\n\n") || "");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // 모든 단락을 \n\n으로 결합
+    const greeting = [
+      mainText,
+      detailPart1,
+      detailPart2,
+      detailPart3,
+      quote,
+      bodyText,
+    ].filter(p => p.trim()).join("\n\n");
+    
     const content: Record<string, unknown> = {
       name,
       position,
       image,
-      greeting, // 일반 텍스트로 저장
+      greeting,
     };
     await onSave({ title, content });
   };
@@ -233,21 +255,23 @@ function PastorFormModal({
           required
         />
 
-        <TextField
-          label="목사님 성함"
-          value={name}
-          onChange={setName}
-          placeholder="예: 박상구"
-          required
-        />
+        <div className="grid grid-cols-2 gap-4">
+          <TextField
+            label="목사님 성함"
+            value={name}
+            onChange={setName}
+            placeholder="예: 박상구"
+            required
+          />
 
-        <TextField
-          label="직책"
-          value={position}
-          onChange={setPosition}
-          placeholder="예: 담임목사"
-          required
-        />
+          <TextField
+            label="직책"
+            value={position}
+            onChange={setPosition}
+            placeholder="예: 담임목사"
+            required
+          />
+        </div>
 
         <ImageUploadField
           label="프로필 이미지"
@@ -256,34 +280,83 @@ function PastorFormModal({
           placeholder="이미지 URL"
         />
 
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            인사말 내용
-          </label>
-          <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-            <p className="text-sm text-gray-700 mb-2">
-              <strong>📝 작성 가이드:</strong>
-            </p>
-            <ul className="text-sm text-gray-600 space-y-1 list-disc list-inside">
-              <li><strong>1번째 단락:</strong> 대제목 (파란 박스 상단)</li>
-              <li><strong>2~4번째 단락:</strong> 파란 박스 본문</li>
-              <li><strong>5번째 단락:</strong> 중간 인용구 (회색 배경)</li>
-              <li><strong>6번째 이후:</strong> 하단 본문 (흰색 배경)</li>
-            </ul>
-            <p className="text-xs text-gray-500 mt-2">
-              💡 단락 구분은 <strong>Enter 2번</strong> (빈 줄 추가)으로 하세요!
-            </p>
+        <div className="border-t-2 pt-6">
+          <h3 className="text-lg font-bold text-gray-900 mb-4">📝 인사말 내용 (섹션별 입력)</h3>
+          
+          {/* 1. 대제목 */}
+          <div className="mb-6 p-4 bg-blue-50 border-2 border-blue-300 rounded-lg">
+            <label className="block text-sm font-bold text-blue-900 mb-2">
+              1️⃣ 대제목 (파란 박스 상단 - 큰 글씨)
+            </label>
+            <TextAreaField
+              label=""
+              value={mainText}
+              onChange={setMainText}
+              placeholder="예: 복음으로 세워지고, 사랑으로 세상을 섬기는 교회!"
+              rows={2}
+            />
           </div>
-          <TextAreaField
-            label=""
-            value={greeting}
-            onChange={setGreeting}
-            placeholder="인사말을 입력하세요. 각 단락은 Enter 2번으로 구분합니다."
-            rows={20}
-          />
+
+          {/* 2-4. 파란 박스 본문 */}
+          <div className="mb-6 p-4 bg-blue-50 border-2 border-blue-300 rounded-lg">
+            <label className="block text-sm font-bold text-blue-900 mb-2">
+              2️⃣~4️⃣ 파란 박스 본문 (3개 단락)
+            </label>
+            <div className="space-y-3">
+              <TextAreaField
+                label="첫 번째 단락"
+                value={detailPart1}
+                onChange={setDetailPart1}
+                placeholder="예: 사랑하는 포천중앙침례교회 가족 여러분..."
+                rows={3}
+              />
+              <TextAreaField
+                label="두 번째 단락"
+                value={detailPart2}
+                onChange={setDetailPart2}
+                placeholder="우리 교회는..."
+                rows={3}
+              />
+              <TextAreaField
+                label="세 번째 단락"
+                value={detailPart3}
+                onChange={setDetailPart3}
+                placeholder="교회의 중심에는..."
+                rows={3}
+              />
+            </div>
+          </div>
+
+          {/* 5. 인용구 */}
+          <div className="mb-6 p-4 bg-gray-100 border-2 border-gray-400 rounded-lg">
+            <label className="block text-sm font-bold text-gray-900 mb-2">
+              5️⃣ 중간 인용구 (회색 배경 - 큰 글씨)
+            </label>
+            <TextAreaField
+              label=""
+              value={quote}
+              onChange={setQuote}
+              placeholder="예: 여러분 한 분 한 분이 이 공동체의 귀한 지체로서..."
+              rows={3}
+            />
+          </div>
+
+          {/* 6. 하단 본문 */}
+          <div className="mb-6 p-4 bg-white border-2 border-gray-300 rounded-lg">
+            <label className="block text-sm font-bold text-gray-900 mb-2">
+              6️⃣ 하단 본문 (흰색 배경)
+            </label>
+            <TextAreaField
+              label=""
+              value={bodyText}
+              onChange={setBodyText}
+              placeholder="예: 포천중앙침례교회는... (여러 단락 가능, Enter 2번으로 구분)"
+              rows={8}
+            />
+          </div>
         </div>
 
-        <div className="flex gap-3 pt-4">
+        <div className="flex gap-3 pt-4 border-t-2">
           <button
             type="button"
             onClick={onClose}
