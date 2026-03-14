@@ -1,96 +1,35 @@
+"use client";
+
 import { Section } from "@/lib/supabase/sections";
-import Image from "next/image";
+import GreetingSection from "@/components/pastor/GreetingSection";
 
 export default function PastorSection({ section }: { section: Section }) {
   const {
-    name = "담임목사",
-    title = "목사",
-    photo,
-    description = "",
-    education = [],
-    ministry = [],
+    name = "박상구",
+    position = "담임목사",
+    image,
+    greeting = "",
   } = section.content;
 
+  // greeting을 단락별로 분리
+  // \n\n으로 구분된 단락들을 그대로 사용
+  const paragraphs = (greeting as string).split("\n\n").filter(p => p.trim());
+  
+  const mainText = paragraphs[0] || "복음으로 세워지고, 사랑으로 세상을 섬기는 교회!";
+  const detailText = paragraphs.slice(1, 4).join("\n\n") || "";
+  const quote = paragraphs[4] || "여러분 한 분 한 분이 이 공동체의 귀한 지체로서 예배와 말씀,\n사랑과 섬김 안에서 하나님 나라의 기쁨을 함께 누리시길 바랍니다.";
+  const bodyText = paragraphs.slice(5).join("\n\n") || "";
+
   return (
-    <section className="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50">
-      <div className="container mx-auto px-6 md:px-12">
-        <div className="max-w-6xl mx-auto">
-          {/* 제목 */}
-          <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              {section.title}
-            </h2>
-            <div className="w-20 h-1 bg-blue-600 mx-auto"></div>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16 items-center">
-            {/* 왼쪽: 사진 */}
-            {photo && (
-              <div className="lg:col-span-2 flex justify-center animate-fade-in-up animation-delay-200">
-                <div className="relative w-72 h-72 md:w-80 md:h-80 rounded-full overflow-hidden shadow-2xl ring-8 ring-white">
-                  <Image
-                    src={photo}
-                    alt={name}
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                </div>
-              </div>
-            )}
-
-            {/* 오른쪽: 정보 */}
-            <div className={`${photo ? 'lg:col-span-3' : 'lg:col-span-5'} space-y-8 animate-fade-in-up animation-delay-400`}>
-              <div>
-                <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
-                  {name} {title}
-                </h3>
-                <div className="w-16 h-1 bg-blue-600 mb-6"></div>
-                <p className="text-lg text-gray-700 leading-relaxed whitespace-pre-wrap">
-                  {description}
-                </p>
-              </div>
-
-              {/* 학력 */}
-              {education && education.length > 0 && (
-                <div>
-                  <h4 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                    <span className="text-blue-600">🎓</span>
-                    학력
-                  </h4>
-                  <ul className="space-y-2">
-                    {education.map((item: string, idx: number) => (
-                      <li key={idx} className="text-gray-700 pl-6 relative">
-                        <span className="absolute left-0 top-2 w-2 h-2 bg-blue-600 rounded-full"></span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-
-              {/* 사역 경력 */}
-              {ministry && ministry.length > 0 && (
-                <div>
-                  <h4 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                    <span className="text-blue-600">✝️</span>
-                    사역 경력
-                  </h4>
-                  <ul className="space-y-2">
-                    {ministry.map((item: string, idx: number) => (
-                      <li key={idx} className="text-gray-700 pl-6 relative">
-                        <span className="absolute left-0 top-2 w-2 h-2 bg-blue-600 rounded-full"></span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <GreetingSection
+      name={`${name} ${position}`.trim()}
+      photo={(image as string) || "https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/park.png"}
+      backgroundImage="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?q=80&w=2070&auto=format&fit=crop"
+      mainText={mainText}
+      detailText={detailText}
+      quote={quote}
+      bodyText={bodyText}
+    />
   );
 }
 

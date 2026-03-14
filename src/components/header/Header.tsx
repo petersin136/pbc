@@ -66,7 +66,6 @@ export const menuItems: MenuItem[] = [
   {
     label: "교회소식",
     children: [
-      { label: "주보", href: "/news/bulletin" },
       { label: "공지사항", href: "/news/notices" },
       { label: "기도제목", href: "/news/prayer" }
     ]

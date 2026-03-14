@@ -1,18 +1,46 @@
-/**
- * 간증 페이지
- */
+"use client";
+
+import { useEffect, useState } from "react";
+import { getSectionsByPage, Section } from "@/lib/supabase/sections";
+import SectionRenderer from "@/components/sections/SectionRenderer";
+import EmptyPagePlaceholder from "@/components/sections/EmptyPagePlaceholder";
+
 export default function TestimonyPage() {
-  return (
-    <div className="min-h-screen pt-20">
-      <div className="container mx-auto px-4 py-12">
-        <h1 className="text-4xl font-bold mb-8 text-gray-900">간증</h1>
-        <div className="max-w-4xl mx-auto">
-          <p className="text-lg text-gray-600 leading-relaxed">
-            성도들의 간증이 들어갑니다.
-          </p>
-        </div>
+  const [sections, setSections] = useState<Section[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    loadSections();
+  }, []);
+
+  const loadSections = async () => {
+    try {
+      const data = await getSectionsByPage("news-testimony");
+      setSections(data);
+    } catch (err) {
+      console.error("섹션 로드 오류:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
-    </div>
+    );
+  }
+
+  if (sections.length === 0) {
+    return <EmptyPagePlaceholder title="간증" description="하나님의 은혜를 나누는 시간" />;
+  }
+
+  return (
+    <main className="min-h-screen">
+      {sections.map((section) => (
+        <SectionRenderer key={section.id} section={section} />
+      ))}
+    </main>
   );
 }
-

@@ -28,7 +28,16 @@ export default function HeroSection({ section }: { section: Section }) {
   return (
     <section className={`relative ${isHomePage ? 'h-screen' : 'w-full aspect-video max-h-screen'} flex items-center justify-center overflow-hidden`}>
       {/* 배경 */}
-      {backgroundVideo ? (
+      {section.page === 'about' ? (
+        // about 페이지는 교회 전용 이미지 사용
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ 
+            backgroundImage: `url(https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/4.jpg)`,
+            filter: 'brightness(0.6)'
+          }}
+        />
+      ) : backgroundVideo ? (
         <video
           autoPlay
           loop={videoLoop}
@@ -48,18 +57,8 @@ export default function HeroSection({ section }: { section: Section }) {
       )}
 
       {/* 오버레이 (제목이 있을 때만 표시) */}
-      {heading && (
-        section.page === 'about' ? (
-          <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-            style={{ 
-              backgroundImage: `url(https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/4.jpg)`,
-              filter: 'brightness(0.6)'
-            }}
-          />
-        ) : (
-          <div className="absolute inset-0 bg-black/60" />
-        )
+      {heading && section.page !== 'about' && (
+        <div className="absolute inset-0 bg-black/60" />
       )}
 
       {/* 콘텐츠 */}

@@ -148,39 +148,57 @@ export async function updateSectionsOrder(
 }
 
 /**
- * 섹션 Kind 목록 (추가할 수 있는 섹션 타입)
+ * 섹션 Kind 목록 (실제 DB에서 사용 중인 섹션 타입)
  */
 export const SECTION_KINDS = [
-  { value: "hero", label: "Hero 배너" },
-  { value: "info-cards", label: "정보 카드 (말씀영상 + 이미지)" },
-  { value: "welcome", label: "환영 메시지" },
-  { value: "pastor", label: "목사님 소개" },
-  { value: "location", label: "교회 위치 (지도)" },
-  { value: "contact", label: "연락처" },
-  { value: "features", label: "주요 기능/서비스" },
-  { value: "cards", label: "카드 그리드" },
-  { value: "testimonials", label: "간증/후기" },
-  { value: "gallery", label: "갤러리" },
-  { value: "staff", label: "교역자/스태프" },
-  { value: "schedule", label: "예배 시간" },
-  { value: "text", label: "텍스트 콘텐츠" },
-  { value: "image", label: "이미지" },
-  { value: "video", label: "비디오" },
-  { value: "custom", label: "커스텀" },
+  { value: "hero", label: "🎬 Hero 배너 (상단 대표 이미지/영상)" },
+  { value: "info-cards", label: "📋 정보 카드 (말씀영상 + 예배시간)" },
+  { value: "image-slider", label: "🖼️ 이미지 슬라이더" },
+  { value: "text", label: "📝 텍스트 섹션" },
+  { value: "image", label: "🖼️ 이미지 섹션" },
+  { value: "pastor", label: "👤 담임목사 소개" },
+  { value: "location", label: "📍 교회 위치 (지도 + 주소)" },
+  { value: "contact", label: "📞 연락처" },
+  { value: "lifegroup", label: "👥 목장 목록" },
+  { value: "department", label: "🎓 부서 안내" },
+  { value: "notices", label: "📢 공지사항" },
+  { value: "prayer", label: "🙏 기도제목" },
+  { value: "mission", label: "🌍 선교" },
+  { value: "5k-movement", label: "🚀 5K 운동" },
+  { value: "nurture", label: "🌱 양육" },
+  { value: "gallery", label: "📸 갤러리" },
 ] as const;
 
 /**
- * 페이지 목록
+ * 페이지 목록 (실제 웹사이트 구조와 일치)
  */
 export const PAGES = [
-  { value: "home", label: "홈" },
-  { value: "about", label: "교회소개" },
-  { value: "word", label: "말씀" },
-  { value: "education", label: "교육" },
-  { value: "nurture", label: "양육" },
-  { value: "mission", label: "선교" },
-  { value: "lifegroup", label: "목장" },
-  { value: "news", label: "교회소식" },
-  { value: "gallery", label: "갤러리" },
+  { value: "home", label: "🏠 홈" },
+  { value: "about", label: "📖 교회소개" },
+  { value: "about-pastor", label: "📖 교회소개 > 담임목사" },
+  { value: "about-location", label: "📖 교회소개 > 오시는길" },
+  { value: "about-facilities", label: "📖 교회소개 > 시설안내" },
+  { value: "education-youth", label: "🎓 교육 > 청년부" },
+  { value: "education-highschool", label: "🎓 교육 > 중고등부" },
+  { value: "education-sunday-school", label: "🎓 교육 > 주일학교" },
+  { value: "education-kindergarten", label: "🎓 교육 > 유치부" },
+  { value: "education-bible-study", label: "🎓 교육 > 성경공부" },
+  { value: "choir", label: "🎵 찬양" },
+  { value: "choir-yada", label: "🎵 찬양 > 야다 성가대" },
+  { value: "choir-joyful", label: "🎵 찬양 > 기쁜소리 찬양단" },
+  { value: "choir-terua", label: "🎵 찬양 > 테루아 찬양단" },
+  { value: "nurture-newcomer", label: "🌱 양육 > 새신자" },
+  { value: "nurture-leader", label: "🌱 양육 > 리더" },
+  { value: "nurture-discipleship", label: "🌱 양육 > 제자훈련" },
+  { value: "nurture-advanced", label: "🌱 양육 > 심화과정" },
+  { value: "mission-domestic", label: "🌍 선교 > 국내선교" },
+  { value: "mission-overseas", label: "🌍 선교 > 해외선교" },
+  { value: "lifegroup", label: "👥 목장" },
+  { value: "news-notices", label: "📰 소식 > 공지사항" },
+  { value: "news-prayer", label: "📰 소식 > 기도제목" },
+  { value: "news-testimony", label: "📰 소식 > 간증" },
+  { value: "word-sermons", label: "✝️ 말씀 > 설교" },
+  { value: "word-articles", label: "✝️ 말씀 > 칼럼" },
+  { value: "gallery", label: "📸 갤러리" },
 ] as const;
 

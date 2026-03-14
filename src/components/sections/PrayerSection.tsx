@@ -1,6 +1,7 @@
 "use client";
 
 import { Section } from "@/lib/supabase/sections";
+import Image from "next/image";
 
 /**
  * 기도제목 섹션 컴포넌트
@@ -8,30 +9,64 @@ import { Section } from "@/lib/supabase/sections";
 export default function PrayerSection({ section }: { section: Section }) {
   const {
     description = "",
-    prayers = []
+    prayers = [],
+    headerImage
   } = section.content;
+
+  const hasHeaderImage = headerImage && (headerImage as string).trim() !== "";
 
   return (
     <section className="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50">
       <div className="container mx-auto px-6 md:px-12">
         <div className="max-w-4xl mx-auto">
-          {/* 헤더 */}
-          <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              {section.title}
-            </h2>
-            <div className="w-20 h-1 bg-purple-600 mx-auto mb-8"></div>
-            {description && (
+          {/* 헤더 이미지 (있는 경우에만 표시) */}
+          {hasHeaderImage ? (
+            <div className="mb-12 animate-fade-in-up">
+              <div className="relative w-full h-64 md:h-80 rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src={headerImage as string}
+                  alt={section.title}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+                  <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-2">
+                    {section.title}
+                  </h2>
+                  <div className="w-20 h-1 bg-purple-400"></div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* 헤더 이미지가 없을 때는 일반 헤더 */
+            <div className="text-center mb-16 animate-fade-in-up">
+              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+                {section.title}
+              </h2>
+              <div className="w-20 h-1 bg-purple-600 mx-auto mb-8"></div>
+            </div>
+          )}
+
+          {/* 설명 */}
+          {description && (
+            <div className="text-center mb-16 animate-fade-in-up animation-delay-200">
               <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
                 {description}
               </p>
-            )}
-          </div>
+            </div>
+          )}
 
           {/* 기도제목 목록 */}
           {prayers && prayers.length > 0 ? (
             <div className="space-y-6 animate-fade-in-up animation-delay-200">
-              {prayers.map((prayer: { title: string; content: string; date: string }, index: number) => (
+              {[...prayers]
+                .sort((a: { date: string }, b: { date: string }) => {
+                  // 날짜 기준 내림차순 정렬 (최신이 위로)
+                  return new Date(b.date).getTime() - new Date(a.date).getTime();
+                })
+                .map((prayer: { title: string; content: string; date: string }, index: number) => (
                 <div
                   key={index}
                   className="bg-gradient-to-br from-purple-50 to-white rounded-xl shadow-lg p-6 md:p-8 border-l-4 border-purple-500 hover:shadow-2xl transition-all transform hover:-translate-y-1"
@@ -110,32 +145,28 @@ export default function PrayerSection({ section }: { section: Section }) {
 
           {/* 기도 요청 안내 */}
           <div className="mt-12 text-center animate-fade-in-up animation-delay-400">
-            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-2xl shadow-2xl p-8">
-              <h3 className="text-2xl font-bold mb-3">기도 제목을 나누고 싶으신가요?</h3>
-              <p className="text-purple-100 mb-6">
-                교회 공동체와 함께 기도하고 싶은 제목이 있으시다면 언제든지 나눠주세요.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a
-                  href="tel:031-1234-5678"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-600 rounded-full font-semibold hover:bg-gray-100 transition-colors shadow-lg"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                  전화하기
-                </a>
-                <a
-                  href="mailto:prayer@pbc.com"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-600 rounded-full font-semibold hover:bg-gray-100 transition-colors shadow-lg"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  이메일 보내기
-                </a>
+              <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-2xl shadow-2xl p-8">
+                <h3 className="text-2xl font-bold mb-3">기도 제목을 나누고 싶으신가요?</h3>
+                <p className="text-purple-100 mb-6">
+                  교회 공동체와 함께 기도하고 싶은 제목이 있으시다면 언제든지 나눠주세요.
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <a
+                    href="sms:01063315078"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-white text-purple-600 rounded-full font-semibold hover:bg-gray-100 transition-colors shadow-lg"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M7 8h10M7 12h6m-9 8h14a2 2 0 002-2V6a2 2 0 00-2-2H4a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
+                    </svg>
+                    문자 보내기 (담임목사님)
+                  </a>
+                </div>
               </div>
-            </div>
           </div>
         </div>
       </div>

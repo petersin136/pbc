@@ -261,12 +261,12 @@ export default function CommunitySection() {
                 </div>
 
                 {/* 성경구절 */}
-                <div className="bg-white/80 backdrop-blur-sm rounded-xl md:rounded-2xl p-3 md:p-8 border border-gray-100 shadow-lg">
+                <div className="bg-white/80 backdrop-blur-sm rounded-lg md:rounded-xl p-4 md:p-6 border border-gray-100 shadow-lg">
                   <blockquote className="text-center">
-                    <p className="text-sm md:text-2xl lg:text-3xl italic leading-relaxed text-gray-800 mb-2 md:mb-4 font-medium whitespace-pre-line">
+                    <p className="text-base md:text-xl lg:text-2xl italic leading-relaxed text-gray-800 mb-2 md:mb-3 font-medium whitespace-pre-line">
                       "{item.verse}"
                     </p>
-                    <cite className={`text-xs md:text-xl font-bold bg-gradient-to-r ${item.color} bg-clip-text text-transparent`}>
+                    <cite className={`text-sm md:text-base font-bold bg-gradient-to-r ${item.color} bg-clip-text text-transparent`}>
                       {item.verseRef}
                     </cite>
                   </blockquote>

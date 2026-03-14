@@ -41,20 +41,31 @@ export default function LocationSection({ section }: { section: Section }) {
         <div className="max-w-7xl mx-auto">
           {/* 제목 */}
           <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-4">
               {section.title}
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-6"></div>
             {description && (
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              <p className="text-2xl md:text-3xl lg:text-4xl text-gray-600 max-w-3xl mx-auto">
                 {description}
               </p>
             )}
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-            {/* 왼쪽: 구글 맵 + 약도 */}
+            {/* 왼쪽: 약도 + 구글 맵 */}
             <div className="order-2 lg:order-1 animate-fade-in-up animation-delay-200 space-y-6">
+              {/* 약도 카드 */}
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300">
+                <div className="relative overflow-hidden rounded-xl border border-gray-300 aspect-square">
+                  <img
+                    src="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/Gemini_Generated_Image_oerey2oerey2oere.jpg"
+                    alt="포천중앙침례교회 약도"
+                    className="w-full h-full object-contain bg-gray-50 p-2"
+                  />
+                </div>
+              </div>
+              
               <div className="relative w-full h-[400px] lg:h-[600px] rounded-2xl overflow-hidden shadow-2xl border-4 border-white">
                 <iframe
                   src={googleMapEmbedUrl}
@@ -66,17 +77,6 @@ export default function LocationSection({ section }: { section: Section }) {
                   referrerPolicy="no-referrer-when-downgrade"
                   className="absolute inset-0"
                 />
-              </div>
-              
-              {/* 약도 카드 */}
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300">
-                <div className="relative overflow-hidden rounded-xl border border-gray-300 aspect-square">
-                  <img
-                    src="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/Gemini_Generated_Image_oerey2oerey2oere.jpg"
-                    alt="포천중앙침례교회 약도"
-                    className="w-full h-full object-contain bg-gray-50 p-2"
-                  />
-                </div>
               </div>
             </div>
 
@@ -92,20 +92,20 @@ export default function LocationSection({ section }: { section: Section }) {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-xl font-bold text-gray-900 mb-4">교회 주소</h3>
+                    <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">교회 주소</h3>
                     
                     {/* 도로명 주소 */}
                     <div className="mb-4">
-                      <p className="text-xs text-gray-500 mb-1">도로명</p>
-                      <p className="text-lg font-semibold text-gray-900 leading-relaxed">
+                      <p className="text-base md:text-lg text-gray-500 mb-1">도로명</p>
+                      <p className="text-2xl md:text-3xl font-semibold text-gray-900 leading-relaxed">
                         {roadAddress}
                       </p>
                     </div>
 
                     {/* 지번 주소 */}
                     <div className="mb-4">
-                      <p className="text-xs text-gray-500 mb-1">지번</p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-base md:text-lg text-gray-500 mb-1">지번</p>
+                      <p className="text-lg md:text-xl text-gray-600">
                         {jibunAddress}
                       </p>
                     </div>
@@ -140,15 +140,15 @@ export default function LocationSection({ section }: { section: Section }) {
 
                 {/* 전화번호 */}
                 {phone && (
-                  <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl mb-4">
+                  <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-xl mb-4">
                     <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500">전화문의</p>
-                      <a href={`tel:${phone}`} className="text-base font-semibold text-gray-900 hover:text-blue-600 transition-colors">
+                      <p className="text-base md:text-lg text-gray-500">전화문의</p>
+                      <a href={`tel:${phone}`} className="text-xl md:text-2xl font-semibold text-gray-900 hover:text-blue-600 transition-colors">
                         {phone}
                       </a>
                     </div>
@@ -157,15 +157,15 @@ export default function LocationSection({ section }: { section: Section }) {
 
                 {/* 주차 안내 */}
                 {parking && (
-                  <div className="flex items-center gap-3 p-4 bg-blue-50 rounded-xl">
+                  <div className="flex items-center gap-4 p-4 bg-blue-50 rounded-xl">
                     <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
                       </svg>
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500">주차안내</p>
-                      <p className="text-sm font-medium text-gray-900">{parking}</p>
+                      <p className="text-base md:text-lg text-gray-500">주차안내</p>
+                      <p className="text-lg md:text-xl font-medium text-gray-900">{parking}</p>
                     </div>
                   </div>
                 )}
@@ -173,7 +173,7 @@ export default function LocationSection({ section }: { section: Section }) {
 
               {/* 교통 안내 카드 */}
               <div className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
-                <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+                <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 flex items-center gap-2">
                   <span className="text-2xl">🚗</span>
                   오시는 길
                 </h3>
@@ -187,8 +187,8 @@ export default function LocationSection({ section }: { section: Section }) {
                         </svg>
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm font-semibold text-gray-900 mb-1">대중교통</p>
-                        <p className="text-sm text-gray-600 leading-relaxed">{bus}</p>
+                        <p className="text-lg md:text-xl font-semibold text-gray-900 mb-1">대중교통</p>
+                        <p className="text-lg md:text-xl text-gray-600 leading-relaxed">{bus}</p>
                       </div>
                     </div>
                   )}
@@ -202,8 +202,8 @@ export default function LocationSection({ section }: { section: Section }) {
                         </svg>
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm font-semibold text-gray-900 mb-1">자가용</p>
-                        <p className="text-sm text-gray-600 leading-relaxed">{car}</p>
+                        <p className="text-lg md:text-xl font-semibold text-gray-900 mb-1">자가용</p>
+                        <p className="text-lg md:text-xl text-gray-600 leading-relaxed">{car}</p>
                       </div>
                     </div>
                   )}

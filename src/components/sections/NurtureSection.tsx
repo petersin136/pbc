@@ -57,12 +57,12 @@ export default function NurtureSection({ section }: { section: Section }) {
         <div className="max-w-6xl mx-auto">
           {/* 헤더 */}
           <div className="text-center mb-16 animate-fade-in-up">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-4">
               {section.title}
             </h2>
             <div className={`w-20 h-1 ${colors.accent} mx-auto mb-8`}></div>
             {description && (
-              <p className="text-lg md:text-xl text-gray-700 leading-relaxed max-w-3xl mx-auto whitespace-pre-wrap">
+              <p className="text-xl md:text-2xl lg:text-3xl text-gray-700 leading-relaxed max-w-3xl mx-auto whitespace-pre-wrap">
                 {description}
               </p>
             )}
@@ -86,7 +86,7 @@ export default function NurtureSection({ section }: { section: Section }) {
             {/* 혜택/특징 */}
             {benefits && benefits.length > 0 && (
               <div className="animate-fade-in-up animation-delay-300">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">
+                <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
                   프로그램 특징
                 </h3>
                 <div className="space-y-4">
@@ -108,7 +108,7 @@ export default function NurtureSection({ section }: { section: Section }) {
                           d="M5 13l4 4L19 7"
                         />
                       </svg>
-                      <p className="text-gray-700 leading-relaxed">{benefit}</p>
+                      <p className="text-lg md:text-xl text-gray-700 leading-relaxed">{benefit}</p>
                     </div>
                   ))}
                 </div>
@@ -119,7 +119,7 @@ export default function NurtureSection({ section }: { section: Section }) {
           {/* 커리큘럼 */}
           {curriculum && curriculum.length > 0 && (
             <div className="mb-16 animate-fade-in-up animation-delay-400">
-              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-8 text-center">
+              <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-8 text-center">
                 커리큘럼
               </h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -133,16 +133,16 @@ export default function NurtureSection({ section }: { section: Section }) {
                         <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center font-bold text-lg">
                           {index + 1}
                         </div>
-                        <h4 className="font-semibold text-lg">
+                        <h4 className="font-semibold text-xl md:text-2xl">
                           {item.week || `${index + 1}주차`}
                         </h4>
                       </div>
                     </div>
                     <div className="p-6">
-                      <h5 className="font-bold text-gray-900 mb-2">
+                      <h5 className="text-xl md:text-2xl font-bold text-gray-900 mb-2">
                         {item.title}
                       </h5>
-                      <p className="text-sm text-gray-600 leading-relaxed">
+                      <p className="text-base md:text-lg text-gray-600 leading-relaxed">
                         {item.description}
                       </p>
                     </div>
@@ -156,7 +156,7 @@ export default function NurtureSection({ section }: { section: Section }) {
           {applicationInfo && Object.keys(applicationInfo).length > 0 && (
             <div className="animate-fade-in-up animation-delay-600">
               <div className={`bg-gradient-to-r ${colors.gradient} text-white rounded-2xl shadow-2xl p-8 md:p-12`}>
-                <h3 className="text-3xl font-bold mb-6 text-center">
+                <h3 className="text-4xl md:text-5xl font-bold mb-6 text-center">
                   신청 안내
                 </h3>
                 <div className="grid md:grid-cols-2 gap-6 mb-8">
