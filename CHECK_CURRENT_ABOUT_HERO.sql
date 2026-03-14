@@ -13,3 +13,4 @@ SELECT
 FROM public.sections
 WHERE page = 'about' AND kind = 'hero'
 ORDER BY section_order;
+

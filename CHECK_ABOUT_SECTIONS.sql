@@ -10,3 +10,4 @@ ORDER BY section_order;
 SELECT id, page, kind, title, content->'backgroundImage' as background_image
 FROM public.sections
 WHERE page = 'about' AND kind = 'hero';
+
