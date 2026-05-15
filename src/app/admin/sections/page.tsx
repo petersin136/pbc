@@ -13,6 +13,7 @@ import {
   PAGES,
 } from "@/lib/supabase/sections";
 import { hasAdminAccess, signOut } from "@/lib/supabase/auth";
+import { formatZodError, heroContentSchema, mergeHeroContent, type HeroContent, imageContentSchema, mergeImageContent, type ImageContent, lifegroupContentSchema, mergeLifegroupContent, type LifegroupContent, noticesContentSchema, mergeNoticesContent, type NoticesContent, prayerContentSchema, mergePrayerContent, type PrayerContent, textContentSchema, mergeTextContent, type TextContent } from "@/lib/blocks";
 
 /**
  * 간단한 섹션 관리 페이지
@@ -558,11 +559,131 @@ function SimpleFormEditor({
     if (showJsonMode) {
       try {
         const parsedContent = JSON.parse(jsonContent);
+        if (section.kind === "hero") {
+          const pr = heroContentSchema.safeParse(parsedContent);
+          if (!pr.success) {
+            alert(`Hero 내용 검증 실패:\n${formatZodError(pr.error)}`);
+            return;
+          }
+          const merged = mergeHeroContent(pr.data as HeroContent);
+          onSave({ title, content: { ...merged } as Record<string, unknown> });
+          return;
+        }
+        if (section.kind === "text") {
+          const pr = textContentSchema.safeParse(parsedContent);
+          if (!pr.success) {
+            alert(`텍스트 섹션 내용 검증 실패:\n${formatZodError(pr.error)}`);
+            return;
+          }
+          const merged = mergeTextContent(pr.data as TextContent);
+          onSave({ title, content: { ...merged } as Record<string, unknown> });
+          return;
+        }
+        if (section.kind === "image") {
+          const pr = imageContentSchema.safeParse(parsedContent);
+          if (!pr.success) {
+            alert(`이미지 섹션 내용 검증 실패:\n${formatZodError(pr.error)}`);
+            return;
+          }
+          const merged = mergeImageContent(pr.data as ImageContent);
+          onSave({ title, content: { ...merged } as Record<string, unknown> });
+          return;
+        }
+        if (section.kind === "notices") {
+          const pr = noticesContentSchema.safeParse(parsedContent);
+          if (!pr.success) {
+            alert(`공지사항 내용 검증 실패:\n${formatZodError(pr.error)}`);
+            return;
+          }
+          const merged = mergeNoticesContent(pr.data as NoticesContent, section.content as NoticesContent | null);
+          onSave({ title, content: { ...merged } as Record<string, unknown> });
+          return;
+        }
+        if (section.kind === "prayer") {
+          const pr = prayerContentSchema.safeParse(parsedContent);
+          if (!pr.success) {
+            alert(`기도제목 내용 검증 실패:\n${formatZodError(pr.error)}`);
+            return;
+          }
+          const merged = mergePrayerContent(pr.data as PrayerContent, section.content as PrayerContent | null);
+          onSave({ title, content: { ...merged } as Record<string, unknown> });
+          return;
+        }
+        if (section.kind === "lifegroup") {
+          const pr = lifegroupContentSchema.safeParse(parsedContent);
+          if (!pr.success) {
+            alert(`목장 내용 검증 실패:\n${formatZodError(pr.error)}`);
+            return;
+          }
+          const merged = mergeLifegroupContent(pr.data as LifegroupContent, section.content as LifegroupContent | null);
+          onSave({ title, content: { ...merged } as Record<string, unknown> });
+          return;
+        }
         onSave({ title, content: parsedContent });
       } catch {
         alert("❌ JSON 형식이 올바르지 않습니다.");
       }
     } else {
+      if (section.kind === "hero") {
+        const pr = heroContentSchema.safeParse(content);
+        if (!pr.success) {
+          alert(`Hero 내용 검증 실패:\n${formatZodError(pr.error)}`);
+          return;
+        }
+        const merged = mergeHeroContent(pr.data as HeroContent);
+        onSave({ title, content: { ...merged } as Record<string, unknown> });
+        return;
+      }
+      if (section.kind === "text") {
+        const pr = textContentSchema.safeParse(content);
+        if (!pr.success) {
+          alert(`텍스트 섹션 내용 검증 실패:\n${formatZodError(pr.error)}`);
+          return;
+        }
+        const merged = mergeTextContent(pr.data as TextContent);
+        onSave({ title, content: { ...merged } as Record<string, unknown> });
+        return;
+      }
+      if (section.kind === "image") {
+        const pr = imageContentSchema.safeParse(content);
+        if (!pr.success) {
+          alert(`이미지 섹션 내용 검증 실패:\n${formatZodError(pr.error)}`);
+          return;
+        }
+        const merged = mergeImageContent(pr.data as ImageContent);
+        onSave({ title, content: { ...merged } as Record<string, unknown> });
+        return;
+      }
+      if (section.kind === "notices") {
+        const pr = noticesContentSchema.safeParse(content);
+        if (!pr.success) {
+          alert(`공지사항 내용 검증 실패:\n${formatZodError(pr.error)}`);
+          return;
+        }
+        const merged = mergeNoticesContent(pr.data as NoticesContent, section.content as NoticesContent | null);
+        onSave({ title, content: { ...merged } as Record<string, unknown> });
+        return;
+      }
+      if (section.kind === "prayer") {
+        const pr = prayerContentSchema.safeParse(content);
+        if (!pr.success) {
+          alert(`기도제목 내용 검증 실패:\n${formatZodError(pr.error)}`);
+          return;
+        }
+        const merged = mergePrayerContent(pr.data as PrayerContent, section.content as PrayerContent | null);
+        onSave({ title, content: { ...merged } as Record<string, unknown> });
+        return;
+      }
+      if (section.kind === "lifegroup") {
+        const pr = lifegroupContentSchema.safeParse(content);
+        if (!pr.success) {
+          alert(`목장 내용 검증 실패:\n${formatZodError(pr.error)}`);
+          return;
+        }
+        const merged = mergeLifegroupContent(pr.data as LifegroupContent, section.content as LifegroupContent | null);
+        onSave({ title, content: { ...merged } as Record<string, unknown> });
+        return;
+      }
       onSave({ title, content });
     }
   };

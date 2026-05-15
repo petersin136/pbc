@@ -1,5 +1,7 @@
 "use client";
 
+// @deprecated: SectionRenderer에 미연결. Phase 1에서 정리 예정.
+
 import { Section } from "@/lib/supabase/sections";
 
 /**

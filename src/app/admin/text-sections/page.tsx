@@ -9,6 +9,7 @@ import {
   Section,
   PAGES,
 } from "@/lib/supabase/sections";
+import { formatZodError, mergeTextContent, textContentSchema, type TextContent } from "@/lib/blocks";
 import {
   SectionCard,
   EmptyState,
@@ -235,17 +236,28 @@ function TextFormModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const content: Record<string, unknown> = {
+    const prev =
+      section?.content && typeof section.content === "object"
+        ? { ...(section.content as Record<string, unknown>) }
+        : {};
+    const draft = {
+      ...prev,
       heading,
       subheading,
       text,
       description: text,
       alignment,
+      backgroundImage: backgroundImage.trim(),
     };
 
-    if (backgroundImage) content.backgroundImage = backgroundImage;
+    const pr = textContentSchema.safeParse(draft);
+    if (!pr.success) {
+      alert(`텍스트 섹션 내용 검증 실패:\n${formatZodError(pr.error)}`);
+      return;
+    }
 
-    await onSave({ title, content });
+    const merged = mergeTextContent(pr.data as TextContent);
+    await onSave({ title, content: { ...merged } as Record<string, unknown> });
   };
 
   return (

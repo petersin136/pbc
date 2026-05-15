@@ -9,6 +9,13 @@ import {
   Section,
 } from "@/lib/supabase/sections";
 import {
+  formatZodError,
+  mergePrayerContent,
+  prayerContentSchema,
+  type PrayerContent,
+  type PrayerItem,
+} from "@/lib/blocks";
+import {
   SectionCard,
   EmptyState,
   LoadingSpinner,
@@ -174,21 +181,9 @@ function PrayerFormModal({
 }) {
   const [title, setTitle] = useState(section?.title || "");
   const [description, setDescription] = useState((section?.content.description as string) || "");
-  const [prayers, setPrayers] = useState<Array<{
-    title: string;
-    content: string;
-    date: string;
-    urgent: boolean;
-    category: string;
-    requestedBy: string;
-  }>>((section?.content.prayers as Array<{
-    title: string;
-    content: string;
-    date: string;
-    urgent: boolean;
-    category: string;
-    requestedBy: string;
-  }>) || []);
+  const [prayers, setPrayers] = useState<PrayerItem[]>(
+    (section?.content.prayers as PrayerItem[] | undefined) || []
+  );
 
   const [newPrayer, setNewPrayer] = useState({
     title: "",
@@ -201,11 +196,18 @@ function PrayerFormModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const content: Record<string, unknown> = {
-      description,
-      prayers,
-    };
-    await onSave({ title, content });
+    const prev =
+      section?.content && typeof section.content === "object"
+        ? { ...(section.content as Record<string, unknown>) }
+        : {};
+    const draft = { ...prev, description, prayers };
+    const pr = prayerContentSchema.safeParse(draft);
+    if (!pr.success) {
+      alert(`기도제목 내용 검증 실패:\n${formatZodError(pr.error)}`);
+      return;
+    }
+    const merged = mergePrayerContent(pr.data as PrayerContent, section?.content as PrayerContent | null);
+    await onSave({ title, content: { ...merged } as Record<string, unknown> });
   };
 
   const addPrayer = () => {

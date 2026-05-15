@@ -1,19 +1,25 @@
 "use client";
 
-import { Section } from "@/lib/supabase/sections";
+import type { Section } from "@/lib/supabase/sections";
+import type { PrayerContent, PrayerItem } from "@/lib/blocks";
 import Image from "next/image";
+
+export type PrayerSectionMeta = Pick<Section, "id" | "page" | "kind" | "title">;
 
 /**
  * 기도제목 섹션 컴포넌트
  */
-export default function PrayerSection({ section }: { section: Section }) {
-  const {
-    description = "",
-    prayers = [],
-    headerImage
-  } = section.content;
-
-  const hasHeaderImage = headerImage && (headerImage as string).trim() !== "";
+export default function PrayerSection({
+  meta,
+  content,
+}: {
+  meta: PrayerSectionMeta;
+  content: PrayerContent;
+}) {
+  const description = content.description ?? "";
+  const prayers = content.prayers ?? [];
+  const headerImage = content.headerImage?.trim() ?? "";
+  const hasHeaderImage = headerImage.length > 0;
 
   return (
     <section className="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50">
@@ -24,8 +30,8 @@ export default function PrayerSection({ section }: { section: Section }) {
             <div className="mb-12 animate-fade-in-up">
               <div className="relative w-full h-64 md:h-80 rounded-2xl overflow-hidden shadow-2xl">
                 <Image
-                  src={headerImage as string}
-                  alt={section.title}
+                  src={headerImage}
+                  alt={meta.title}
                   fill
                   className="object-cover"
                   priority
@@ -33,7 +39,7 @@ export default function PrayerSection({ section }: { section: Section }) {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
                   <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-2">
-                    {section.title}
+                    {meta.title}
                   </h2>
                   <div className="w-20 h-1 bg-purple-400"></div>
                 </div>
@@ -43,7 +49,7 @@ export default function PrayerSection({ section }: { section: Section }) {
             /* 헤더 이미지가 없을 때는 일반 헤더 */
             <div className="text-center mb-16 animate-fade-in-up">
               <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-                {section.title}
+                {meta.title}
               </h2>
               <div className="w-20 h-1 bg-purple-600 mx-auto mb-8"></div>
             </div>
@@ -59,14 +65,15 @@ export default function PrayerSection({ section }: { section: Section }) {
           )}
 
           {/* 기도제목 목록 */}
-          {prayers && prayers.length > 0 ? (
+          {prayers.length > 0 ? (
             <div className="space-y-6 animate-fade-in-up animation-delay-200">
               {[...prayers]
-                .sort((a: { date: string }, b: { date: string }) => {
-                  // 날짜 기준 내림차순 정렬 (최신이 위로)
-                  return new Date(b.date).getTime() - new Date(a.date).getTime();
+                .sort((a, b) => {
+                  const da = a.date ? new Date(a.date).getTime() : 0;
+                  const db = b.date ? new Date(b.date).getTime() : 0;
+                  return db - da;
                 })
-                .map((prayer: { title: string; content: string; date: string }, index: number) => (
+                .map((prayer: PrayerItem, index: number) => (
                 <div
                   key={index}
                   className="bg-gradient-to-br from-purple-50 to-white rounded-xl shadow-lg p-6 md:p-8 border-l-4 border-purple-500 hover:shadow-2xl transition-all transform hover:-translate-y-1"
@@ -173,4 +180,3 @@ export default function PrayerSection({ section }: { section: Section }) {
     </section>
   );
 }
-

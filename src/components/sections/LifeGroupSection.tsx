@@ -1,7 +1,10 @@
 "use client";
 
-import { Section } from "@/lib/supabase/sections";
+import type { Section } from "@/lib/supabase/sections";
+import type { LifegroupContent, LifegroupItem } from "@/lib/blocks";
 import { useState } from "react";
+
+export type LifeGroupSectionMeta = Pick<Section, "id" | "page" | "kind" | "title">;
 
 /**
  * 목장 섹션 컴포넌트
@@ -9,13 +12,17 @@ import { useState } from "react";
  * - 목장 리더, 모임 정보
  * - 목원 명단
  */
-export default function LifeGroupSection({ section }: { section: Section }) {
-  const {
-    description = "",
-    lifegroups = []
-  } = section.content;
+export default function LifeGroupSection({
+  meta,
+  content,
+}: {
+  meta: LifeGroupSectionMeta;
+  content: LifegroupContent;
+}) {
+  const description = content.description ?? "";
+  const lifegroups = content.lifegroups ?? [];
 
-  const [selectedGroup, setSelectedGroup] = useState<{ number: number; leader: string; members: string[]; meetingDay?: string; location?: string } | null>(null);
+  const [selectedGroup, setSelectedGroup] = useState<LifegroupItem | null>(null);
 
   return (
     <section className="py-20 md:py-32 bg-gradient-to-b from-white to-gray-50">
@@ -24,7 +31,7 @@ export default function LifeGroupSection({ section }: { section: Section }) {
           {/* 헤더 */}
           <div className="text-center mb-16 animate-fade-in-up">
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              {section.title}
+              {meta.title}
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-blue-600 to-purple-600 mx-auto mb-8"></div>
             {description && (
@@ -35,9 +42,9 @@ export default function LifeGroupSection({ section }: { section: Section }) {
           </div>
 
           {/* 목장 그리드 */}
-          {lifegroups && lifegroups.length > 0 ? (
+          {lifegroups.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in-up animation-delay-200">
-              {lifegroups.map((group: { number: number; leader: string; members: string[]; meetingDay?: string; location?: string }, index: number) => {
+              {lifegroups.map((group: LifegroupItem, index: number) => {
                 // 목장별 색상 그라디언트
                 const colors = [
                   "from-red-500 to-orange-500",
@@ -133,7 +140,7 @@ export default function LifeGroupSection({ section }: { section: Section }) {
                       )}
 
                       {/* 더보기 버튼 */}
-                      <button className="mt-4 w-full py-2 text-center text-sm font-medium text-gray-600 hover:text-gray-900 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
+                      <button type="button" className="mt-4 w-full py-2 text-center text-sm font-medium text-gray-600 hover:text-gray-900 border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-2">
                         자세히 보기
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -168,6 +175,7 @@ export default function LifeGroupSection({ section }: { section: Section }) {
             {/* 모달 헤더 */}
             <div className="sticky top-0 bg-gradient-to-br from-blue-500 to-purple-600 text-white p-6 md:p-8 rounded-t-3xl">
               <button
+                type="button"
                 className="absolute top-4 right-4 w-8 h-8 bg-white/20 hover:bg-white/30 rounded-full flex items-center justify-center transition-colors"
                 onClick={() => setSelectedGroup(null)}
               >
@@ -268,4 +276,3 @@ export default function LifeGroupSection({ section }: { section: Section }) {
     </section>
   );
 }
-

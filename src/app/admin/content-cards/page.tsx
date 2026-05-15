@@ -10,14 +10,21 @@ import {
   PAGES,
 } from "@/lib/supabase/sections";
 import {
+  formatZodError,
+  infoCardBlockSchema,
+  infoCardsContentSchema,
+  mergeInfoCardsContent,
+  type InfoCardBlock,
+  type InfoCardsContent,
+} from "@/lib/blocks";
+import { z } from "zod";
+import {
   SectionCard,
   EmptyState,
   LoadingSpinner,
   Modal,
   TextField,
   TextAreaField,
-  ImageUploadField,
-  SelectField,
 } from "@/components/admin/AdminComponents";
 
 /**
@@ -216,6 +223,14 @@ export default function ContentCardsAdminPage() {
   );
 }
 
+function cardsFromSection(section?: Section): InfoCardBlock[] {
+  if (!section?.content || typeof section.content !== "object") return [];
+  const raw = (section.content as { cards?: unknown }).cards;
+  if (!Array.isArray(raw)) return [];
+  const r = z.array(infoCardBlockSchema).safeParse(raw);
+  return r.success ? r.data : [];
+}
+
 /**
  * 카드 폼 모달
  */
@@ -233,27 +248,44 @@ function CardFormModal({
   const [title, setTitle] = useState(section?.title || "");
   const [heading, setHeading] = useState((section?.content.heading as string) || "");
   const [description, setDescription] = useState((section?.content.description as string) || "");
-  const [cards, setCards] = useState<Array<{ title: string; description: string; icon?: string; image?: string }>>(
-    (section?.content.cards as Array<{ title: string; description: string; icon?: string; image?: string }>) || []
-  );
+  const [cards, setCards] = useState<InfoCardBlock[]>(() => cardsFromSection(section));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const content: Record<string, unknown> = {
+    const prevContent =
+      section?.content && typeof section.content === "object"
+        ? { ...(section.content as Record<string, unknown>) }
+        : {};
+
+    const prevCards = Array.isArray(prevContent.cards) ? (prevContent.cards as InfoCardBlock[]) : [];
+    const mergedCards = cards.map((card, index) => ({
+      ...(typeof prevCards[index] === "object" && prevCards[index] !== null ? prevCards[index] : {}),
+      ...card,
+    }));
+
+    const draft = {
+      ...prevContent,
       heading,
       description,
-      cards,
+      cards: mergedCards,
     };
 
-    await onSave({ title, content });
+    const pr = infoCardsContentSchema.safeParse(draft);
+    if (!pr.success) {
+      alert(`정보 카드 내용 검증 실패:\n${formatZodError(pr.error)}`);
+      return;
+    }
+
+    const merged = mergeInfoCardsContent(pr.data as InfoCardsContent);
+    await onSave({ title, content: { ...merged } as Record<string, unknown> });
   };
 
   const addCard = () => {
     setCards([...cards, { title: "", description: "", icon: "📌" }]);
   };
 
-  const updateCard = (index: number, field: string, value: string) => {
+  const updateCard = (index: number, field: keyof InfoCardBlock, value: string) => {
     const updated = [...cards];
     updated[index] = { ...updated[index], [field]: value };
     setCards(updated);

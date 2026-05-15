@@ -17,8 +17,13 @@ import {
   TextField,
   TextAreaField,
   ImageUploadField,
-  SelectField,
 } from "@/components/admin/AdminComponents";
+import {
+  formatZodError,
+  heroContentSchema,
+  mergeHeroContent,
+  type HeroContent,
+} from "@/lib/blocks";
 
 /**
  * Hero 배너 관리 페이지
@@ -182,7 +187,7 @@ export default function HeroAdminPage() {
                 page: selectedPage,
                 kind: "hero",
                 title: data.title,
-                content: data.content,
+                content: { ...data.content } as Record<string, unknown>,
                 section_order: maxOrder + 1,
               });
               await loadSections();
@@ -206,7 +211,7 @@ export default function HeroAdminPage() {
             try {
               await updateSection(editingSection.id, {
                 title: data.title,
-                content: data.content,
+                content: { ...data.content } as Record<string, unknown>,
               });
               await loadSections();
               setEditingSection(null);
@@ -234,7 +239,7 @@ function HeroFormModal({
   page: string;
   section?: Section;
   onClose: () => void;
-  onSave: (data: { title: string; content: Record<string, unknown> }) => Promise<void>;
+  onSave: (data: { title: string; content: HeroContent }) => Promise<void>;
 }) {
   const [title, setTitle] = useState(section?.title || "");
   const [heading, setHeading] = useState((section?.content.heading as string) || "");
@@ -248,17 +253,24 @@ function HeroFormModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const content: Record<string, unknown> = {
+    const raw: Record<string, unknown> = {
       heading,
       subheading,
       backgroundImage,
     };
 
-    if (backgroundVideo) content.backgroundVideo = backgroundVideo;
-    if (verse) content.verse = verse;
-    if (verseEn) content.verseEn = verseEn;
-    if (verseReference) content.verseReference = verseReference;
+    if (backgroundVideo.trim()) raw.backgroundVideo = backgroundVideo;
+    if (verse.trim()) raw.verse = verse;
+    if (verseEn.trim()) raw.verseEn = verseEn;
+    if (verseReference.trim()) raw.verseReference = verseReference;
 
+    const parsed = heroContentSchema.safeParse(raw);
+    if (!parsed.success) {
+      alert(`Hero 내용 검증 실패:\n${formatZodError(parsed.error)}`);
+      return;
+    }
+
+    const content = mergeHeroContent(parsed.data);
     await onSave({ title, content });
   };
 

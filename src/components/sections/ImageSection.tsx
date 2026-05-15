@@ -1,21 +1,28 @@
 "use client";
 
-import { Section } from "@/lib/supabase/sections";
+import type { Section } from "@/lib/supabase/sections";
+import { resolveImageSectionUrl, type ImageContent } from "@/lib/blocks";
 import Image from "next/image";
+
+export type ImageSectionMeta = Pick<Section, "id" | "page" | "kind" | "title">;
 
 /**
  * Image 섹션 컴포넌트
  * 단일 이미지를 전체 너비로 표시
  */
-export default function ImageSection({ section }: { section: Section }) {
-  // 여러 가지 필드 이름을 지원 (호환성)
-  const content = section.content;
-  const imageUrl = (content.backgroundImage || content.src || content.image || content.url) as string;
-  const alt = (content.alt || section.title) as string;
-  const caption = content.caption as string | undefined;
-  const heading = content.heading as string | undefined;
-  const subheading = content.subheading as string | undefined;
-  const description = content.description as string | undefined;
+export default function ImageSection({
+  meta,
+  content,
+}: {
+  meta: ImageSectionMeta;
+  content: ImageContent;
+}) {
+  const imageUrl = resolveImageSectionUrl(content);
+  const alt = (content.alt?.trim() ? content.alt : meta.title) || "이미지";
+  const caption = content.caption;
+  const heading = content.heading;
+  const subheading = content.subheading;
+  const description = content.description;
 
   if (!imageUrl) {
     return (
@@ -31,10 +38,10 @@ export default function ImageSection({ section }: { section: Section }) {
     <section className="py-12 md:py-20 px-4">
       <div className="container mx-auto max-w-6xl">
         {/* 제목 영역 */}
-        {(section.title || heading) && (
+        {(meta.title || heading) && (
           <div className="text-center mb-8 md:mb-12">
             <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 text-gray-900">
-              {section.title || heading}
+              {meta.title || heading}
             </h2>
             {subheading && (
               <p className="text-xl md:text-2xl lg:text-3xl text-gray-600 mb-4">
@@ -72,4 +79,3 @@ export default function ImageSection({ section }: { section: Section }) {
     </section>
   );
 }
-

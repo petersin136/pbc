@@ -1,19 +1,27 @@
 "use client";
 
-import { Section } from "@/lib/supabase/sections";
+import type { Section } from "@/lib/supabase/sections";
+import type { TextContent } from "@/lib/blocks";
 import Image from "next/image";
+
+export type TextSectionMeta = Pick<Section, "id" | "page" | "kind" | "title">;
 
 /**
  * Text 섹션 컴포넌트
  * - 텍스트 콘텐츠와 선택적 배경 이미지
  */
-export default function TextSection({ section }: { section: Section }) {
-  const content = section.content;
-  const text = (content.text || content.description) as string | undefined;
-  const heading = (content.heading || section.title) as string | undefined;
-  const subheading = content.subheading as string | undefined;
-  const alignment = (content.alignment || "center") as string;
-  const backgroundImage = content.backgroundImage as string | undefined;
+export default function TextSection({
+  meta,
+  content,
+}: {
+  meta: TextSectionMeta;
+  content: TextContent;
+}) {
+  const text = content.text || content.description || "";
+  const heading = content.heading || meta.title;
+  const subheading = content.subheading;
+  const alignment = content.alignment?.trim() ? content.alignment : "center";
+  const backgroundImage = content.backgroundImage?.trim() || undefined;
 
   return (
     <section className="relative py-16 md:py-24 px-4 overflow-hidden">
@@ -83,4 +91,3 @@ export default function TextSection({ section }: { section: Section }) {
     </section>
   );
 }
-

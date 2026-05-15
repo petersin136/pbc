@@ -1,8 +1,11 @@
 "use client";
 
-import { Section } from "@/lib/supabase/sections";
+import type { Section } from "@/lib/supabase/sections";
+import type { InfoCardsContent } from "@/lib/blocks";
 import Link from "next/link";
 import { useState } from "react";
+
+export type InfoCardsSectionMeta = Pick<Section, "id" | "page" | "kind" | "title">;
 
 // 유튜브 ID 추출 함수
 function getYouTubeID(url: string): string | null {
@@ -13,13 +16,17 @@ function getYouTubeID(url: string): string | null {
   
   const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
   const match = url.match(regExp);
-  return (match && match[7].length === 11) ? match[7] : null;
+  return match?.[7] && match[7].length === 11 ? match[7] : null;
 }
 
-export default function InfoCardsSection({ section }: { section: Section }) {
-  const {
-    cards = [],
-  } = section.content;
+export default function InfoCardsSection({
+  meta: _meta,
+  content,
+}: {
+  meta: InfoCardsSectionMeta;
+  content: InfoCardsContent;
+}) {
+  const cards = content.cards ?? [];
 
   const [activeSermonTab, setActiveSermonTab] = useState(0);
 
@@ -50,9 +57,10 @@ export default function InfoCardsSection({ section }: { section: Section }) {
                     <div className="space-y-4 flex-grow">
                       {/* 탭 */}
                       <div className="flex flex-wrap gap-2 sm:gap-3">
-                        {sermonCard.sermons.map((sermon: { category: string; youtubeUrl: string; title?: string }, idx: number) => (
+                        {sermonCard.sermons.map((sermon, idx) => (
                           <button
                             key={idx}
+                            type="button"
                             onClick={() => setActiveSermonTab(idx)}
                             className={`px-4 sm:px-5 py-2 sm:py-2.5 text-sm sm:text-base font-medium rounded-full transition-all duration-300 ${
                               activeSermonTab === idx
@@ -69,7 +77,7 @@ export default function InfoCardsSection({ section }: { section: Section }) {
                       {sermonCard.sermons[activeSermonTab] && sermonCard.sermons[activeSermonTab].youtubeUrl && (
                         <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-gray-100 shadow-lg">
                           <iframe
-                            src={`https://www.youtube.com/embed/${getYouTubeID(sermonCard.sermons[activeSermonTab].youtubeUrl)}`}
+                            src={`https://www.youtube.com/embed/${getYouTubeID(sermonCard.sermons[activeSermonTab].youtubeUrl ?? "")}`}
                             title={sermonCard.sermons[activeSermonTab].category}
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen
@@ -114,7 +122,7 @@ export default function InfoCardsSection({ section }: { section: Section }) {
                   {/* 정보 그리드 */}
                   {infoCard.items && infoCard.items.length > 0 && (
                     <div className="grid grid-cols-2 gap-5 sm:gap-6 md:gap-8 flex-grow">
-                      {infoCard.items.map((item: { icon?: string; label: string; value: string }, idx: number) => (
+                      {infoCard.items.map((item, idx) => (
                         <div key={idx} className="space-y-3 p-5 sm:p-6 bg-gray-50 rounded-xl">
                           <div className="text-base sm:text-lg md:text-xl font-medium text-gray-500 uppercase tracking-wider">
                             {item.label}

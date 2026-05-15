@@ -9,6 +9,7 @@ import {
   Section,
   PAGES,
 } from "@/lib/supabase/sections";
+import { formatZodError, imageContentSchema, mergeImageContent, type ImageContent } from "@/lib/blocks";
 import {
   SectionCard,
   EmptyState,
@@ -219,7 +220,12 @@ function ImageFormModal({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const content: Record<string, unknown> = {
+    const prev =
+      section?.content && typeof section.content === "object"
+        ? { ...(section.content as Record<string, unknown>) }
+        : {};
+    const draft = {
+      ...prev,
       heading,
       subheading,
       description,
@@ -230,7 +236,14 @@ function ImageFormModal({
       caption,
     };
 
-    await onSave({ title, content });
+    const pr = imageContentSchema.safeParse(draft);
+    if (!pr.success) {
+      alert(`이미지 섹션 내용 검증 실패:\n${formatZodError(pr.error)}`);
+      return;
+    }
+
+    const merged = mergeImageContent(pr.data as ImageContent);
+    await onSave({ title, content: { ...merged } as Record<string, unknown> });
   };
 
   return (

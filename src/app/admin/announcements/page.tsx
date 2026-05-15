@@ -9,6 +9,13 @@ import {
   Section,
 } from "@/lib/supabase/sections";
 import {
+  formatZodError,
+  mergeNoticesContent,
+  noticesContentSchema,
+  type NoticeItem,
+  type NoticesContent,
+} from "@/lib/blocks";
+import {
   SectionCard,
   EmptyState,
   LoadingSpinner,
@@ -174,21 +181,9 @@ function AnnouncementFormModal({
 }) {
   const [title, setTitle] = useState(section?.title || "");
   const [description, setDescription] = useState((section?.content.description as string) || "");
-  const [notices, setNotices] = useState<Array<{
-    title: string;
-    content: string;
-    date: string;
-    important: boolean;
-    category: string;
-    author: string;
-  }>>((section?.content.notices as Array<{
-    title: string;
-    content: string;
-    date: string;
-    important: boolean;
-    category: string;
-    author: string;
-  }>) || []);
+  const [notices, setNotices] = useState<NoticeItem[]>(
+    (section?.content.notices as NoticeItem[] | undefined) || []
+  );
 
   const [newNotice, setNewNotice] = useState({
     title: "",
@@ -201,11 +196,18 @@ function AnnouncementFormModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const content: Record<string, unknown> = {
-      description,
-      notices,
-    };
-    await onSave({ title, content });
+    const prev =
+      section?.content && typeof section.content === "object"
+        ? { ...(section.content as Record<string, unknown>) }
+        : {};
+    const draft = { ...prev, description, notices };
+    const pr = noticesContentSchema.safeParse(draft);
+    if (!pr.success) {
+      alert(`공지사항 내용 검증 실패:\n${formatZodError(pr.error)}`);
+      return;
+    }
+    const merged = mergeNoticesContent(pr.data as NoticesContent, section?.content as NoticesContent | null);
+    await onSave({ title, content: { ...merged } as Record<string, unknown> });
   };
 
   const addNotice = () => {

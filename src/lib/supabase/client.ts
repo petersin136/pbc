@@ -1,36 +1,45 @@
 /**
  * Supabase 클라이언트 설정
  * 브라우저에서 사용하는 Supabase 클라이언트
+ *
+ * 모듈 import 시점에 env가 없어서 앱 전체가 500이 나지 않도록,
+ * 실제 `createClient`는 첫 API 접근 시에만 수행한다.
  */
 
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+let browserClient: SupabaseClient | null = null;
 
-// 환경 변수 확인 및 디버깅
-console.log('🔍 Environment Check:', {
-  url: supabaseUrl,
-  keyExists: !!supabaseAnonKey,
-  keyLength: supabaseAnonKey?.length
-});
+function getSupabaseBrowserClient(): SupabaseClient {
+  if (browserClient) return browserClient;
 
-// 환경 변수가 없으면 에러
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('❌ Missing Supabase environment variables!');
-  console.error('NEXT_PUBLIC_SUPABASE_URL:', supabaseUrl);
-  console.error('NEXT_PUBLIC_SUPABASE_ANON_KEY exists:', !!supabaseAnonKey);
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+
+  if (!supabaseUrl || !supabaseAnonKey) {
+    throw new Error(
+      "[Supabase] NEXT_PUBLIC_SUPABASE_URL 및 NEXT_PUBLIC_SUPABASE_ANON_KEY가 필요합니다. " +
+        "루트의 .env.example을 참고해 .env.local을 만들고 값을 채운 뒤 다시 실행하세요."
+    );
+  }
+
+  browserClient = createClient(supabaseUrl, supabaseAnonKey);
+  return browserClient;
 }
 
 /**
- * 클라이언트 사이드 Supabase 클라이언트
- * 
- * 환경 변수가 설정되지 않으면 기본값을 사용하되 에러 로그를 출력합니다.
+ * 클라이언트 사이드 Supabase 클라이언트 (지연 초기화)
  */
-export const supabase = createClient(
-  supabaseUrl || "https://czbffjnslwauemngpayh.supabase.co",
-  supabaseAnonKey || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6YmZmam5zbHdhdWVtbmdwYXloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA2MjU5ODIsImV4cCI6MjA3NjIwMTk4Mn0.LcBQvfZTxqEnxZgLzHaUuukZEB9mPb5KG_VBeIcFy1M"
-);
+export const supabase: SupabaseClient = new Proxy({} as SupabaseClient, {
+  get(_target, prop, receiver) {
+    const client = getSupabaseBrowserClient();
+    const value = Reflect.get(client, prop, receiver) as unknown;
+    if (typeof value === "function") {
+      return (value as (...args: unknown[]) => unknown).bind(client);
+    }
+    return value;
+  },
+});
 
 /**
  * 사용자 역할 타입
@@ -47,4 +56,3 @@ export interface UserProfile {
   created_at: string;
   updated_at: string;
 }
-

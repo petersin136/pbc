@@ -3,6 +3,14 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  /* Quiet Light — 홈 리뉴얼 (라이트 전용) */
+  --bg: #fafaf7;
+  --bg-elevated: #ffffff;
+  --ink: #1a1a1a;
+  --ink-muted: #6b6b6b;
+  --line: #e8e6e0;
+  --accent: #0f1b2d;
+  --accent-soft: #e9ecf2;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -32,6 +40,21 @@ body {
 
 .animate-fade-in-up {
   animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* 홈 히어로 스크롤 인디케이터 라인 */
+@keyframes home-scroll-line {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+.home-scroll-line {
+  animation: home-scroll-line 2s ease-in-out infinite;
 }
 
 .animation-delay-200 {
