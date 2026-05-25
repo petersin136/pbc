@@ -3054,6 +3054,238 @@ and glorify your Father in heaven.
                 min-height: 50px !important;
             }
         }
+
+        /* ========================================
+           설교 영상 플레이어 (Facade 패턴 — 클릭 전: 커스텀 썸네일, 클릭 후: YouTube iframe)
+           ======================================== */
+        .sermon-player {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 */
+            background: #0a0a0a;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35),
+                        0 12px 24px -8px rgba(0, 0, 0, 0.2);
+            isolation: isolate;
+        }
+
+        .sermon-facade {
+            position: absolute;
+            inset: 0;
+            cursor: pointer;
+            overflow: hidden;
+            transition: opacity 0.5s ease;
+            z-index: 2;
+        }
+
+        .sermon-facade-thumb {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+                        filter 0.5s ease;
+            filter: brightness(0.92);
+        }
+
+        .sermon-facade:hover .sermon-facade-thumb {
+            transform: scale(1.04);
+            filter: brightness(1);
+        }
+
+        .sermon-facade-gradient {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0) 25%, rgba(0,0,0,0) 55%, rgba(0,0,0,0.85) 100%);
+        }
+
+        .sermon-facade-info {
+            position: absolute;
+            left: clamp(20px, 4vw, 40px);
+            right: clamp(20px, 4vw, 40px);
+            bottom: clamp(20px, 4vw, 36px);
+            color: #ffffff;
+            pointer-events: none;
+            z-index: 3;
+            text-shadow: 0 2px 16px rgba(0, 0, 0, 0.6);
+        }
+
+        .sermon-facade-tag {
+            display: inline-block;
+            padding: 6px 14px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 999px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: clamp(11px, 1.1vw, 13px);
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            margin-bottom: 14px;
+            color: #ffffff;
+            text-shadow: none;
+        }
+
+        .sermon-facade-title {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 700;
+            font-size: clamp(18px, 2.6vw, 30px);
+            line-height: 1.35;
+            margin: 0 0 10px 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            letter-spacing: -0.01em;
+        }
+
+        .sermon-facade-meta {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: clamp(12px, 1.2vw, 15px);
+            font-weight: 400;
+            opacity: 0.92;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .sermon-facade-meta .dot {
+            opacity: 0.5;
+            font-weight: 300;
+        }
+
+        .sermon-play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: clamp(64px, 8vw, 96px);
+            height: clamp(64px, 8vw, 96px);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 32px rgba(0, 0, 0, 0.45),
+                        0 0 0 0 rgba(255, 255, 255, 0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 3;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        .sermon-play-btn svg {
+            width: 42%;
+            height: 42%;
+            color: #1a1a1a;
+            margin-left: 6%;
+            transition: transform 0.3s ease;
+        }
+
+        .sermon-facade:hover .sermon-play-btn {
+            transform: translate(-50%, -50%) scale(1.08);
+            background: #ffffff;
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.55),
+                        0 0 0 12px rgba(255, 255, 255, 0.08);
+        }
+
+        .sermon-facade:hover .sermon-play-btn svg {
+            transform: scale(1.1);
+        }
+
+        .sermon-facade:active .sermon-play-btn {
+            transform: translate(-50%, -50%) scale(0.96);
+        }
+
+        /* 재생 버튼 주변 은은한 펄스 — 사용자 시선 유도 */
+        .sermon-play-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            animation: sermonPlayPulse 2.4s ease-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes sermonPlayPulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            100% {
+                transform: scale(1.55);
+                opacity: 0;
+            }
+        }
+
+        .sermon-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease 0.05s;
+            z-index: 1;
+        }
+
+        .sermon-player.is-playing .sermon-facade {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .sermon-player.is-playing .sermon-iframe {
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 4;
+        }
+
+        /* 로딩 스켈레톤 (썸네일이 아직 안 왔을 때 보여줌) */
+        .sermon-facade.is-loading .sermon-facade-thumb {
+            opacity: 0;
+        }
+
+        .sermon-facade.is-loading::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(110deg, #1a1a1a 30%, #2a2a2a 50%, #1a1a1a 70%);
+            background-size: 200% 100%;
+            animation: sermonSkeleton 1.6s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        @keyframes sermonSkeleton {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        @media (max-width: 640px) {
+            .sermon-player {
+                border-radius: 16px;
+            }
+            .sermon-facade-info {
+                left: 16px;
+                right: 16px;
+                bottom: 18px;
+            }
+            .sermon-facade-tag {
+                padding: 4px 11px;
+                margin-bottom: 10px;
+            }
+        }
     </style>
 
     <!-- 4-1. 유튜브 재생목록 섹션 (히어로 바로 밑) - YouTube 화면만 -->
@@ -3072,20 +3304,39 @@ and glorify your Father in heaven.
                 </div>
             </div>
             
-            <!-- 영상 컨테이너 -->
-            <div class="relative bg-black rounded-2xl md:rounded-3xl overflow-hidden" style="box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);">
-                <!-- 16:9 비율 유지 -->
-                <div class="relative w-full" style="padding-bottom: 56.25%;">
-                    <iframe 
-                        id="youtubePlayer"
-                        class="absolute top-0 left-0 w-full h-full"
-                        src="" 
-                        title="포천중앙침례교회 주일설교" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                        allowfullscreen>
-                    </iframe>
+            <!-- 영상 플레이어 — Facade(커스텀 썸네일) + YouTube iframe 결합 -->
+            <div id="sermonPlayer" class="sermon-player fade-in">
+                <!-- 클릭 전: 깔끔한 커스텀 썸네일 -->
+                <div id="sermonFacade" class="sermon-facade is-loading" onclick="playLatestSermon()" role="button" tabindex="0" aria-label="설교 영상 재생" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();playLatestSermon();}">
+                    <img id="sermonFacadeThumb" class="sermon-facade-thumb" src="" alt="" loading="lazy" decoding="async" />
+                    <div class="sermon-facade-gradient"></div>
+                    <div class="sermon-facade-info">
+                        <span id="sermonFacadeTag" class="sermon-facade-tag">주일 낮예배</span>
+                        <h3 id="sermonFacadeTitle" class="sermon-facade-title">설교 영상을 불러오는 중...</h3>
+                        <p class="sermon-facade-meta">
+                            <span id="sermonFacadePreacher">박상구 목사</span>
+                            <span class="dot">·</span>
+                            <span id="sermonFacadeDate"></span>
+                        </p>
+                    </div>
+                    <button class="sermon-play-btn" type="button" aria-hidden="true" tabindex="-1">
+                        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                            <path d="M8 5v14l11-7z"/>
+                        </svg>
+                    </button>
                 </div>
+
+                <!-- 클릭 시 활성화될 YouTube iframe (autoplay) -->
+                <iframe 
+                    id="youtubePlayer"
+                    class="sermon-iframe"
+                    src="" 
+                    title="포천중앙침례교회 주일설교" 
+                    frameborder="0" 
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen>
+                </iframe>
             </div>
             
             <!-- 버튼들 - 영상 아래 -->
@@ -3101,7 +3352,7 @@ and glorify your Father in heaven.
                         </svg>
                         구독
                     </a>
-                    <a href="https://youtube.com/playlist?list=PL_0QqEAUL4K8E9U3fB8vUX3GZGcR-Yvl_" 
+                    <a href="https://www.youtube.com/playlist?list=PLoZ9GtdU4gCMLmyZchaGKz-cG14MFgMNo" 
                        target="_blank"
                        style="font-family: 'Noto Sans KR', sans-serif; font-size: 13px; color: #fff; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 10px 20px; border-radius: 30px; text-decoration: none; display: flex; align-items: center; gap: 8px; transition: all 0.3s; box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);"
                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(102, 126, 234, 0.4)';"
@@ -3109,7 +3360,7 @@ and glorify your Father in heaven.
                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
                         </svg>
-                        1분설교
+                        전체 설교
                     </a>
                     <a href="https://www.youtube.com/@포천중앙침례교회" 
                        target="_blank"
@@ -5669,58 +5920,239 @@ and glorify your Father in heaven.
         }
         
         // ========================================
-        // YouTube 재생목록 최신 영상 로드 (API 사용)
+        // YouTube 재생목록 최신 영상 로드 (API 사용) — Facade 패턴
         // ========================================
+        // 가져온 최신 설교 정보를 전역에 저장 (재생 버튼 클릭 시 사용)
+        window.latestSermonData = null;
+
         async function loadLatestYouTubeVideo() {
             const apiKey = 'AIzaSyDcGTEeXo5wDMcNLhmcylPvIGQPFQcAyuk';
-                const playlistId = 'PL_0QqEAUL4K8x7GDlngrYo2QlVPVZV3WY';
+            const playlistId = 'PLoZ9GtdU4gCMLmyZchaGKz-cG14MFgMNo';
             const iframe = document.getElementById('youtubePlayer');
-            
+
+            // YouTube가 삭제/비공개 placeholder 항목에 사용하는 제목 패턴
+            const DELETED_TITLES = new Set([
+                'Deleted video',
+                'Private video',
+                '삭제된 동영상',
+                '비공개 동영상',
+                'Unavailable video',
+                '사용할 수 없는 동영상'
+            ]);
+
+            // 재생목록 항목이 실제로 재생 가능한지 (삭제/비공개 아닌지) 판별
+            const isPlayableItem = (item) => {
+                const title = item?.snippet?.title || '';
+                const videoId = item?.snippet?.resourceId?.videoId || item?.contentDetails?.videoId;
+                const thumbs = item?.snippet?.thumbnails;
+
+                if (!videoId) return false;
+                if (DELETED_TITLES.has(title.trim())) return false;
+                // YouTube는 삭제된 영상의 썸네일을 비워두는 경우가 많음
+                if (!thumbs || Object.keys(thumbs).length === 0) return false;
+                return true;
+            };
+
             try {
-                // YouTube Data API v3를 사용해서 재생목록의 모든 영상 가져오기
-                let allVideos = [];
+                // YouTube Data API v3로 재생목록의 모든 영상 가져오기 (snippet + contentDetails)
+                let allItems = [];
                 let nextPageToken = '';
-                
-                // 모든 페이지의 영상을 가져옴 (재생목록에 50개 이상 있을 수 있음)
+
                 do {
-                    const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlistId}&maxResults=50&key=${apiKey}${nextPageToken ? '&pageToken=' + nextPageToken : ''}`;
+                    const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&playlistId=${playlistId}&maxResults=50&key=${apiKey}${nextPageToken ? '&pageToken=' + nextPageToken : ''}`;
                     const response = await fetch(url);
                     const data = await response.json();
-                    
+
                     if (data.error) {
                         throw new Error(data.error.message);
                     }
-                    
+
                     if (data.items && data.items.length > 0) {
-                        allVideos = allVideos.concat(data.items);
+                        allItems = allItems.concat(data.items);
                     }
-                    
+
                     nextPageToken = data.nextPageToken || '';
                 } while (nextPageToken);
-                
-                if (allVideos.length > 0) {
-                    // 마지막 영상이 최신 영상 (재생목록에 가장 나중에 추가된 영상)
-                    const latestVideo = allVideos[allVideos.length - 1];
-                    const latestVideoId = latestVideo.snippet.resourceId.videoId;
-                    const videoTitle = latestVideo.snippet.title;
-                    
-                    console.log('✅ 최신 설교 영상 로드:', videoTitle);
-                    
-                if (iframe) {
-                        // 최신 영상을 재생목록과 함께 임베드 (최신 영상부터 시작)
-                        iframe.src = `https://www.youtube.com/embed/${latestVideoId}?rel=0&modestbranding=1`;
-                    }
-                } else {
-                    throw new Error('재생목록에 영상이 없습니다.');
+
+                console.log(`🔍 재생목록 전체 항목 수: ${allItems.length}`);
+
+                // 1) 삭제/비공개 placeholder 제외
+                const playableItems = allItems.filter(isPlayableItem);
+                console.log(`✅ 재생 가능 항목 수: ${playableItems.length} (제외 ${allItems.length - playableItems.length}개)`);
+
+                if (playableItems.length === 0) {
+                    throw new Error('재생목록에 재생 가능한 영상이 없습니다.');
                 }
-                
+
+                // 2) 실제 업로드 시각(videoPublishedAt) 기준 내림차순 정렬 → 가장 최신 영상 선택
+                //    fallback: 재생목록 추가 시각(snippet.publishedAt)
+                playableItems.sort((a, b) => {
+                    const at = new Date(a.contentDetails?.videoPublishedAt || a.snippet?.publishedAt || 0).getTime();
+                    const bt = new Date(b.contentDetails?.videoPublishedAt || b.snippet?.publishedAt || 0).getTime();
+                    return bt - at;
+                });
+
+                const latestVideo = playableItems[0];
+                const videoId = latestVideo.snippet.resourceId?.videoId || latestVideo.contentDetails?.videoId;
+                const rawTitle = latestVideo.snippet.title || '';
+                const uploadedAt = latestVideo.contentDetails?.videoPublishedAt || latestVideo.snippet?.publishedAt;
+                const thumbs = latestVideo.snippet.thumbnails || {};
+
+                // 가장 높은 해상도 썸네일 선택 (maxres > standard > high > medium > default)
+                const thumbUrl = thumbs.maxres?.url
+                              || thumbs.standard?.url
+                              || thumbs.high?.url
+                              || thumbs.medium?.url
+                              || thumbs.default?.url
+                              || `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
+
+                console.log(`🎬 최신 설교 영상: "${rawTitle}" (업로드: ${uploadedAt})`);
+                console.log(`📺 videoId: ${videoId}`);
+
+                window.latestSermonData = {
+                    videoId,
+                    title: rawTitle,
+                    uploadedAt,
+                    thumbUrl,
+                    playlistId
+                };
+
+                // Facade(커스텀 썸네일 + 정보) 렌더링 — iframe은 클릭 시에만 로드
+                renderSermonFacade(window.latestSermonData);
+
             } catch (error) {
                 console.error('❌ YouTube API 에러:', error);
-                // 에러 발생 시 기본 재생목록 URL 사용
-                if (iframe) {
-                    iframe.src = `https://www.youtube.com/embed/videoseries?list=${playlistId}&rel=0&modestbranding=1`;
+                // 폴백: API 호출 실패 시 재생목록 시리즈를 바로 iframe에 임베드
+                const facade = document.getElementById('sermonFacade');
+                const player = document.getElementById('sermonPlayer');
+                if (iframe && player) {
+                    iframe.src = `https://www.youtube-nocookie.com/embed/videoseries?list=${playlistId}&rel=0&modestbranding=1`;
+                    player.classList.add('is-playing');
+                    if (facade) facade.style.display = 'none';
                 }
             }
+        }
+
+        // ----------------------------------------
+        // Facade 채우기: 썸네일 + 제목 + 메타 정보
+        // ----------------------------------------
+        function renderSermonFacade(data) {
+            const facade = document.getElementById('sermonFacade');
+            const thumb = document.getElementById('sermonFacadeThumb');
+            const titleEl = document.getElementById('sermonFacadeTitle');
+            const tagEl = document.getElementById('sermonFacadeTag');
+            const dateEl = document.getElementById('sermonFacadeDate');
+            const preacherEl = document.getElementById('sermonFacadePreacher');
+
+            if (!facade || !data) return;
+
+            // 1) 썸네일 사전 로드 후 적용 (maxres가 없는 영상은 hqdefault로 fallback)
+            if (thumb && data.thumbUrl) {
+                const preload = new Image();
+                preload.onload = () => {
+                    thumb.src = data.thumbUrl;
+                    thumb.alt = data.title;
+                    facade.classList.remove('is-loading');
+                };
+                preload.onerror = () => {
+                    const fallbackUrl = `https://i.ytimg.com/vi/${data.videoId}/hqdefault.jpg`;
+                    thumb.src = fallbackUrl;
+                    thumb.alt = data.title;
+                    facade.classList.remove('is-loading');
+                };
+                preload.src = data.thumbUrl;
+            }
+
+            // 2) 제목/예배유형/설교자 파싱
+            const parsed = parseSermonTitle(data.title);
+            if (tagEl) tagEl.textContent = parsed.serviceType || '주일 예배';
+            if (titleEl) titleEl.textContent = parsed.sermonTitle || data.title;
+            if (preacherEl && parsed.preacher) preacherEl.textContent = parsed.preacher;
+
+            // 3) 날짜 (제목에 들어있으면 우선, 없으면 업로드 시각 사용)
+            if (dateEl) {
+                dateEl.textContent = parsed.serviceDate || formatSermonDate(data.uploadedAt);
+            }
+        }
+
+        // 설교 제목 파싱
+        // 예: "[포천중앙침례교회] 2026.05.24 주일낮예배 - 새 술은 새 부대에 - 마태복음 9:14~17 | 박상구 목사"
+        function parseSermonTitle(title) {
+            const result = { serviceType: null, serviceDate: null, sermonTitle: null, preacher: null };
+            if (!title) return result;
+
+            // [...] 교회명 접두어 제거
+            let cleaned = title.replace(/^\s*\[[^\]]+\]\s*/, '').trim();
+
+            // 파이프(|) 또는 슬래시(/)로 분절 — 슬래시는 단어 안의 일부(9/14)와 충돌하지 않게 공백 동반된 경우만
+            const parts = cleaned.split(/\s*\|\s*|\s+\/\s+/).map(s => s.trim()).filter(Boolean);
+
+            for (const part of parts) {
+                // 날짜: 2026.05.24, 2026-05-24, 2026/05/24
+                const dateMatch = part.match(/(20\d{2})[.\-\/](\d{1,2})[.\-\/](\d{1,2})/);
+                if (dateMatch && !result.serviceDate) {
+                    result.serviceDate = `${dateMatch[1]}.${dateMatch[2].padStart(2, '0')}.${dateMatch[3].padStart(2, '0')}`;
+                }
+
+                if (!result.serviceType) {
+                    if (/주일\s*낮\s*예배/.test(part)) result.serviceType = '주일 낮예배';
+                    else if (/주일\s*저녁\s*예배/.test(part)) result.serviceType = '주일 저녁예배';
+                    else if (/주일\s*아침\s*예배/.test(part)) result.serviceType = '주일 아침예배';
+                    else if (/수요\s*예배/.test(part)) result.serviceType = '수요예배';
+                    else if (/새벽\s*기도/.test(part)) result.serviceType = '새벽기도회';
+                    else if (/금요\s*기도/.test(part)) result.serviceType = '금요기도회';
+                    else if (/주일\s*예배/.test(part)) result.serviceType = '주일 예배';
+                }
+
+                const preacherMatch = part.match(/([가-힣]{2,5})\s*(목사|전도사|강도사|선교사)/);
+                if (preacherMatch && !result.preacher) {
+                    result.preacher = `${preacherMatch[1]} ${preacherMatch[2]}`;
+                }
+            }
+
+            // 본문 제목: 날짜/예배유형/설교자가 아닌 부분
+            const titleCandidate = parts.find(p => {
+                if (/(20\d{2})[.\-\/]/.test(p)) return false;
+                if (/주일|수요|새벽|금요/.test(p)) return false;
+                if (/목사|전도사|강도사|선교사/.test(p)) return false;
+                return p.length > 0;
+            });
+
+            if (titleCandidate) {
+                // " - "를 em-dash로 부드럽게
+                result.sermonTitle = titleCandidate.replace(/\s+-\s+/g, ' — ');
+            } else {
+                result.sermonTitle = cleaned;
+            }
+
+            return result;
+        }
+
+        function formatSermonDate(isoString) {
+            if (!isoString) return '';
+            const d = new Date(isoString);
+            if (isNaN(d.getTime())) return '';
+            return `${d.getFullYear()}.${String(d.getMonth() + 1).padStart(2, '0')}.${String(d.getDate()).padStart(2, '0')}`;
+        }
+
+        // ----------------------------------------
+        // 재생 버튼 클릭 → iframe(autoplay) 로드 + facade 페이드아웃
+        // ----------------------------------------
+        function playLatestSermon() {
+            const data = window.latestSermonData;
+            if (!data?.videoId) {
+                console.warn('⚠️ 영상 정보가 아직 준비되지 않았습니다.');
+                return;
+            }
+
+            const player = document.getElementById('sermonPlayer');
+            const iframe = document.getElementById('youtubePlayer');
+            if (!player || !iframe) return;
+
+            // youtube-nocookie 도메인 + 최소 chrome 옵션으로 YouTube 브랜딩 최소화
+            iframe.src = `https://www.youtube-nocookie.com/embed/${data.videoId}?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&playsinline=1&color=white`;
+
+            player.classList.add('is-playing');
         }
         
         
