@@ -1,4 +1,4 @@
-# robots.txt for 살리는빛부천침례교회
+# robots.txt for 포천중앙침례교회 (Pocheon Central Baptist Church)
 
 # 모든 검색엔진 허용
 User-agent: *
@@ -11,4 +11,4 @@ Disallow: /node_modules/
 Disallow: /app/api/
 
 # Sitemap 위치
-Sitemap: https://www.부천침례교회.kr/sitemap.xml
+Sitemap: https://포천중앙침례교회.kr/sitemap.xml

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>관리자 대시보드 - 부천교회</title>
+    <title>관리자 대시보드 - 포천중앙침례교회</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
-                    <h1 class="text-xl font-bold text-gray-900">부천교회 관리자</h1>
+                    <h1 class="text-xl font-bold text-gray-900">포천중앙침례교회 관리자</h1>
                 </div>
                 <div class="flex items-center gap-4">
                     <span id="adminName" class="text-gray-700"></span>
@@ -38,7 +38,7 @@
         <!-- 환영 메시지 -->
         <div class="mb-8">
             <h2 class="text-3xl font-bold text-gray-900 mb-2">대시보드</h2>
-            <p class="text-gray-600">부천교회 홈페이지 관리 시스템</p>
+            <p class="text-gray-600">포천중앙침례교회 홈페이지 관리 시스템</p>
         </div>
 
         <!-- 통계 카드 -->
@@ -149,7 +149,7 @@
         // 인증 체크 (필수!)
         // ============================================
         (function() {
-            const isAuth = sessionStorage.getItem('bucheon_admin_auth');
+            const isAuth = sessionStorage.getItem('pcbc_admin_auth');
             if (isAuth !== 'authenticated') {
                 window.location.href = './login.html';
                 throw new Error('인증 필요');
@@ -164,7 +164,7 @@
         // 데이터 로드
         async function loadDashboardData() {
             // 관리자 이름 표시
-            const adminUser = sessionStorage.getItem('bucheon_admin_user') || '관리자';
+            const adminUser = sessionStorage.getItem('pcbc_admin_user') || '관리자';
             document.getElementById('adminName').textContent = adminUser;
 
             // 통계 데이터 로드
@@ -266,8 +266,8 @@
 
         // 로그아웃
         document.getElementById('logoutBtn').addEventListener('click', () => {
-            sessionStorage.removeItem('bucheon_admin_auth');
-            sessionStorage.removeItem('bucheon_admin_user');
+            sessionStorage.removeItem('pcbc_admin_auth');
+            sessionStorage.removeItem('pcbc_admin_user');
             window.location.href = './login.html';
         });
 

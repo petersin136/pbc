@@ -346,7 +346,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 // ================================================================
 // 내보내기
 // ================================================================
-window.BucheonChurchAPI = {
+window.PocheonChurchAPI = {
     supabase,
     fetchHeroSection,
     fetchAboutSection,
@@ -368,5 +368,5 @@ window.BucheonChurchAPI = {
 };
 
 console.log('✅ Supabase 설정 완료');
-console.log('📝 API 함수 사용 가능: window.BucheonChurchAPI');
+console.log('📝 API 함수 사용 가능: window.PocheonChurchAPI');
 

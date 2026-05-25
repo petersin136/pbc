@@ -1,5 +1,5 @@
 -- ================================================================
--- 부천교회 Supabase 데이터베이스 초기 설정 스크립트
+-- 포천중앙침례교회 Supabase 데이터베이스 초기 설정 스크립트
 -- ================================================================
 -- 이 파일을 Supabase SQL Editor에서 실행하세요
 -- ================================================================
@@ -12,8 +12,8 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- ================================================================
 CREATE TABLE site_settings (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-    church_name VARCHAR(100) DEFAULT '부천교회',
-    pastor_name VARCHAR(50) DEFAULT '이영호',
+    church_name VARCHAR(100) DEFAULT '포천중앙침례교회',
+    pastor_name VARCHAR(50) DEFAULT '박상구',
     phone VARCHAR(20),
     address TEXT,
     email VARCHAR(100),
@@ -25,7 +25,7 @@ CREATE TABLE site_settings (
 
 -- 초기 데이터
 INSERT INTO site_settings (church_name, pastor_name, phone, address, email) VALUES
-('부천교회', '이영호', '032-XXX-XXXX', '경기도 부천시', 'contact@bucheonchurch.kr');
+('포천중앙침례교회', '박상구', '031-534-5078', '경기도 포천시 중앙로 105번길 23-2 (신읍동 135-10)', 'contact@pocheoncentralbaptist.kr');
 
 -- ================================================================
 -- 2. HERO SECTION (히어로 섹션)
@@ -38,7 +38,7 @@ CREATE TABLE hero_section (
     thumbnail_image VARCHAR(500),
     button_text VARCHAR(50) DEFAULT '방문 예약',
     button_link VARCHAR(255),
-    location_label VARCHAR(50) DEFAULT '경기도 부천',
+    location_label VARCHAR(50) DEFAULT '경기도 포천',
     description TEXT,
     is_active BOOLEAN DEFAULT true,
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
@@ -46,10 +46,10 @@ CREATE TABLE hero_section (
 
 -- 초기 데이터
 INSERT INTO hero_section (main_title, sub_text, background_image, thumbnail_image, location_label, description) VALUES
-('믿음의 여정', '부천교회에서 함께 예배드립니다', 
+('오직예수! 오직전도!', '포천중앙침례교회에서 함께 예배드립니다', 
  'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=80',
  'https://images.unsplash.com/photo-1438032005730-c779502df39b?w=200&q=80',
- '경기도 부천',
+ '경기도 포천',
  '믿음, 소망, 사랑으로 함께 성장하며 하나님의 은혜를 나누는 공동체입니다.');
 
 -- ================================================================
@@ -142,7 +142,7 @@ CREATE TABLE testimonial_cards (
 
 -- 초기 데이터
 INSERT INTO testimonial_cards (initial_letter, quote, author_name, author_title, author_image, background_color, display_order) VALUES
-('G', '전문적이고, 신뢰할 수 있으며, 이해하기 쉬운 가르침 — 이영호 목사님께서 제게 주신 말씀은 제 삶을 계획하는 데 필요한 명확함을 주었습니다.',
+('G', '전문적이고, 신뢰할 수 있으며, 이해하기 쉬운 가르침 — 박상구 목사님께서 제게 주신 말씀은 제 삶을 계획하는 데 필요한 명확함을 주었습니다.',
  '김성훈', '청년부 리더', 
  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&q=80',
  '#FFB800', 1),
@@ -260,7 +260,7 @@ CREATE TABLE weekly_bulletins (
 CREATE TABLE sermon_videos (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     title VARCHAR(200) NOT NULL,
-    preacher VARCHAR(50) DEFAULT '이영호 목사',
+    preacher VARCHAR(50) DEFAULT '박상구 목사',
     sermon_date DATE NOT NULL,
     youtube_url VARCHAR(255),
     youtube_id VARCHAR(20),

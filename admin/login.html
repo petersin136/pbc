@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>관리자 로그인 - 부천교회</title>
+    <title>관리자 로그인 - 포천중앙침례교회</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -17,7 +17,7 @@
     <div class="max-w-md w-full">
         <!-- 로고 -->
         <div class="text-center mb-8">
-            <h1 class="text-4xl font-bold text-gray-900 mb-2">부천교회</h1>
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">포천중앙침례교회</h1>
             <p class="text-gray-600">관리자 로그인</p>
         </div>
 
@@ -87,7 +87,7 @@
         };
 
         // 이미 로그인되어 있는지 확인
-        if (sessionStorage.getItem('bucheon_admin_auth') === 'authenticated') {
+        if (sessionStorage.getItem('pcbc_admin_auth') === 'authenticated') {
             window.location.href = './content-manage.html';
         }
 
@@ -119,9 +119,9 @@
             
             if (username === ADMIN_CREDENTIALS.username && passwordHash === ADMIN_CREDENTIALS.passwordHash) {
                 // 로그인 성공
-                sessionStorage.setItem('bucheon_admin_auth', 'authenticated');
-                sessionStorage.setItem('bucheon_admin_user', username);
-                sessionStorage.setItem('bucheon_admin_login_time', new Date().toISOString());
+                sessionStorage.setItem('pcbc_admin_auth', 'authenticated');
+                sessionStorage.setItem('pcbc_admin_user', username);
+                sessionStorage.setItem('pcbc_admin_login_time', new Date().toISOString());
                 
                 // 콘텐츠 관리 페이지로 이동
                 window.location.href = './content-manage.html';

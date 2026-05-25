@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>미디어 업로드 - 살리는 빛 부천침례교회</title>
+    <title>미디어 업로드 - 포천중앙침례교회</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- Google API -->
@@ -59,7 +59,7 @@
     <script>
         // 인증 체크 (필수!)
         (function() {
-            const isAuth = sessionStorage.getItem('bucheon_admin_auth');
+            const isAuth = sessionStorage.getItem('pcbc_admin_auth');
             if (isAuth !== 'authenticated') {
                 window.location.href = './login.html';
                 throw new Error('인증 필요');

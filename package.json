@@ -1,7 +1,7 @@
 {
   "name": "bucheon-church",
   "version": "1.0.0",
-  "description": "Bucheon Baptist Church Website",
+  "description": "Pocheon Central Baptist Church Website",
   "main": "index.html",
   "scripts": {
     "dev": "npx serve .",

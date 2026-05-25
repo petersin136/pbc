@@ -34,7 +34,7 @@ export default function HeroSection({
         </div>
       )}
       
-      {/* 1. "The Light of Life" - Figma 정확한 위치: x: 90, y: 414 */}
+      {/* 1. 메인 타이틀 - Figma 정확한 위치: x: 90, y: 414 */}
       <div 
         className="absolute z-10"
         style={{
@@ -56,7 +56,7 @@ export default function HeroSection({
             padding: 0,
           }}
         >
-          The Light of Life
+          오직예수! 오직전도!
         </h1>
       </div>
 
