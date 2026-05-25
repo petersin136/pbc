@@ -1,0 +1,14 @@
+# robots.txt for 살리는빛부천침례교회
+
+# 모든 검색엔진 허용
+User-agent: *
+Allow: /
+
+# 노출되면 안되는 경로 차단
+Disallow: /admin/
+Disallow: /api/
+Disallow: /node_modules/
+Disallow: /app/api/
+
+# Sitemap 위치
+Sitemap: https://www.부천침례교회.kr/sitemap.xml

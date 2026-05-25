@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>콘텐츠 관리 - 부천교회</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Google API -->
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script src="https://accounts.google.com/gsi/client"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', 'Inter', sans-serif;
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            background-color: #4A7C59;
+            color: white;
+        }
+        .card {
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        textarea {
+            resize: vertical;
+        }
+        .gallery-item {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .gallery-item:hover {
+            transform: scale(1.02);
+        }
+        .gallery-item:hover .overlay {
+            opacity: 1;
+        }
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .loading {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        @media (max-width: 640px) {
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+                height: auto;
+                gap: 8px;
+                padding: 12px 0;
+            }
+
+            .admin-header-left,
+            .admin-header-right {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .admin-tabs {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .tab-button {
+                flex: 1 1 calc(50% - 8px);
+                text-align: center;
+                padding: 12px 8px;
+                font-size: 14px;
+            }
+
+            .admin-section-header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+
+            .admin-section-header h2 {
+                text-align: left;
+            }
+
+            .admin-section-header button {
+                width: 100%;
+            }
+
+            .card .flex.justify-between.items-start {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .card .flex.gap-2,
+            .card .flex.gap-2.ml-4 {
+                width: 100%;
+                margin-left: 0;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .card .flex.gap-2 button {
+                flex: 1 1 calc(50% - 8px);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <script>
+        // 인증 체크 (필수!)
+        (function() {
+            const isAuth = sessionStorage.getItem('bucheon_admin_auth');
+            if (isAuth !== 'authenticated') {
+                window.location.href = './login.html';
+                throw new Error('인증 필요');
+            }
+        })();
+    </script>
+
+    <!-- 네비게이션 -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 admin-header">
+                <div class="flex items-center gap-4 admin-header-left">
+                    <a href="index.html" class="text-gray-600 hover:text-gray-900">← 대시보드</a>
+                    <h1 class="text-xl font-bold text-gray-900">콘텐츠 관리</h1>
+                </div>
+                <div class="flex items-center gap-4 admin-header-right">
+                    <a href="../index.html" target="_blank" class="text-sm text-gray-600 hover:text-gray-900">사이트 보기</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 메인 컨텐츠 -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- 탭 메뉴 -->
+        <div class="mb-8">
+            <div class="flex gap-2 border-b border-gray-200 admin-tabs">
+                <button class="tab-button px-6 py-3 font-semibold rounded-t-lg active" data-tab="worship">
+                    예배시간
+                </button>
+                <button class="tab-button px-6 py-3 font-semibold rounded-t-lg bg-gray-100 text-gray-700" data-tab="notice">
+                    공지사항
+                </button>
+                <button class="tab-button px-6 py-3 font-semibold rounded-t-lg bg-gray-100 text-gray-700" data-tab="prayer">
+                    기도제목
+                </button>
+                <button class="tab-button px-6 py-3 font-semibold rounded-t-lg bg-gray-100 text-gray-700" data-tab="gallery">
+                    갤러리 업로드
+                </button>
+            </div>
+        </div>
+
+        <!-- 예배시간 탭 -->
+        <div id="worship-tab" class="tab-content">
+            <div class="mb-6 flex justify-between items-center admin-section-header">
+                <h2 class="text-2xl font-bold text-gray-900">예배시간 관리</h2>
+                <button id="add-worship-btn" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition">
+                    + 새 예배 추가
+                </button>
+            </div>
+            <div id="worship-list" class="space-y-4">
+                <!-- 동적으로 로드됨 -->
+            </div>
+        </div>
+
+        <!-- 공지사항 탭 -->
+        <div id="notice-tab" class="tab-content hidden">
+            <div class="mb-6 flex justify-between items-center admin-section-header">
+                <h2 class="text-2xl font-bold text-gray-900">공지사항 관리</h2>
+                <button id="add-notice-btn" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
+                    + 새 공지사항 추가
+                </button>
+            </div>
+            <div id="notice-list" class="space-y-4">
+                <!-- 동적으로 로드됨 -->
+            </div>
+        </div>
+
+        <!-- 기도제목 탭 -->
+        <div id="prayer-tab" class="tab-content hidden">
+            <div class="mb-6 flex justify-between items-center admin-section-header">
+                <h2 class="text-2xl font-bold text-gray-900">기도제목 관리</h2>
+                <button id="add-prayer-btn" class="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition">
+                    + 새 기도제목 추가
+                </button>
+            </div>
+            <div id="prayer-list" class="space-y-4">
+                <!-- 동적으로 로드됨 -->
+            </div>
+        </div>
+
+        <!-- 갤러리 업로드 탭 -->
+        <div id="gallery-tab" class="tab-content hidden">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-900 mb-2">미디어 갤러리</h2>
+                <p class="text-gray-600">사진, 영상, PDF 파일을 업로드하고 관리하세요. Google Drive 연동 지원</p>
+            </div>
+
+            <!-- 업로드 섹션 -->
+            <div class="bg-white rounded-xl shadow-md p-6 mb-6 border border-gray-200">
+                <h3 class="text-xl font-bold mb-4 text-gray-800">파일 업로드</h3>
+                
+                <!-- Google Drive 폴더 업로드 -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold mb-4 text-gray-800">📁 Google Drive 폴더에서 이미지 업로드</h3>
+                    <p class="text-sm text-gray-600 mb-4">각 카테고리 버튼을 클릭하면 해당 Google Drive 폴더가 열립니다. 거기서 이미지를 업로드하면 사이트에 자동으로 표시됩니다.</p>
+                    
+                    <div class="flex gap-3 flex-wrap">
+                        <button onclick="openGoogleDriveFolder('event')" 
+                                class="gallery-folder-btn px-6 py-4 rounded-xl font-semibold transition-all shadow-md hover:shadow-lg border-2 border-green-500 bg-green-600 text-white hover:bg-green-700">
+                            📅 교회행사 폴더 열기
+                        </button>
+                        <button onclick="openGoogleDriveFolder('kids')" 
+                                class="gallery-folder-btn px-6 py-4 rounded-xl font-semibold transition-all shadow-md hover:shadow-lg border-2 border-blue-500 bg-blue-600 text-white hover:bg-blue-700">
+                            👶 유치부 폴더 열기
+                        </button>
+                        <button onclick="openGoogleDriveFolder('student')" 
+                                class="gallery-folder-btn px-6 py-4 rounded-xl font-semibold transition-all shadow-md hover:shadow-lg border-2 border-indigo-500 bg-indigo-600 text-white hover:bg-indigo-700">
+                            🎓 학생부 폴더 열기
+                        </button>
+                        <button onclick="openGoogleDriveFolder('youth')" 
+                                class="gallery-folder-btn px-6 py-4 rounded-xl font-semibold transition-all shadow-md hover:shadow-lg border-2 border-purple-500 bg-purple-600 text-white hover:bg-purple-700">
+                            👥 청년부 폴더 열기
+                        </button>
+                        <button onclick="openGoogleDriveFolder('senior')" 
+                                class="gallery-folder-btn px-6 py-4 rounded-xl font-semibold transition-all shadow-md hover:shadow-lg border-2 border-amber-500 bg-amber-600 text-white hover:bg-amber-700">
+                            🧑 장년부 폴더 열기
+                        </button>
+                        <button onclick="openGoogleDriveFolder('facility')" 
+                                class="gallery-folder-btn px-6 py-4 rounded-xl font-semibold transition-all shadow-md hover:shadow-lg border-2 border-slate-500 bg-slate-600 text-white hover:bg-slate-700">
+                            🏛️ 교회시설 폴더 열기
+                        </button>
+                    </div>
+                    
+                    <div class="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                        <p class="text-sm text-blue-800">
+                            <strong>💡 사용 방법:</strong><br>
+                            1. 위 버튼을 클릭하여 Google Drive 폴더를 엽니다<br>
+                            2. 폴더에서 이미지를 업로드하거나 드래그 앤 드롭합니다<br>
+                            3. 업로드된 이미지는 사이트 갤러리에 자동으로 표시됩니다
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 진행 상태 -->
+                <div id="gallery-progressContainer" class="mt-4 hidden">
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div id="gallery-progressBar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                    <p id="gallery-progressText" class="text-sm text-gray-600 mt-2 text-center"></p>
+                </div>
+
+                <!-- 메시지 -->
+                <div id="gallery-message" class="mt-4 hidden"></div>
+            </div>
+
+            <!-- 업로드된 파일 목록 -->
+            <div class="bg-white rounded-xl shadow-md p-6 border border-gray-200">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-gray-800">업로드된 미디어</h3>
+                    <div class="flex gap-2">
+                        <select id="gallery-filterCategory" onchange="loadGalleryMediaList(event)" 
+                                class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option value="">전체 카테고리</option>
+                            <option value="worship">예배</option>
+                            <option value="sermon">설교</option>
+                            <option value="event">행사</option>
+                            <option value="student">학생부</option>
+                            <option value="youth">청년부</option>
+                            <option value="senior">장년부</option>
+                            <option value="kids">주일학교</option>
+                            <option value="general">기타</option>
+                            <option value="facility">교회시설</option>
+                        </select>
+                        <button onclick="event.stopPropagation(); loadGalleryMediaList(); return false;" 
+                                class="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition font-medium">
+                            🔄 새로고침
+                        </button>
+                    </div>
+                </div>
+                <div id="gallery-mediaList" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                    <!-- 미디어 목록이 여기에 표시됩니다 -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- 모달 (추가/수정) -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div id="modal-content" class="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 id="modal-title" class="text-2xl font-bold text-gray-900">새 항목 추가</h3>
+                    <button id="close-modal" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+                </div>
+                
+                <form id="modal-form" class="space-y-4">
+                    <input type="hidden" id="edit-id">
+                    
+                    <!-- 예배시간 폼 -->
+                    <div id="worship-form" class="form-section hidden">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">예배명</label>
+                            <input type="text" id="worship-name" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="예: 주 일 예 배" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">예배시간</label>
+                            <input type="text" id="worship-time" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="예: 오전 11시" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">요일 (선택사항)</label>
+                            <input type="text" id="worship-day" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" placeholder="예: 일요일">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">표시 순서</label>
+                            <input type="number" id="worship-order" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent" value="0" min="0">
+                        </div>
+                    </div>
+
+                    <!-- 공지사항 폼 -->
+                    <div id="notice-form" class="form-section hidden">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">제목 (선택사항)</label>
+                            <input type="text" id="notice-title" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="공지사항 제목">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">내용</label>
+                            <textarea id="notice-content" rows="8" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="공지사항 내용을 입력하세요. 줄바꿈은 그대로 반영됩니다." required></textarea>
+                            <p class="text-xs text-gray-500 mt-1">줄바꿈은 그대로 반영됩니다.</p>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">표시 순서 <span class="text-xs text-gray-500">(수정 시에만 변경 가능, 새 항목은 자동으로 최신순으로 배치됩니다)</span></label>
+                            <input type="number" id="notice-order" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" value="0" min="0" readonly>
+                        </div>
+                    </div>
+
+                    <!-- 기도제목 폼 -->
+                    <div id="prayer-form" class="form-section hidden">
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">제목 (선택사항)</label>
+                            <input type="text" id="prayer-title" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="기도제목 제목">
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">내용</label>
+                            <textarea id="prayer-content" rows="8" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="기도제목 내용을 입력하세요. 줄바꿈은 그대로 반영됩니다." required></textarea>
+                            <p class="text-xs text-gray-500 mt-1">줄바꿈은 그대로 반영됩니다.</p>
+                        </div>
+                        <div class="mb-4">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">표시 순서 <span class="text-xs text-gray-500">(수정 시에만 변경 가능, 새 항목은 자동으로 최신순으로 배치됩니다)</span></label>
+                            <input type="number" id="prayer-order" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent" value="0" min="0" readonly>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-3 pt-4">
+                        <button type="submit" class="flex-1 bg-green-600 text-white px-6 py-3 rounded-lg hover:bg-green-700 transition font-semibold">
+                            저장
+                        </button>
+                        <button type="button" id="cancel-btn" class="flex-1 bg-gray-200 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-300 transition font-semibold">
+                            취소
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    <script>
+        // Supabase 설정
+        const SUPABASE_URL = 'https://fkqxalcwhqohrkdzwhvv.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_5sLcyIwutRptBow_Xe7MpA_IDKtDwXI';
+        
+        // Supabase 클라이언트 초기화 (CDN 버전)
+        let supabaseClient;
+        
+        // Supabase SDK 로드 대기
+        function initSupabase() {
+            if (typeof supabase !== 'undefined' && supabase.createClient) {
+                supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                console.log('✅ Supabase 클라이언트 초기화 완료');
+                // 초기 데이터 로드
+                loadData('worship');
+            } else {
+                // SDK가 아직 로드되지 않았으면 재시도
+                setTimeout(initSupabase, 100);
+            }
+        }
+
+        // 전역 변수
+        let currentTab = 'worship';
+        let currentEditId = null;
+        let isModalMouseDown = false; // 모달 내부에서 마우스 다운 상태 추적
+        
+        // 페이지 로드 시 Supabase 초기화 및 탭 복원
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                initSupabase();
+                // 저장된 탭 복원
+                const savedTab = localStorage.getItem('adminCurrentTab');
+                if (savedTab) {
+                    currentTab = savedTab;
+                    switchTab(savedTab);
+                }
+            });
+        } else {
+            initSupabase();
+            // 저장된 탭 복원
+            const savedTab = localStorage.getItem('adminCurrentTab');
+            if (savedTab) {
+                currentTab = savedTab;
+                switchTab(savedTab);
+            }
+        }
+
+        // 탭 전환
+        document.querySelectorAll('.tab-button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tab = btn.dataset.tab;
+                switchTab(tab);
+            });
+        });
+
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            // localStorage에 현재 탭 저장
+            localStorage.setItem('adminCurrentTab', tab);
+            
+            // 탭 버튼 업데이트
+            document.querySelectorAll('.tab-button').forEach(b => {
+                if (b.dataset.tab === tab) {
+                    b.classList.add('active');
+                    b.classList.remove('bg-gray-100', 'text-gray-700');
+                } else {
+                    b.classList.remove('active');
+                    b.classList.add('bg-gray-100', 'text-gray-700');
+                }
+            });
+
+            // 탭 컨텐츠 업데이트
+            document.querySelectorAll('.tab-content').forEach(c => {
+                c.classList.add('hidden');
+            });
+            document.getElementById(`${tab}-tab`).classList.remove('hidden');
+
+            // 데이터 로드
+            if (tab === 'gallery') {
+                loadGalleryMediaList();
+                if (GOOGLE_CLIENT_ID !== 'YOUR_GOOGLE_CLIENT_ID') {
+                    // 갤러리 탭 초기화 완료
+                }
+            } else {
+            loadData(tab);
+            }
+        }
+
+        // 데이터 로드
+        async function loadData(type) {
+            const listEl = document.getElementById(`${type}-list`);
+            listEl.innerHTML = '<div class="text-center py-8"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div></div>';
+
+            try {
+                if (!supabaseClient) {
+                    listEl.innerHTML = '<div class="text-center py-12 text-red-500">Supabase 연결 오류가 발생했습니다.</div>';
+                    return;
+                }
+                
+                let data, error;
+                
+                if (type === 'worship') {
+                    ({ data, error } = await supabaseClient
+                        .from('worship_times')
+                        .select('*')
+                        .order('display_order', { ascending: true }));
+                } else if (type === 'notice') {
+                    ({ data, error } = await supabaseClient
+                        .from('notices')
+                        .select('*')
+                        .order('display_order', { ascending: true }));
+                } else if (type === 'prayer') {
+                    ({ data, error } = await supabaseClient
+                        .from('prayer_requests')
+                        .select('*')
+                        .order('display_order', { ascending: true }));
+                }
+
+                if (error) throw error;
+
+                // 데이터가 없으면 초기 데이터 생성
+                if (data.length === 0) {
+                    await createInitialData(type);
+                    // 다시 로드
+                    return loadData(type);
+                }
+
+                listEl.innerHTML = data.map(item => renderCard(type, item)).join('');
+                
+                // 이벤트 리스너 추가
+                attachEventListeners(type);
+            } catch (error) {
+                console.error('Error loading data:', error);
+                
+                // 테이블이 없는 경우 안내 메시지
+                if (error.message && error.message.includes('Could not find the table')) {
+                    listEl.innerHTML = `
+                        <div class="text-center py-12 max-w-2xl mx-auto">
+                            <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-6 mb-4">
+                                <h3 class="text-lg font-bold text-yellow-800 mb-2">⚠️ 데이터베이스 테이블이 없습니다</h3>
+                                <p class="text-yellow-700 mb-4">Supabase에 테이블을 먼저 생성해야 합니다.</p>
+                                <div class="text-left bg-white p-4 rounded border border-yellow-200">
+                                    <p class="font-semibold text-sm mb-2">다음 단계를 따라주세요:</p>
+                                    <ol class="list-decimal list-inside text-sm space-y-1 text-gray-700">
+                                        <li>Supabase 대시보드 → SQL Editor로 이동</li>
+                                        <li><code class="bg-gray-100 px-2 py-1 rounded">content-tables.sql</code> 파일의 내용을 복사하여 실행</li>
+                                        <li><code class="bg-gray-100 px-2 py-1 rounded">fix-rls-policy.sql</code> 파일의 내용을 복사하여 실행</li>
+                                        <li>이 페이지를 새로고침하세요</li>
+                                    </ol>
+                                </div>
+                            </div>
+                            <button onclick="location.reload()" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
+                                페이지 새로고침
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    listEl.innerHTML = `
+                        <div class="text-center py-12">
+                            <div class="text-red-500 mb-4">데이터를 불러오는 중 오류가 발생했습니다.</div>
+                            <div class="text-sm text-gray-500 mb-4">오류: ${error.message || '알 수 없는 오류'}</div>
+                            <button onclick="location.reload()" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+                                페이지 새로고침
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        // 초기 데이터 생성
+        async function createInitialData(type) {
+            try {
+                if (!supabaseClient) return;
+                
+                if (type === 'worship') {
+                    const initialData = [
+                        { service_name: '주 일 예 배', service_time: '오전 11시', day_of_week: null, display_order: 1 },
+                        { service_name: '수 요 예 배', service_time: '오후 8시', day_of_week: null, display_order: 2 },
+                        { service_name: '금 요 예 배', service_time: '오후 9시', day_of_week: null, display_order: 3 },
+                        { service_name: '학생부예배', service_time: '오후 2시', day_of_week: '토요일', display_order: 4 },
+                        { service_name: '유치부예배', service_time: '오전 11시', day_of_week: null, display_order: 5 }
+                    ];
+                    const { error } = await supabaseClient
+                        .from('worship_times')
+                        .insert(initialData);
+                    if (error) throw error;
+                } else if (type === 'notice') {
+                    const initialData = [
+                        { 
+                            title: null, 
+                            content: '12월 25일 부터 29일 까지\n연말 휴가로 잠시 쉬어가려 합니다.\n해당 날짜에 모든 업무가 중단되오니\n이용에 참고 부탁 드립니다.\n예약 문의는 DM으로 부탁드립니다.', 
+                            display_order: 1 
+                        },
+                        { 
+                            title: null, 
+                            content: '새해 예배 안내\n새해를 맞이하여 특별 예배를 드립니다.\n많은 참석 부탁드립니다.', 
+                            display_order: 2 
+                        },
+                        { 
+                            title: null, 
+                            content: '교회 행사 안내\n다가오는 교회 행사에 대한 안내입니다.\n자세한 내용은 교회 게시판을 확인해 주세요.', 
+                            display_order: 3 
+                        }
+                    ];
+                    const { error } = await supabaseClient
+                        .from('notices')
+                        .insert(initialData);
+                    if (error) throw error;
+                } else if (type === 'prayer') {
+                    const initialData = [
+                        { 
+                            title: null, 
+                            content: '교회를 위한 기도\n교회가 하나님의 뜻을 따라\n섬기는 공동체가 되도록\n기도해 주세요.', 
+                            display_order: 1 
+                        },
+                        { 
+                            title: null, 
+                            content: '성도들을 위한 기도\n모든 성도들이 하나님의\n사랑 안에서 성장하도록\n기도해 주세요.', 
+                            display_order: 2 
+                        },
+                        { 
+                            title: null, 
+                            content: '선교를 위한 기도\n전 세계 복음 전파를 위한\n기도에 함께해 주세요.', 
+                            display_order: 3 
+                        },
+                        { 
+                            title: null, 
+                            content: '사회를 위한 기도\n우리 사회가 하나님의\n평화와 정의로 가득하도록\n기도해 주세요.', 
+                            display_order: 4 
+                        }
+                    ];
+                    const { error } = await supabaseClient
+                        .from('prayer_requests')
+                        .insert(initialData);
+                    if (error) throw error;
+                }
+            } catch (error) {
+                console.error('Error creating initial data:', error);
+            }
+        }
+
+        // 카드 렌더링
+        function renderCard(type, item) {
+            if (type === 'worship') {
+                return `
+                    <div class="card bg-white rounded-lg shadow p-6" data-id="${item.id}">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <span class="text-sm text-gray-500">순서: ${item.display_order}</span>
+                                    ${item.is_active ? '<span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded">활성</span>' : '<span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">비활성</span>'}
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-900 mb-1">${item.service_name}</h3>
+                                <p class="text-lg text-gray-700">${item.service_time}${item.day_of_week ? ' (' + item.day_of_week + ')' : ''}</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="edit-btn px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition" data-id="${item.id}">수정</button>
+                                <button class="toggle-btn px-4 py-2 ${item.is_active ? 'bg-gray-500' : 'bg-green-500'} text-white rounded-lg hover:opacity-80 transition" data-id="${item.id}">${item.is_active ? '비활성' : '활성'}</button>
+                                <button class="delete-btn px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition" data-id="${item.id}">삭제</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                const content = (item.content || '').split('\n').slice(0, 3).join('<br>');
+                return `
+                    <div class="card bg-white rounded-lg shadow p-6" data-id="${item.id}">
+                        <div class="flex justify-between items-start">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <span class="text-sm text-gray-500">순서: ${item.display_order}</span>
+                                    ${item.is_active ? '<span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded">활성</span>' : '<span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded">비활성</span>'}
+                                </div>
+                                ${item.title ? `<h3 class="text-xl font-bold text-gray-900 mb-2">${item.title}</h3>` : ''}
+                                <div class="text-gray-700 line-clamp-3">${content}</div>
+                            </div>
+                            <div class="flex gap-2 ml-4">
+                                <button class="edit-btn px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition" data-id="${item.id}">수정</button>
+                                <button class="toggle-btn px-4 py-2 ${item.is_active ? 'bg-gray-500' : 'bg-green-500'} text-white rounded-lg hover:opacity-80 transition" data-id="${item.id}">${item.is_active ? '비활성' : '활성'}</button>
+                                <button class="delete-btn px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition" data-id="${item.id}">삭제</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // 이벤트 리스너 추가
+        function attachEventListeners(type) {
+            // 수정 버튼
+            document.querySelectorAll('.edit-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.dataset.id;
+                    editItem(type, id);
+                });
+            });
+
+            // 활성/비활성 토글
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.dataset.id;
+                    toggleActive(type, id);
+                });
+            });
+
+            // 삭제 버튼
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const id = btn.dataset.id;
+                    if (confirm('정말 삭제하시겠습니까?')) {
+                        deleteItem(type, id);
+                    }
+                });
+            });
+        }
+
+        // 모달 열기
+        function openModal(type, data = null) {
+            currentEditId = data ? data.id : null;
+            currentTab = type; // 현재 탭을 모달 타입으로 설정
+            const modal = document.getElementById('modal');
+            const modalTitle = document.getElementById('modal-title');
+            
+            // 모든 폼 숨기기 및 required 속성 제거
+            document.querySelectorAll('.form-section').forEach(f => {
+                f.classList.add('hidden');
+                // 숨겨진 폼의 required 속성 제거
+                f.querySelectorAll('[required]').forEach(input => {
+                    input.removeAttribute('required');
+                });
+            });
+            
+            // 해당 폼 보이기
+            const formEl = document.getElementById(`${type}-form`);
+            formEl.classList.remove('hidden');
+            
+            // 활성화된 폼의 required 속성 복원
+            if (type === 'worship') {
+                document.getElementById('worship-name').setAttribute('required', 'required');
+                document.getElementById('worship-time').setAttribute('required', 'required');
+            } else if (type === 'notice') {
+                document.getElementById('notice-content').setAttribute('required', 'required');
+            } else if (type === 'prayer') {
+                document.getElementById('prayer-content').setAttribute('required', 'required');
+            }
+            
+            // 폼 초기화
+            document.getElementById('modal-form').reset();
+            document.getElementById('edit-id').value = '';
+            
+            // 저장 버튼 활성화
+            const submitBtn = document.querySelector('#modal-form button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '저장';
+            }
+            
+            if (data) {
+                modalTitle.textContent = `${type === 'worship' ? '예배시간' : type === 'notice' ? '공지사항' : '기도제목'} 수정`;
+                document.getElementById('edit-id').value = data.id;
+                
+                if (type === 'worship') {
+                    document.getElementById('worship-name').value = data.service_name || '';
+                    document.getElementById('worship-time').value = data.service_time || '';
+                    document.getElementById('worship-day').value = data.day_of_week || '';
+                    document.getElementById('worship-order').value = data.display_order || 0;
+                } else if (type === 'notice') {
+                    document.getElementById('notice-title').value = data.title || '';
+                    document.getElementById('notice-content').value = data.content || '';
+                    document.getElementById('notice-order').value = data.display_order || 0;
+                    // 수정 모드일 때만 순번 입력 가능
+                    document.getElementById('notice-order').removeAttribute('readonly');
+                } else if (type === 'prayer') {
+                    document.getElementById('prayer-title').value = data.title || '';
+                    document.getElementById('prayer-content').value = data.content || '';
+                    document.getElementById('prayer-order').value = data.display_order || 0;
+                    // 수정 모드일 때만 순번 입력 가능
+                    document.getElementById('prayer-order').removeAttribute('readonly');
+                }
+            } else {
+                modalTitle.textContent = `새 ${type === 'worship' ? '예배시간' : type === 'notice' ? '공지사항' : '기도제목'} 추가`;
+                // 새로 추가할 때는 순번 필드를 readonly로 설정
+                if (type === 'notice') {
+                    document.getElementById('notice-order').setAttribute('readonly', 'readonly');
+                } else if (type === 'prayer') {
+                    document.getElementById('prayer-order').setAttribute('readonly', 'readonly');
+                }
+            }
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        // 모달 닫기
+        function closeModal(event) {
+            // 마우스 다운 상태에서 나간 경우 무시
+            if (isModalMouseDown) {
+                return;
+            }
+            
+            // 이벤트가 있고 배경 클릭이 아닌 경우 (마우스 이벤트 등) 무시
+            if (event && (event.type === 'mouseleave' || event.type === 'mouseout')) {
+                return;
+            }
+            
+            const modal = document.getElementById('modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            currentEditId = null;
+            document.getElementById('modal-form').reset();
+            isModalMouseDown = false; // 상태 리셋
+            
+            // 저장 버튼 활성화
+            const submitBtn = document.querySelector('#modal-form button[type="submit"]');
+            if (submitBtn) {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '저장';
+            }
+        }
+
+        // 항목 수정
+        async function editItem(type, id) {
+            try {
+                if (!supabaseClient) {
+                    alert('Supabase 연결 오류가 발생했습니다.');
+                    return;
+                }
+                
+                let { data, error } = await supabaseClient
+                    .from(type === 'worship' ? 'worship_times' : type === 'notice' ? 'notices' : 'prayer_requests')
+                    .select('*')
+                    .eq('id', id)
+                    .single();
+                
+                if (error) throw error;
+                openModal(type, data);
+            } catch (error) {
+                console.error('Error loading item:', error);
+                alert('항목을 불러오는 중 오류가 발생했습니다.');
+            }
+        }
+
+        // 활성/비활성 토글
+        async function toggleActive(type, id) {
+            try {
+                if (!supabaseClient) {
+                    alert('Supabase 연결 오류가 발생했습니다.');
+                    return;
+                }
+                
+                // 현재 상태 가져오기
+                let { data, error } = await supabaseClient
+                    .from(type === 'worship' ? 'worship_times' : type === 'notice' ? 'notices' : 'prayer_requests')
+                    .select('is_active')
+                    .eq('id', id)
+                    .single();
+                
+                if (error) throw error;
+                
+                // 토글
+                const { error: updateError } = await supabaseClient
+                    .from(type === 'worship' ? 'worship_times' : type === 'notice' ? 'notices' : 'prayer_requests')
+                    .update({ is_active: !data.is_active, updated_at: new Date().toISOString() })
+                    .eq('id', id);
+                
+                if (updateError) throw updateError;
+                
+                loadData(type);
+            } catch (error) {
+                console.error('Error toggling active:', error);
+                alert('상태 변경 중 오류가 발생했습니다.');
+            }
+        }
+
+        // 항목 삭제
+        async function deleteItem(type, id) {
+            try {
+                if (!supabaseClient) {
+                    alert('Supabase 연결 오류가 발생했습니다.');
+                    return;
+                }
+                
+                const { error } = await supabaseClient
+                    .from(type === 'worship' ? 'worship_times' : type === 'notice' ? 'notices' : 'prayer_requests')
+                    .delete()
+                    .eq('id', id);
+                
+                if (error) throw error;
+                
+                loadData(type);
+            } catch (error) {
+                console.error('Error deleting item:', error);
+                alert('삭제 중 오류가 발생했습니다.');
+            }
+        }
+
+        // 폼 제출
+        document.getElementById('modal-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            if (!submitBtn) {
+                console.error('Submit button not found');
+                return;
+            }
+            
+            // 숨겨진 폼의 required 속성 제거 (브라우저 검증 에러 방지)
+            document.querySelectorAll('.form-section.hidden [required]').forEach(input => {
+                input.removeAttribute('required');
+            });
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = '저장 중...';
+            
+            try {
+                if (!supabaseClient) {
+                    alert('Supabase 연결 오류가 발생했습니다.');
+                    return;
+                }
+                
+                // 현재 활성화된 폼 타입 확인
+                let activeType = null;
+                if (!document.getElementById('worship-form').classList.contains('hidden')) {
+                    activeType = 'worship';
+                } else if (!document.getElementById('notice-form').classList.contains('hidden')) {
+                    activeType = 'notice';
+                } else if (!document.getElementById('prayer-form').classList.contains('hidden')) {
+                    activeType = 'prayer';
+                }
+                
+                if (!activeType) {
+                    alert('폼 타입을 확인할 수 없습니다.');
+                    return;
+                }
+                
+                let data = {};
+                const editId = document.getElementById('edit-id').value;
+                
+                if (activeType === 'worship') {
+                    const name = document.getElementById('worship-name').value.trim();
+                    const time = document.getElementById('worship-time').value.trim();
+                    if (!name || !time) {
+                        alert('예배명과 예배시간을 입력해주세요.');
+                        return;
+                    }
+                    
+                    let displayOrder = parseInt(document.getElementById('worship-order').value) || 0;
+                    
+                    // 새로 추가하는 경우: 최신 순번 자동 부여
+                    if (!editId) {
+                        const { data: existingItems } = await supabaseClient
+                            .from('worship_times')
+                            .select('display_order')
+                            .order('display_order', { ascending: false })
+                            .limit(1);
+                        
+                        if (existingItems && existingItems.length > 0) {
+                            displayOrder = (existingItems[0].display_order || 0) + 1;
+                        } else {
+                            displayOrder = 1;
+                        }
+                    }
+                    
+                    data = {
+                        service_name: name,
+                        service_time: time,
+                        day_of_week: document.getElementById('worship-day').value.trim() || null,
+                        display_order: displayOrder,
+                        updated_at: new Date().toISOString()
+                    };
+                } else if (activeType === 'notice') {
+                    const content = document.getElementById('notice-content').value.trim();
+                    if (!content) {
+                        alert('내용을 입력해주세요.');
+                        return;
+                    }
+                    
+                    let displayOrder = parseInt(document.getElementById('notice-order').value) || 0;
+                    
+                    // 새로 추가하는 경우: 최신 순번 자동 부여
+                    if (!editId) {
+                        const { data: existingItems } = await supabaseClient
+                            .from('notices')
+                            .select('display_order')
+                            .order('display_order', { ascending: false })
+                            .limit(1);
+                        
+                        if (existingItems && existingItems.length > 0) {
+                            displayOrder = (existingItems[0].display_order || 0) + 1;
+                        } else {
+                            displayOrder = 1;
+                        }
+                    }
+                    
+                    data = {
+                        title: document.getElementById('notice-title').value.trim() || null,
+                        content: content,
+                        display_order: displayOrder,
+                        updated_at: new Date().toISOString()
+                    };
+                } else if (activeType === 'prayer') {
+                    const content = document.getElementById('prayer-content').value.trim();
+                    if (!content) {
+                        alert('내용을 입력해주세요.');
+                        return;
+                    }
+                    
+                    let displayOrder = parseInt(document.getElementById('prayer-order').value) || 0;
+                    
+                    // 새로 추가하는 경우: 최신 순번 자동 부여
+                    if (!editId) {
+                        const { data: existingItems } = await supabaseClient
+                            .from('prayer_requests')
+                            .select('display_order')
+                            .order('display_order', { ascending: false })
+                            .limit(1);
+                        
+                        if (existingItems && existingItems.length > 0) {
+                            displayOrder = (existingItems[0].display_order || 0) + 1;
+                        } else {
+                            displayOrder = 1;
+                        }
+                    }
+                    
+                    data = {
+                        title: document.getElementById('prayer-title').value.trim() || null,
+                        content: content,
+                        display_order: displayOrder,
+                        updated_at: new Date().toISOString()
+                    };
+                }
+                
+                let error;
+                
+                if (editId) {
+                    // 수정
+                    const tableName = activeType === 'worship' ? 'worship_times' : activeType === 'notice' ? 'notices' : 'prayer_requests';
+                    ({ error } = await supabaseClient
+                        .from(tableName)
+                        .update(data)
+                        .eq('id', editId));
+                } else {
+                    // 추가
+                    const tableName = activeType === 'worship' ? 'worship_times' : activeType === 'notice' ? 'notices' : 'prayer_requests';
+                    ({ error } = await supabaseClient
+                        .from(tableName)
+                        .insert([data]));
+                }
+                
+                if (error) throw error;
+                
+                closeModal();
+                loadData(activeType);
+                
+                // 저장 성공 메시지
+                alert('저장되었습니다! 메인 페이지를 새로고침하면 변경사항이 반영됩니다.');
+            } catch (error) {
+                console.error('Error saving:', error);
+                alert('저장 중 오류가 발생했습니다: ' + (error.message || '알 수 없는 오류'));
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '저장';
+            }
+        });
+
+        // 이벤트 리스너
+        document.getElementById('add-worship-btn').addEventListener('click', () => openModal('worship'));
+        document.getElementById('add-notice-btn').addEventListener('click', () => openModal('notice'));
+        document.getElementById('add-prayer-btn').addEventListener('click', () => openModal('prayer'));
+        document.getElementById('close-modal').addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeModal(e);
+        });
+        document.getElementById('cancel-btn').addEventListener('click', (e) => {
+            e.stopPropagation();
+            closeModal(e);
+        });
+        
+        // 모달 이벤트 처리
+        const modal = document.getElementById('modal');
+        const modalContent = document.getElementById('modal-content');
+        
+        // 모달 내용 영역에서 마우스 다운 추적
+        if (modalContent) {
+            modalContent.addEventListener('mousedown', (e) => {
+                isModalMouseDown = true;
+                e.stopPropagation();
+            });
+            
+            modalContent.addEventListener('mouseup', (e) => {
+                isModalMouseDown = false;
+                e.stopPropagation();
+            });
+            
+            // 모달 내용에서 나가도 드래그 상태 유지 (드래그 중일 수 있음)
+            modalContent.addEventListener('mouseleave', (e) => {
+                // 드래그 중이면 상태 유지, 아니면 해제
+                if (!e.buttons) {
+                    isModalMouseDown = false;
+                }
+            });
+        }
+        
+        // 모달 배경 클릭 시 닫기 (드래그 중이 아닐 때만)
+        modal.addEventListener('mousedown', (e) => {
+            if (e.target.id === 'modal') {
+                isModalMouseDown = false;
+            }
+        });
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target.id === 'modal' && !isModalMouseDown) {
+                closeModal(e);
+            }
+        });
+        
+        // 전역 마우스 업 이벤트로 드래그 상태 해제
+        document.addEventListener('mouseup', () => {
+            isModalMouseDown = false;
+        });
+
+        // ================================================================
+        // 갤러리 업로드 기능
+        // ================================================================
+        
+        // Google Drive 설정
+        const GOOGLE_API_KEY = 'AIzaSyAR0pKih7x68qN5m0TKL8P34DAjh6VTN-o';
+        const GOOGLE_CLIENT_ID = '1001319276716-8p4k4v3c00nt7qkb995u4avn23pg4s3n.apps.googleusercontent.com';
+        
+        // Google Drive 폴더 ID 매핑
+        const GOOGLE_DRIVE_FOLDERS = {
+            'event': '1LjNa6LTwdZrGFcsDjereCDsP7QBZVryt',      // 교회행사
+            'kids': '1vhJxT8UCFbwOWQ4LOCwYgitndwFs3yvl',       // 유치부
+            'student': '1EBtYMGgJehVGN1CcbyrMd28J5BjHeoIF',    // 학생부
+            'youth': '1JxUQ4AoFu1J3YGL_92kpKsyzjVXrQmXu',      // 청년부
+            'senior': '1cUxlblL-kxSrNsY513pKsaXMzQkhOYP4',     // 장년부
+            'facility': '1MCgzxA6hEsruFczEF157B63k4LyGBHj6'   // 교회시설
+        };
+        
+        // 카테고리 이름 매핑
+        const CATEGORY_NAMES = {
+            'event': '교회행사',
+            'kids': '유치부',
+            'student': '학생부',
+            'youth': '청년부',
+            'senior': '장년부',
+            'facility': '교회시설'
+        };
+        
+        let galleryGoogleAuthToken = null;
+        let selectedGalleryFiles = [];
+
+
+
+        // Google Drive 초기화
+        async function initGalleryGoogleDrive() {
+            if (GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID') {
+                document.getElementById('gallery-googleDriveStatus').innerHTML = 
+                    '<span class="text-xs text-yellow-500">⚠️ OAuth 클라이언트 ID 설정 필요</span>';
+                return;
+            }
+
+            try {
+                await new Promise((resolve, reject) => {
+                    if (typeof gapi === 'undefined') {
+                        reject(new Error('Google API를 로드할 수 없습니다.'));
+                        return;
+                    }
+                    gapi.load('picker', { callback: resolve, onerror: reject });
+                });
+
+                document.getElementById('gallery-googleDriveStatus').innerHTML = 
+                    '<span class="text-xs text-green-500">✓ 연결 준비됨</span>';
+            } catch (error) {
+                console.error('Google Drive 초기화 실패:', error);
+                document.getElementById('gallery-googleDriveStatus').innerHTML = 
+                    '<span class="text-xs text-red-500">연결 실패</span>';
+            }
+        }
+
+        // Google Drive 폴더 열기 (새 탭에서)
+        function openGoogleDriveFolder(category) {
+            const folderId = GOOGLE_DRIVE_FOLDERS[category];
+            if (folderId) {
+                const folderUrl = `https://drive.google.com/drive/folders/${folderId}`;
+                window.open(folderUrl, '_blank');
+            } else {
+                alert('폴더 ID가 설정되지 않았습니다.');
+            }
+        }
+
+        // Google Drive Picker 열기
+        async function openGalleryGoogleDrivePicker() {
+            if (GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID') {
+                showGalleryMessage('⚠️ Google OAuth 클라이언트 ID를 설정해주세요. GOOGLE-DRIVE-SETUP.md 파일을 참고하세요.', 'warning');
+                return;
+            }
+
+            try {
+                const tokenClient = google.accounts.oauth2.initTokenClient({
+                    client_id: GOOGLE_CLIENT_ID,
+                    scope: 'https://www.googleapis.com/auth/drive.readonly',
+                    callback: async (tokenResponse) => {
+                        if (tokenResponse.error) {
+                            showGalleryMessage('Google 인증에 실패했습니다: ' + tokenResponse.error, 'error');
+                            return;
+                        }
+
+                        galleryGoogleAuthToken = tokenResponse.access_token;
+
+                        // 카테고리에 맞는 폴더 ID 가져오기
+                        const category = document.getElementById('gallery-categorySelect').value;
+                        const folderId = GOOGLE_DRIVE_FOLDERS[category];
+                        const categoryName = CATEGORY_NAMES[category] || category;
+
+                        // Picker 생성
+                        const view = new google.picker.DocsView(google.picker.ViewId.DOCS_IMAGES_AND_VIDEOS)
+                            .setIncludeFolders(false)
+                            .setSelectFolderEnabled(false);
+                        
+                        // 특정 폴더가 있으면 해당 폴더로 제한 (해당 폴더만 보이게 함)
+                        if (folderId) {
+                            view.setParent(folderId);
+                        }
+
+                        const picker = new google.picker.PickerBuilder()
+                            .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+                            .setOAuthToken(tokenResponse.access_token)
+                            .setCallback(galleryPickerCallback)
+                            .addView(view)
+                            .setTitle(folderId ? `Google Drive - ${categoryName} 폴더` : 'Google Drive에서 파일 선택')
+                            .build();
+
+                        picker.setVisible(true);
+                    }
+                });
+
+                tokenClient.requestAccessToken();
+            } catch (error) {
+                console.error('Google Picker 오류:', error);
+                showGalleryMessage('Google Drive 연결에 실패했습니다: ' + error.message, 'error');
+            }
+        }
+
+        // Google Picker 콜백
+        async function galleryPickerCallback(data) {
+            if (data[google.picker.Response.ACTION] === google.picker.Action.PICKED) {
+                const docs = data[google.picker.Response.DOCUMENTS];
+                selectedGalleryFiles = [];
+
+                showGalleryMessage(`📥 ${docs.length}개 파일을 선택했습니다.`, 'success');
+
+                // Google Drive 파일 정보를 그대로 저장 (다운로드하지 않음)
+                selectedGalleryFiles = docs.map(doc => ({
+                    id: doc.id,
+                    name: doc.name,
+                    mimeType: doc.mimeType,
+                    url: doc.url,
+                    embedUrl: `https://drive.google.com/file/d/${doc.id}/preview`,
+                    thumbnailUrl: `https://drive.google.com/thumbnail?id=${doc.id}&sz=w400`,
+                    originalUrl: `https://drive.google.com/uc?id=${doc.id}`
+                }));
+
+                showGalleryMessage(`✅ ${selectedGalleryFiles.length}개 파일이 준비되었습니다.`, 'success');
+            }
+        }
+
+        // Google Drive 파일 링크 저장 (업로드 없이)
+        async function uploadGalleryFiles() {
+            const category = document.getElementById('gallery-categorySelect').value;
+            const uploadBtn = document.getElementById('gallery-uploadBtn');
+            const uploadBtnText = document.getElementById('gallery-uploadBtnText');
+            const progressContainer = document.getElementById('gallery-progressContainer');
+            const progressBar = document.getElementById('gallery-progressBar');
+            const progressText = document.getElementById('gallery-progressText');
+
+            if (selectedGalleryFiles.length === 0) {
+                showGalleryMessage('Google Drive에서 파일을 선택해주세요.', 'error');
+                return;
+            }
+
+            uploadBtn.disabled = true;
+            uploadBtnText.innerHTML = '<span class="loading">⏳ 저장 중...</span>';
+            progressContainer.classList.remove('hidden');
+
+            let successCount = 0;
+            let errorCount = 0;
+
+            for (let i = 0; i < selectedGalleryFiles.length; i++) {
+                const file = selectedGalleryFiles[i];
+                const progress = ((i + 1) / selectedGalleryFiles.length * 100).toFixed(0);
+                progressBar.style.width = progress + '%';
+                progressText.textContent = `저장 중... (${i + 1}/${selectedGalleryFiles.length}): ${file.name}`;
+
+                try {
+                    // Google Drive 링크만 저장 (파일은 업로드하지 않음)
+                    const { error: dbError } = await supabaseClient
+                        .from('media_library')
+                        .insert({
+                            file_name: `gdrive_${file.id}`, // Google Drive ID로 구분
+                            original_name: file.name,
+                            file_url: file.embedUrl || file.originalUrl, // Google Drive embed 링크
+                            file_type: file.mimeType || 'application/octet-stream',
+                            file_size: 0, // Google Drive 파일이므로 크기 정보 없음
+                            folder: category
+                        });
+
+                    if (dbError) throw dbError;
+
+                    successCount++;
+                    console.log('✅ Google Drive 링크 저장 성공:', file.name);
+                } catch (error) {
+                    errorCount++;
+                    console.error('❌ 저장 실패:', file.name, error);
+                }
+            }
+
+            uploadBtn.disabled = false;
+            uploadBtnText.textContent = '📤 저장하기';
+            progressText.textContent = '저장 완료!';
+            
+            if (errorCount === 0) {
+                showGalleryMessage(`✅ ${successCount}개 파일의 Google Drive 링크가 저장되었습니다!`, 'success');
+            } else {
+                showGalleryMessage(`⚠️ ${successCount}개 성공, ${errorCount}개 실패`, 'warning');
+            }
+
+            selectedGalleryFiles = [];
+
+            setTimeout(() => {
+                loadGalleryMediaList();
+            }, 1000);
+        }
+
+        // 메시지 표시
+        function showGalleryMessage(text, type) {
+            const messageDiv = document.getElementById('gallery-message');
+            messageDiv.classList.remove('hidden');
+            
+            const bgColor = type === 'success' ? 'bg-green-100 text-green-800' :
+                           type === 'error' ? 'bg-red-100 text-red-800' :
+                           'bg-yellow-100 text-yellow-800';
+            
+            messageDiv.className = `mt-4 p-4 rounded-lg ${bgColor}`;
+            messageDiv.textContent = text;
+        }
+
+        // 미디어 목록 로드
+        async function loadGalleryMediaList(event) {
+            // 이벤트 전파 방지
+            if (event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
+            const mediaList = document.getElementById('gallery-mediaList');
+            const filterCategory = document.getElementById('gallery-filterCategory').value;
+            mediaList.innerHTML = '<div class="col-span-full text-center py-12"><div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div><p class="mt-4 text-gray-500">로딩 중...</p></div>';
+
+            try {
+                let query = supabaseClient
+                    .from('media_library')
+                    .select('*')
+                    .order('created_at', { ascending: false })
+                    .limit(100);
+
+                if (filterCategory) {
+                    query = query.eq('folder', filterCategory);
+                }
+
+                const { data, error } = await query;
+
+                if (error) throw error;
+
+                if (data.length === 0) {
+                    mediaList.innerHTML = '<div class="col-span-full text-center py-12"><p class="text-gray-500 text-lg">업로드된 미디어가 없습니다.</p></div>';
+                    return;
+                }
+
+                const categoryLabels = {
+                    worship: '예배',
+                    sermon: '설교',
+                    event: '행사',
+                    student: '학생부',
+                    youth: '청년부',
+                    senior: '장년부',
+                    kids: '주일학교',
+                    general: '기타',
+                    facility: '교회시설'
+                };
+
+                mediaList.innerHTML = data.map(item => {
+                    const isImage = item.file_type?.startsWith('image/');
+                    const isVideo = item.file_type?.startsWith('video/');
+                    const sizeInMB = (item.file_size / 1024 / 1024).toFixed(2);
+
+                    return `
+                        <div class="gallery-item border border-gray-200 rounded-xl overflow-hidden bg-white shadow-sm">
+                            ${isImage ? `
+                                <div class="relative aspect-square">
+                                    <img src="${item.file_url}" alt="${item.original_name}" 
+                                         class="w-full h-full object-cover">
+                                    <div class="overlay">
+                                        <button onclick="copyGalleryUrl('${item.file_url}')" 
+                                                class="px-3 py-2 bg-white text-gray-800 rounded-lg hover:bg-gray-100 text-sm font-medium">
+                                            📋 URL 복사
+                                        </button>
+                                        <button onclick="deleteGalleryMedia('${item.id}', '${item.file_name}')" 
+                                                class="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 text-sm font-medium">
+                                            🗑️ 삭제
+                                        </button>
+                                    </div>
+                                </div>
+                            ` : isVideo ? `
+                                <div class="relative aspect-square">
+                                    <video src="${item.file_url}" 
+                                           class="w-full h-full object-cover"
+                                           controls></video>
+                                    <div class="overlay">
+                                        <button onclick="copyGalleryUrl('${item.file_url}')" 
+                                                class="px-3 py-2 bg-white text-gray-800 rounded-lg hover:bg-gray-100 text-sm font-medium">
+                                            📋 URL 복사
+                                        </button>
+                                        <button onclick="deleteGalleryMedia('${item.id}', '${item.file_name}')" 
+                                                class="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 text-sm font-medium">
+                                            🗑️ 삭제
+                                        </button>
+                                    </div>
+                                </div>
+                            ` : `
+                                <div class="relative aspect-square bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                                    <span class="text-6xl">📄</span>
+                                    <div class="overlay">
+                                        <button onclick="copyGalleryUrl('${item.file_url}')" 
+                                                class="px-3 py-2 bg-white text-gray-800 rounded-lg hover:bg-gray-100 text-sm font-medium">
+                                            📋 URL 복사
+                                        </button>
+                                        <button onclick="deleteGalleryMedia('${item.id}', '${item.file_name}')" 
+                                                class="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 text-sm font-medium">
+                                            🗑️ 삭제
+                                        </button>
+                                    </div>
+                                </div>
+                            `}
+                            <div class="p-3">
+                                <p class="font-semibold text-sm text-gray-800 truncate mb-1" title="${item.original_name}">${item.original_name}</p>
+                                <div class="flex items-center justify-between text-xs text-gray-500">
+                                    <span class="px-2 py-1 bg-blue-50 text-blue-700 rounded-full">${categoryLabels[item.folder] || item.folder}</span>
+                                    <span>${sizeInMB} MB</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (error) {
+                console.error('❌ 미디어 목록 로드 실패:', error);
+                mediaList.innerHTML = '<div class="col-span-full text-center py-12"><p class="text-red-500 text-lg">로드 실패: ' + error.message + '</p></div>';
+            }
+        }
+
+        // URL 복사
+        async function copyGalleryUrl(url) {
+            try {
+                await navigator.clipboard.writeText(url);
+                showGalleryMessage('✅ URL이 클립보드에 복사되었습니다!', 'success');
+            } catch (error) {
+                const textArea = document.createElement('textarea');
+                textArea.value = url;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showGalleryMessage('✅ URL이 클립보드에 복사되었습니다!', 'success');
+            }
+        }
+
+        // 미디어 삭제
+        async function deleteGalleryMedia(id, fileName) {
+            if (!confirm('정말 삭제하시겠습니까?')) return;
+
+            try {
+                const { error: storageError } = await supabaseClient.storage
+                    .from('media')
+                    .remove([fileName]);
+
+                if (storageError) throw storageError;
+
+                const { error: dbError } = await supabaseClient
+                    .from('media_library')
+                    .delete()
+                    .eq('id', id);
+
+                if (dbError) throw dbError;
+
+                showGalleryMessage('✅ 삭제되었습니다.', 'success');
+                loadGalleryMediaList();
+
+            } catch (error) {
+                console.error('❌ 삭제 실패:', error);
+                showGalleryMessage('❌ 삭제 실패: ' + error.message, 'error');
+            }
+        }
+
+    </script>
+</body>
+</html>
+
+

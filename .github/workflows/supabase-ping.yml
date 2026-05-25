@@ -1,4 +1,4 @@
-Copyname: Supabase Keep Alive
+name: Supabase Keep Alive
 
 on:
   schedule:
@@ -21,4 +21,3 @@ jobs:
             exit 1
           fi
           echo "Ping successful!"
-
