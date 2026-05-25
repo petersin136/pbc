@@ -12,19 +12,33 @@ CREATE TABLE IF NOT EXISTS worship_times (
     service_name VARCHAR(100) NOT NULL,
     service_time VARCHAR(50) NOT NULL,
     day_of_week VARCHAR(20),
+    category VARCHAR(30) DEFAULT '정기 예배',
     display_order INT DEFAULT 0,
     is_active BOOLEAN DEFAULT true,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
--- 초기 데이터
-INSERT INTO worship_times (service_name, service_time, day_of_week, display_order) VALUES
-('주 일 예 배', '오전 11시', '일요일', 1),
-('수 요 예 배', '오후 8시', '수요일', 2),
-('금 요 예 배', '오후 9시', '금요일', 3),
-('학생부예배', '오후 2시', '토요일', 4),
-('유치부예배', '오전 11시', '일요일', 5)
+-- 기존 테이블에 category 컬럼이 없다면 추가 (마이그레이션용)
+ALTER TABLE worship_times ADD COLUMN IF NOT EXISTS category VARCHAR(30) DEFAULT '정기 예배';
+
+-- 초기 데이터 (포천중앙침례교회 예배 시간)
+INSERT INTO worship_times (service_name, service_time, day_of_week, category, display_order) VALUES
+-- 정기 예배
+('새벽기도회',   '오전 5:00',  '매일',   '정기 예배',   1),
+('주일아침예배', '오전 7:00',  '주일',   '정기 예배',   2),
+('주일 낮 예배', '오전 10:30', '주일',   '정기 예배',   3),
+('새가족 모임',  '오후 12:50', '주일',   '정기 예배',   4),
+('주일오후 예배', '오후 7:30',  '주일',   '정기 예배',   5),
+('수요일 예배',  '오후 7:30',  '수요일', '정기 예배',   6),
+('금요기도회',   '오후 7:30',  '금요일', '정기 예배',   7),
+('중보기도회',   '오후 8:00',  '매일',   '정기 예배',   8),
+-- 부서별 예배
+('유치부',       '오전 10:30', '주일',   '부서별 예배', 9),
+('초등부',       '오후 2:30',  '주일',   '부서별 예배', 10),
+('중·고등부',    '오후 2:30',  '주일',   '부서별 예배', 11),
+('1청년부',      '오후 5:00',  '토요일', '부서별 예배', 12),
+('2청년부',      '오후 2:00',  '주일',   '부서별 예배', 13)
 ON CONFLICT DO NOTHING;
 
 -- ================================================================
