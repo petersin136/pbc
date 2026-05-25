@@ -1,4 +1,8 @@
 {
+  "framework": null,
+  "buildCommand": null,
+  "installCommand": "npm install",
+  "outputDirectory": ".",
   "crons": [
     {
       "path": "/api/cron",
