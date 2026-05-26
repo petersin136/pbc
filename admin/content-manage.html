@@ -9,7 +9,9 @@
     <!-- Google API -->
     <script src="https://apis.google.com/js/api.js"></script>
     <script src="https://accounts.google.com/gsi/client"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./admin-header.css">
+    <script src="./admin-header.js" defer></script>
     <style>
         body {
             font-family: 'Noto Sans KR', 'Inter', sans-serif;
@@ -137,22 +139,18 @@
                 throw new Error('인증 필요');
             }
         })();
-    </script>
 
-    <!-- 네비게이션 -->
-    <nav class="bg-white shadow-sm border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 admin-header">
-                <div class="flex items-center gap-4 admin-header-left">
-                    <a href="index.html" class="text-gray-600 hover:text-gray-900">← 대시보드</a>
-                    <h1 class="text-xl font-bold text-gray-900">콘텐츠 관리</h1>
-                </div>
-                <div class="flex items-center gap-4 admin-header-right">
-                    <a href="../index.html" target="_blank" class="text-sm text-gray-600 hover:text-gray-900">사이트 보기</a>
-                </div>
-            </div>
-        </div>
-    </nav>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAdminHeader({
+                pageTitle: '콘텐츠 관리',
+                backHref: './index.html',
+                showBack: true,
+                showAdminName: true,
+                showViewSite: true,
+                showLogout: true,
+            });
+        });
+    </script>
 
     <!-- 메인 컨텐츠 -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -398,8 +396,8 @@
 
     <script>
         // Supabase 설정
-        const SUPABASE_URL = 'https://fkqxalcwhqohrkdzwhvv.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_5sLcyIwutRptBow_Xe7MpA_IDKtDwXI';
+        const SUPABASE_URL = 'https://czbffjnslwauemngpayh.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6YmZmam5zbHdhdWVtbmdwYXloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA2MjU5ODIsImV4cCI6MjA3NjIwMTk4Mn0.LcBQvfZTxqEnxZgLzHaUuukZEB9mPb5KG_VBeIcFy1M';
         
         // Supabase 클라이언트 초기화 (CDN 버전)
         let supabaseClient;

@@ -6,7 +6,9 @@
     <title>관리자 대시보드 - 포천중앙침례교회</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./admin-header.css">
+    <script src="./admin-header.js" defer></script>
     <style>
         body {
             font-family: 'Noto Sans KR', 'Inter', sans-serif;
@@ -15,22 +17,17 @@
 </head>
 <body class="bg-gray-100">
 
-    <!-- 네비게이션 -->
-    <nav class="bg-white shadow-sm border-b border-gray-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <h1 class="text-xl font-bold text-gray-900">포천중앙침례교회 관리자</h1>
-                </div>
-                <div class="flex items-center gap-4">
-                    <span id="adminName" class="text-gray-700"></span>
-                    <button id="logoutBtn" class="text-gray-600 hover:text-gray-900">
-                        로그아웃
-                    </button>
-                </div>
-            </div>
-        </div>
-    </nav>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAdminHeader({
+                pageTitle: '관리자 대시보드',
+                showBack: false,
+                showAdminName: true,
+                showViewSite: true,
+                showLogout: true,
+            });
+        });
+    </script>
 
     <!-- 메인 컨텐츠 -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -157,17 +154,12 @@
         })();
 
         // Supabase 설정
-        const SUPABASE_URL = 'https://fkqxalcwhqohrkdzwhvv.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZrcXhhbGN3aHFvaHJrZHp3aHZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzU2MzE1NzUsImV4cCI6MjA1MTIwNzU3NX0.3lagvXnuXPVJJhNFKKjXgOl9NcSULBzGzLwX7NzCVvE';
+        const SUPABASE_URL = 'https://czbffjnslwauemngpayh.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6YmZmam5zbHdhdWVtbmdwYXloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA2MjU5ODIsImV4cCI6MjA3NjIwMTk4Mn0.LcBQvfZTxqEnxZgLzHaUuukZEB9mPb5KG_VBeIcFy1M';
         const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        // 데이터 로드
+        // 데이터 로드 (관리자 이름은 공통 헤더에서 자동 표시)
         async function loadDashboardData() {
-            // 관리자 이름 표시
-            const adminUser = sessionStorage.getItem('pcbc_admin_user') || '관리자';
-            document.getElementById('adminName').textContent = adminUser;
-
-            // 통계 데이터 로드
             try {
                 // 새가족 등록 수
                 const { count: visitorCount } = await supabaseClient
@@ -264,12 +256,7 @@
             `).join('');
         }
 
-        // 로그아웃
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            sessionStorage.removeItem('pcbc_admin_auth');
-            sessionStorage.removeItem('pcbc_admin_user');
-            window.location.href = './login.html';
-        });
+        // 로그아웃 버튼은 공통 admin-header.js 에서 자동으로 바인딩됨.
 
         // 초기 로드
         loadDashboardData();

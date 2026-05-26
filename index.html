@@ -2242,10 +2242,21 @@
             letter-spacing: 2.5px;
         }
         
+        /* 부서별 예배: 5개 항목을 항상 한 줄(5컬럼)로 펼친다 */
+        .worship-grid.worship-grid--row5 {
+            grid-template-columns: repeat(5, 1fr);
+            gap: 32px 16px;
+        }
+        
         @media (max-width: 1024px) {
             .worship-grid {
                 grid-template-columns: repeat(3, 1fr);
                 gap: 28px 16px;
+            }
+            /* 5컬럼은 유지하되 좌우 간격만 좁힘 */
+            .worship-grid.worship-grid--row5 {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 24px 10px;
             }
         }
         
@@ -2278,6 +2289,23 @@
                 font-size: 11px;
                 letter-spacing: 2px;
             }
+            
+            /* 부서별 예배는 모바일에서도 5컬럼 유지(폰트만 축소) */
+            .worship-grid.worship-grid--row5 {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 18px 6px;
+            }
+            .worship-grid.worship-grid--row5 .worship-item .name {
+                font-size: 13px;
+                letter-spacing: 0.5px;
+            }
+            .worship-grid.worship-grid--row5 .worship-item .time {
+                font-size: 17px;
+            }
+            .worship-grid.worship-grid--row5 .worship-item .day {
+                font-size: 9px;
+                letter-spacing: 1.5px;
+            }
         }
         
         @media (max-width: 420px) {
@@ -2293,6 +2321,24 @@
             
             .worship-grid .worship-item .time {
                 font-size: 22px;
+            }
+            
+            /* 매우 좁은 폰에서도 5컬럼 유지 */
+            .worship-grid.worship-grid--row5 {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 14px 4px;
+            }
+            .worship-grid.worship-grid--row5 .worship-item .name {
+                font-size: 11px;
+                letter-spacing: 0;
+            }
+            .worship-grid.worship-grid--row5 .worship-item .time {
+                font-size: 14px;
+                letter-spacing: 0;
+            }
+            .worship-grid.worship-grid--row5 .worship-item .day {
+                font-size: 8px;
+                letter-spacing: 1px;
             }
         }
         
@@ -5008,18 +5054,18 @@ given to mankind by which we must be saved.
     
     <script>
         // Supabase 설정
-        const SUPABASE_URL_GALLERY = 'https://fkqxalcwhqohrkdzwhvv.supabase.co';
-        const SUPABASE_ANON_KEY_GALLERY = 'sb_publishable_5sLcyIwutRptBow_Xe7MpA_IDKtDwXI';
+        const SUPABASE_URL_GALLERY = 'https://czbffjnslwauemngpayh.supabase.co';
+        const SUPABASE_ANON_KEY_GALLERY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6YmZmam5zbHdhdWVtbmdwYXloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA2MjU5ODIsImV4cCI6MjA3NjIwMTk4Mn0.LcBQvfZTxqEnxZgLzHaUuukZEB9mPb5KG_VBeIcFy1M';
         
-        // Google Drive API 설정
-        const GOOGLE_API_KEY = 'AIzaSyAR0pKih7x68qN5m0TKL8P34DAjh6VTN-o';
+        // Google Drive API 설정 (포천중앙침례교회)
+        const GOOGLE_API_KEY = 'AIzaSyDJN7tAmTuVK76x-fJcABk_eMucmMnqjhg';
         const GOOGLE_DRIVE_FOLDERS = {
-            'event': '1LjNa6LTwdZrGFcsDjereCDsP7QBZVryt',      // 교회행사
-            'kids': '1vhJxT8UCFbwOWQ4LOCwYgitndwFs3yvl',       // 유치부
-            'student': '1EBtYMGgJehVGN1CcbyrMd28J5BjHeoIF',    // 학생부
-            'youth': '1JxUQ4AoFu1J3YGL_92kpKsyzjVXrQmXu',      // 청년부
-            'senior': '1cUxlblL-kxSrNsY513pKsaXMzQkhOYP4',     // 장년부
-            'facility': '1MCgzxA6hEsruFczEF157B63k4LyGBHj6'   // 교회시설
+            'event': '1v6JBdmPeTy9L8bvoS_-qt4jSn-A8OzbG',      // 교회행사
+            'kids': '1U3OEGDQgL-iuqKf4RsYw6J2ehopcFAqR',       // 유치부
+            'student': '1hG2q6iivJ0PM3j_EmGSt99jjUqqBUO0d',    // 주일학교
+            'youth': '1w-N1vV-Ynmkqvw6_EPLE2jqh03a0LXmI',      // 중고등부
+            'senior': '1A6Mh3ZI3Uz368At4DfT0h62kDcVeJLPe',     // 장년부
+            'facility': '1SPPnOfClKVgyPiixz9Nleie3pp7uZvua'   // 청년부
         };
         
         // Supabase 클라이언트 초기화
@@ -6006,8 +6052,8 @@ given to mankind by which we must be saved.
         // ========================================
         // SUPABASE 초기화
         // ========================================
-        const SUPABASE_URL = 'https://fkqxalcwhqohrkdzwhvv.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_5sLcyIwutRptBow_Xe7MpA_IDKtDwXI';
+        const SUPABASE_URL = 'https://czbffjnslwauemngpayh.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6YmZmam5zbHdhdWVtbmdwYXloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA2MjU5ODIsImV4cCI6MjA3NjIwMTk4Mn0.LcBQvfZTxqEnxZgLzHaUuukZEB9mPb5KG_VBeIcFy1M';
         
         let supabaseClient = null;
         
@@ -6577,10 +6623,14 @@ given to mankind by which we must be saved.
                 let html = '';
                 sortedCategories.forEach(category => {
                     const items = groups[category];
+                    // 부서별 예배 그룹은 5개 항목을 한 줄(5컬럼)로 펼쳐 보여준다.
+                    const gridClass = category === '부서별 예배'
+                        ? 'worship-grid worship-grid--row5'
+                        : 'worship-grid';
                     html += `
                         <div class="worship-group">
                             <h3 class="worship-group-title">${escapeHtml(category)}</h3>
-                            <div class="worship-grid">
+                            <div class="${gridClass}">
                                 ${items.map(item => {
                                     const day = formatDay(item.day_of_week);
                                     return `

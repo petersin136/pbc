@@ -3,8 +3,8 @@
 // ================================================================
 
 // Supabase 프로젝트 설정
-const SUPABASE_URL = 'https://fkqxalcwhqohrkdzwhvv.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_5sLcyIwutRptBow_Xe7MpA_IDKtDwXI';
+const SUPABASE_URL = 'https://czbffjnslwauemngpayh.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6YmZmam5zbHdhdWVtbmdwYXloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA2MjU5ODIsImV4cCI6MjA3NjIwMTk4Mn0.LcBQvfZTxqEnxZgLzHaUuukZEB9mPb5KG_VBeIcFy1M';
 
 // Supabase 클라이언트 생성
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);

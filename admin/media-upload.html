@@ -9,7 +9,9 @@
     <!-- Google API -->
     <script src="https://apis.google.com/js/api.js"></script>
     <script src="https://accounts.google.com/gsi/client"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./admin-header.css">
+    <script src="./admin-header.js" defer></script>
     <style>
         body {
             font-family: 'Noto Sans KR', 'Inter', sans-serif;
@@ -65,23 +67,27 @@
                 throw new Error('인증 필요');
             }
         })();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAdminHeader({
+                pageTitle: '미디어 갤러리',
+                backHref: './index.html',
+                showBack: true,
+                showAdminName: true,
+                showViewSite: true,
+                showLogout: true,
+            });
+        });
     </script>
 
     <div class="min-h-screen py-8 px-4">
         <div class="max-w-7xl mx-auto">
-            <!-- 헤더 -->
+            <!-- 페이지 인트로 -->
             <div class="bg-white rounded-2xl shadow-lg p-8 mb-8 border border-gray-100">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                            미디어 갤러리
-                        </h1>
-                        <p class="text-gray-600 text-lg">사진, 영상, PDF 파일을 업로드하고 관리하세요</p>
-                    </div>
-                    <a href="./index.html" class="px-4 py-2 text-gray-600 hover:text-gray-900 transition">
-                        ← 대시보드
-                    </a>
-                </div>
+                <h1 class="text-4xl font-bold mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    미디어 갤러리
+                </h1>
+                <p class="text-gray-600 text-lg">사진, 영상, PDF 파일을 업로드하고 관리하세요</p>
             </div>
 
             <!-- 업로드 섹션 -->
@@ -199,8 +205,8 @@
         };
 
         // Supabase 초기화
-        const SUPABASE_URL = 'https://fkqxalcwhqohrkdzwhvv.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZrcXhhbGN3aHFvaHJrZHp3aHZ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzQ1MjE2MjAsImV4cCI6MjA1MDA5NzYyMH0.bKpBqLaWy6u1YvTG6gCtgaK8sgjYAP8CZR3Kf4p0C08';
+        const SUPABASE_URL = 'https://czbffjnslwauemngpayh.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN6YmZmam5zbHdhdWVtbmdwYXloIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA2MjU5ODIsImV4cCI6MjA3NjIwMTk4Mn0.LcBQvfZTxqEnxZgLzHaUuukZEB9mPb5KG_VBeIcFy1M';
         
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
