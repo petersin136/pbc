@@ -6872,35 +6872,35 @@ given to mankind by which we must be saved.
             }
             
             if (!isModalOpen) return; // 이미 닫혀있으면 무시
-            
+
             const modal = document.getElementById('content-modal');
             const modalContentEl = modal.querySelector('.modal-content');
-            
-            // 닫기 애니메이션
+
+            // 닫기 애니메이션 (opacity + transform만)
             modal.classList.remove('modal-open');
-            modalContentEl.style.transform = 'scale(0.85) translateY(20px)';
+            modal.style.opacity = '0';
+            modalContentEl.style.transform = 'translate3d(0, 12px, 0) scale(0.97)';
             modalContentEl.style.opacity = '0';
-            modal.style.background = 'rgba(0, 0, 0, 0)';
-            modal.style.backdropFilter = 'blur(0px)';
-            
+
             setTimeout(() => {
                 modal.style.display = 'none';
-                
+
                 // body 고정 해제 및 스크롤 위치 복원
                 document.body.style.position = '';
                 document.body.style.top = '';
                 document.body.style.width = '';
                 document.body.style.overflow = '';
-                
+
                 // 저장된 스크롤 위치로 복원
                 window.scrollTo(0, savedScrollPosition);
-                
+
                 // 초기 상태로 리셋
-                modalContentEl.style.transform = 'scale(0.85) translateY(20px)';
-                modalContentEl.style.opacity = '0';
-                
+                modal.style.opacity = '';
+                modalContentEl.style.transform = '';
+                modalContentEl.style.opacity = '';
+
                 isModalOpen = false;
-            }, 400);
+            }, 240);
         }
         
         // ESC 키로 모달 닫기
@@ -6921,28 +6921,28 @@ given to mankind by which we must be saved.
                 // 모달만 닫기 (히스토리는 이미 popstate로 처리됨)
                 const modalContentEl = contentModal.querySelector('.modal-content');
                 contentModal.classList.remove('modal-open');
-                modalContentEl.style.transform = 'scale(0.85) translateY(20px)';
+                contentModal.style.opacity = '0';
+                modalContentEl.style.transform = 'translate3d(0, 12px, 0) scale(0.97)';
                 modalContentEl.style.opacity = '0';
-                contentModal.style.background = 'rgba(0, 0, 0, 0)';
-                contentModal.style.backdropFilter = 'blur(0px)';
-                
+
                 setTimeout(() => {
                     contentModal.style.display = 'none';
-                    
+
                     // body 고정 해제 및 스크롤 위치 복원
                     document.body.style.position = '';
                     document.body.style.top = '';
                     document.body.style.width = '';
                     document.body.style.overflow = '';
-                    
+
                     // 저장된 스크롤 위치로 복원
                     window.scrollTo(0, savedScrollPosition);
-                    
-                    modalContentEl.style.transform = 'scale(0.85) translateY(20px)';
-                    modalContentEl.style.opacity = '0';
-                    
+
+                    contentModal.style.opacity = '';
+                    modalContentEl.style.transform = '';
+                    modalContentEl.style.opacity = '';
+
                     isModalOpen = false;
-                }, 400);
+                }, 240);
                 return; // 모달 닫기 처리 후 종료
             }
             
