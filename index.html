@@ -325,8 +325,22 @@
             }
             
             #heroSection .hero-text h1 {
-                font-size: 28px !important;
+                font-size: 38px !important;
+                line-height: 1.15 !important;
                 text-shadow: 1px 1px 4px rgba(0,0,0,0.7) !important;
+            }
+            
+            /* 메인 슬로건 영역의 영문 캡션 (모바일) */
+            #heroSection > .hero-text > p:first-of-type {
+                font-size: 11px !important;
+                letter-spacing: 0.3em !important;
+                margin-bottom: 14px !important;
+            }
+            
+            /* 메인 슬로건 영역의 보조 타이틀 "기도와 전도" (모바일) */
+            #heroSection > .hero-text > p:last-of-type {
+                font-size: 20px !important;
+                margin-top: 10px !important;
             }
             
             /* 히어로 하단 영역 숨기기 (모바일) */
@@ -1630,9 +1644,9 @@
             letter-spacing: 0.08em;
         }
         
-        /* 가로 스크롤 섹션 */
+        /* 가로 스크롤 섹션 (JS에서 카드 수에 따라 동적으로 다시 계산함) */
         .horizontal-scroll-container {
-            height: 400vh;
+            height: 700vh;
             position: relative;
         }
         
@@ -1658,6 +1672,46 @@
             height: 100vh;
             /* 좌우 패딩을 자동 계산해서 콘텐츠를 항상 가운데 1400px 안쪽으로 모음 */
             padding: 60px max(60px, calc((100vw - 1400px) / 2));
+        }
+        
+        /* ===== 카드 이미지 콜라주 레이아웃 ===== */
+        .service-collage {
+            display: grid;
+            gap: 14px;
+        }
+        .service-collage img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 22px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.22);
+            display: block;
+        }
+        /* 2장: 좌우 분할 */
+        .service-collage.collage-2 {
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr;
+        }
+        /* 2장: 상하 분할 */
+        .service-collage.collage-2v {
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr 1fr;
+        }
+        /* 3장: 위 큰 가로 1장 + 아래 2장 */
+        .service-collage.collage-3a {
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1.25fr 1fr;
+        }
+        .service-collage.collage-3a > img:nth-child(1) {
+            grid-column: 1 / span 2;
+        }
+        /* 3장: 왼쪽 큰 세로 1장 + 오른쪽 2장 */
+        .service-collage.collage-3b {
+            grid-template-columns: 1.25fr 1fr;
+            grid-template-rows: 1fr 1fr;
+        }
+        .service-collage.collage-3b > img:nth-child(1) {
+            grid-row: 1 / span 2;
         }
         
         @media (max-width: 768px) {
@@ -1806,6 +1860,23 @@
                 box-shadow: 0 8px 32px rgba(0,0,0,0.2) !important;
                 display: block !important;
                 visibility: visible !important;
+            }
+            
+            /* 콜라주 컨테이너(모바일) */
+            #worship .service-card .service-collage {
+                width: 280px !important;
+                max-width: 280px !important;
+                height: 280px !important;
+                gap: 8px !important;
+                box-shadow: none !important;
+            }
+            /* 콜라주 내부 이미지(모바일) - 위의 단일 이미지 규칙 오버라이드 */
+            #worship .service-card .service-collage img {
+                width: 100% !important;
+                max-width: 100% !important;
+                height: 100% !important;
+                border-radius: 14px !important;
+                box-shadow: 0 4px 14px rgba(0,0,0,0.22) !important;
             }
             
             #worship .service-card br.hidden {
@@ -2398,7 +2469,59 @@
             color: #FFB800;
             padding-left: 24px;
         }
-        
+
+        /* 데스크탑 헤더 - 적절한 폭 + 모든 텍스트 줄바꿈 방지 */
+        @media (min-width: 769px) {
+            .main-header > div.max-w-7xl {
+                max-width: 1800px !important;
+                width: 100% !important;
+                margin-left: auto !important;
+                margin-right: auto !important;
+                padding-left: clamp(24px, 3vw, 56px) !important;
+                padding-right: clamp(24px, 3vw, 56px) !important;
+                gap: 16px !important;
+            }
+
+            /* 헤더 좌측 그룹 (로고 + 텍스트) */
+            .main-header .flex.items-center.gap-2 {
+                flex-shrink: 0 !important;
+            }
+
+            /* 헤더 우측 그룹 (네비 + 영문 텍스트) */
+            .main-header .flex.items-center.gap-3 {
+                flex-shrink: 0 !important;
+                flex-wrap: nowrap !important;
+            }
+
+            /* 모든 헤더 텍스트 줄바꿈 방지 */
+            .main-header .denomination,
+            .main-header .denomination-top,
+            .main-header .denomination-bottom,
+            .main-header .church-name,
+            .main-header .church-name span,
+            .main-header nav > *,
+            .main-header nav .nav-dropdown-btn,
+            .main-header nav a {
+                white-space: nowrap !important;
+                flex-shrink: 0 !important;
+            }
+
+            /* 영문 교회명 박스 줄바꿈 방지 */
+            .main-header .hidden.md\:block.text-right > div {
+                white-space: nowrap !important;
+            }
+        }
+
+        /* 매우 좁은 데스크탑(1024px 이하)에서는 네비 간격 더 줄임 */
+        @media (min-width: 769px) and (max-width: 1280px) {
+            .main-header nav {
+                gap: 8px !important;
+            }
+            .main-header .flex.items-center.gap-3 {
+                gap: 10px !important;
+            }
+        }
+
         /* 호버로 드롭다운 열기 */
         /* 호버로 드롭다운 열기 비활성화 - JavaScript로만 제어 */
         /* .nav-dropdown:hover .nav-dropdown-menu {
@@ -2814,6 +2937,23 @@
                     </div>
                     
                     <a href="#location" class="hover:text-red-400 transition">오시는 길</a>
+
+                    <!-- 사이트 바로가기 드롭다운 -->
+                    <div class="nav-dropdown relative" style="position: relative;">
+                        <button class="nav-dropdown-btn flex items-center gap-1 hover:text-red-400 transition"
+                                style="background: none; border: none; color: inherit; font: inherit; cursor: pointer; padding: 4px 8px;"
+                                onclick="toggleDropdown(event, 'external-sites-menu')">
+                            바로가기
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transition: transform 0.3s;">
+                                <path d="M3 4.5l3 3 3-3"/>
+                            </svg>
+                        </button>
+                        <div id="external-sites-menu" class="nav-dropdown-menu" style="display: none; position: absolute; top: 100%; right: 0; left: auto; margin-top: 8px; background: rgba(45, 45, 45, 0.95); backdrop-filter: blur(10px); border-radius: 8px; padding: 8px 0; min-width: 180px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); z-index: 1000;">
+                            <a href="https://history.kbtus.ac.kr/history/CMS/Contents/Contents.do?mCode=MN025" target="_blank" rel="noopener noreferrer" class="dropdown-item">한국침례교회 발자취</a>
+                            <a href="https://www.koreabaptist.or.kr/" target="_blank" rel="noopener noreferrer" class="dropdown-item">기독교한국침례회 총회</a>
+                            <a href="https://www.baptistnews.co.kr/" target="_blank" rel="noopener noreferrer" class="dropdown-item">침례신문</a>
+                        </div>
+                    </div>
                 </nav>
                 
                 <!-- 우측 텍스트 (Pocheon Central Baptist Church) -->
@@ -2878,6 +3018,16 @@
             </div>
             
             <a href="#location" class="mobile-nav-item" onclick="scrollToSectionMobile('#location'); return false;">오시는 길</a>
+
+            <div class="mobile-nav-item" onclick="toggleMobileSubmenu('mobile-external-sites-menu')">
+                바로가기
+                <span style="float: right;">▼</span>
+            </div>
+            <div id="mobile-external-sites-menu" class="mobile-nav-dropdown" style="display: none;">
+                <a href="https://history.kbtus.ac.kr/history/CMS/Contents/Contents.do?mCode=MN025" target="_blank" rel="noopener noreferrer">한국침례교회 발자취</a>
+                <a href="https://www.koreabaptist.or.kr/" target="_blank" rel="noopener noreferrer">기독교한국침례회 총회</a>
+                <a href="https://www.baptistnews.co.kr/" target="_blank" rel="noopener noreferrer">침례신문</a>
+            </div>
         </nav>
     </div>
 
@@ -2891,14 +3041,53 @@
             <img class="hero-slide" src="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/2.jpg" alt="포천중앙침례교회 슬라이드 4" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center center; opacity: 0; transition: opacity 1s ease-in-out;">
         </div>
         
-        <!-- 1. 메인 슬로건 - 반응형 위치 -->
+        <!-- 1. 메인 슬로건 - 다듬어진 타이포 (오직예수 · 기도 · 전도) -->
         <div 
             class="hero-text absolute z-10"
-            style="left: 4.69%; top: 41.15%; width: 90.63%; height: 31.01%; z-index: 10;">
-            <h1
-                style="font-family: 'Noto Sans KR', 'Inter', sans-serif; font-weight: 700; font-size: clamp(40px, 11.46vw, 220px); line-height: 1.2102272727272727em; color: #FFFFFF; text-align: left; margin: 0; padding: 0; text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);">
-                오직예수! 오직전도!
+            style="left: 5%; top: 36%; width: 90%; z-index: 10;">
+            <!-- 영문 캡션 -->
+            <p style="
+                font-family: 'Playfair Display', serif;
+                font-weight: 400;
+                font-style: italic;
+                font-size: clamp(12px, 1.2vw, 20px);
+                letter-spacing: 0.4em;
+                color: rgba(255, 255, 255, 0.85);
+                margin: 0 0 22px 0;
+                padding: 0 0 0 4px;
+                text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
+                text-transform: uppercase;
+            ">
+                Only Jesus &middot; Prayer &middot; Evangelism
+            </p>
+            <!-- 메인 타이틀 -->
+            <h1 style="
+                font-family: 'Noto Sans KR', sans-serif;
+                font-weight: 600;
+                font-size: clamp(40px, 6.5vw, 108px);
+                line-height: 1.15;
+                letter-spacing: -0.005em;
+                color: #FFFFFF;
+                margin: 0;
+                padding: 0;
+                text-shadow: 2px 2px 12px rgba(0, 0, 0, 0.55);
+            ">
+                오직 예수
             </h1>
+            <!-- 보조 타이틀 -->
+            <p style="
+                font-family: 'Noto Sans KR', sans-serif;
+                font-weight: 300;
+                font-size: clamp(22px, 3.2vw, 52px);
+                line-height: 1.3;
+                letter-spacing: 0.05em;
+                color: rgba(255, 255, 255, 0.92);
+                margin: 16px 0 0 4px;
+                padding: 0;
+                text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
+            ">
+                기도와 전도
+            </p>
         </div>
 
         <!-- 2. 하단 영역 - 한글 + 영어 2개 컬럼 (반응형) -->
@@ -2912,19 +3101,19 @@
                 style="left: 0; top: 0; width: 100%; height: 1px;">
             </div>
             
-            <!-- 컬럼 1: 한글 성경 구절 (왼쪽) -->
+            <!-- 컬럼 1: 한글 성경 구절 (왼쪽) - 사도행전 4:12 (오직예수의 핵심 말씀) -->
             <div 
                 class="absolute"
                 style="left: 0.05%; top: 1.79%; width: 49.95%; height: auto; padding-right: 2%; box-sizing: border-box;">
                 <p
                     style="font-family: 'Inter', sans-serif; font-weight: 400; font-size: clamp(16px, 1.5vw, 28px); line-height: 1.4em; color: #FFFFFF; text-align: right; margin: 0; padding: 0; text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5); white-space: pre-line;">
-                    이같이 <span style="font-size: clamp(22px, 2vw, 40px); font-weight: 600;">너희 빛</span>이 사람 앞에 비치게 하여
-그들로 너희 착한 행실을 보고
-하늘에 계신 너희 아버지께 영광을 돌리게 하라
+                    다른 이로써는 구원을 받을 수 없나니
+천하 사람 중에 구원을 받을 만한
+<span style="font-size: clamp(22px, 2vw, 40px); font-weight: 600;">다른 이름</span>을 우리에게 주신 일이 없음이라
                 </p>
                 <p
                     style="font-family: 'Inter', sans-serif; font-weight: 400; font-size: clamp(16px, 1.5vw, 28px); line-height: 1.4em; color: #FFFFFF; text-align: right; margin: 0; padding: 0; margin-top: 1.5vh; text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);">
-                    마태복음 5:16
+                    사도행전 4:12
                 </p>
             </div>
 
@@ -2934,20 +3123,20 @@
                 style="left: 50.05%; top: 0; width: 1px; height: 100%;">
             </div>
 
-            <!-- 컬럼 2: 영어 성경 구절 (오른쪽) -->
+            <!-- 컬럼 2: 영어 성경 구절 (오른쪽) - Acts 4:12 -->
             <div 
                 class="absolute"
                 style="left: 50.05%; top: 1.79%; width: 49.95%; height: auto; padding-right: 2%; box-sizing: border-box;">
                 <p
                     style="font-family: 'Inter', sans-serif; font-weight: 400; font-size: clamp(16px, 1.5vw, 28px); line-height: 1.4em; color: #FFFFFF; text-align: right; margin: 0; padding: 0; text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5); white-space: pre-line;">
-                    In the same way, let <span style="font-size: clamp(22px, 2vw, 40px); font-weight: 600;">your light</span> shine before others,
-that they may see your good deeds
-and glorify your Father in heaven.
+                    Salvation is found in no one else,
+for there is <span style="font-size: clamp(22px, 2vw, 40px); font-weight: 600;">no other name</span> under heaven
+given to mankind by which we must be saved.
                 </p>
-                <!-- Matthew 5:16 -->
+                <!-- Acts 4:12 -->
                 <p
                     style="font-family: 'Inter', sans-serif; font-weight: 400; font-size: clamp(16px, 1.5vw, 28px); line-height: 1.4em; color: #FFFFFF; text-align: right; margin: 0; padding: 0; margin-top: 1.5vh; text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);">
-                    Matthew 5:16
+                    Acts 4:12
                 </p>
             </div>
         </div>
@@ -3370,25 +3559,25 @@ and glorify your Father in heaven.
             <!-- 본문 텍스트 1 -->
             <p class="text-white text-lg md:text-xl lg:text-2xl mb-2 font-semibold" 
                style="font-family: 'Noto Sans KR', sans-serif; line-height: 1.8;">
-                포천중앙침례교회는<br class="md:hidden"> 오직예수! 오직전도!를 표어로 하는 공동체입니다.
+                포천중앙침례교회는<br class="md:hidden"> 오직 예수, 기도와 전도의 공동체입니다.
             </p>
             
             <!-- 본문 텍스트 2 -->
             <p class="text-white text-base md:text-lg lg:text-xl mb-1" 
                style="font-family: 'Noto Sans KR', sans-serif; font-weight: 300; line-height: 1.9;">
-                우리는 영감 있는 예배를 통해 하나님을 만나고,
+                전심으로 드리는 예배로 살아계신 하나님을 만나고,
             </p>
             <p class="text-white text-base md:text-lg lg:text-xl mb-1" 
                style="font-family: 'Noto Sans KR', sans-serif; font-weight: 300; line-height: 1.9;">
-                성도들과의 사랑의 교제 안에서 서로를 세워갑니다.
+                말씀을 깊이 묵상하며 무릎 꿇어 기도합니다.
             </p>
             <p class="text-white text-base md:text-lg lg:text-xl mb-1" 
                style="font-family: 'Noto Sans KR', sans-serif; font-weight: 300; line-height: 1.9;">
-                말씀을 깊이 묵상하며 훈련받아,
+                다음세대를 양육하고 이웃을 사랑으로 섬기며,
             </p>
             <p class="text-white text-base md:text-lg lg:text-xl mb-10 md:mb-14" 
                style="font-family: 'Noto Sans KR', sans-serif; font-weight: 300; line-height: 1.9;">
-                교회와 세상을 섬기는 그리스도의 제자로 자라갑니다.
+                땅끝까지 복음을 전하는 그리스도의 제자로 자라갑니다.
             </p>
             
             <!-- 강조 텍스트 -->
@@ -3398,7 +3587,7 @@ and glorify your Father in heaven.
             </p>
             <p class="text-white text-lg md:text-xl lg:text-2xl font-medium mb-12 md:mb-16" 
                style="font-family: 'Noto Sans KR', sans-serif; line-height: 1.8;">
-                이곳에서 함께 하나님을 갈망하며 성장하실 수 있습니다.
+                이곳에서 함께 예수님 안에서 한 가족으로 성장하실 수 있습니다.
             </p>
             
             <!-- 예배 안내 버튼 -->
@@ -3529,13 +3718,14 @@ and glorify your Father in heaven.
         <div class="pastor-greeting-text reveal-text" style="position: absolute; left: 41%; top: 36%; width: 50%; font-family: 'Noto Sans KR', sans-serif; color: #000000; font-size: clamp(18px, 1.5vw, 24px); line-height: 2.1; z-index: 10;">
             <p style="margin: 0;">환영합니다.</p>
             <p style="margin: 0;">포천중앙침례교회 담임목사 박상구입니다.</p>
-            <p style="margin: 0;">우리 교회는 "오직예수! 오직전도!"를 표어로 삼는 공동체입니다.</p>
-            <p style="margin: 0;">예수 그리스도만을 높이는 예배로 하나님을 만나고,</p>
-            <p style="margin: 0;">복음을 이웃에게 전하는 전도의 사명을 감당하며,</p>
-            <p style="margin: 0;">말씀과 기도로 훈련받아 세상을 섬깁니다.</p>
-            <p style="margin: 0; font-weight: 700;">"제자 되고 제자 삼자!" 라는 목표 아래</p>
+            <p style="margin: 0;">우리 교회는 "오직 예수, 기도와 전도"를 가슴에 품은 공동체입니다.</p>
+            <p style="margin: 0;">살아계신 예수 그리스도를 높이는 예배로 하나님을 만나고,</p>
+            <p style="margin: 0;">깊은 말씀과 무릎 꿇은 기도로 영혼이 새롭게 됩니다.</p>
+            <p style="margin: 0;">다음세대를 양육하고 이웃을 사랑으로 섬기며,</p>
+            <p style="margin: 0;">땅끝까지 복음을 들고 나아가는 선교의 길을 함께 걷습니다.</p>
+            <p style="margin: 0; font-weight: 700;">"제자 되고 제자 삼자" 이 목표 아래</p>
             <p style="margin: 0; font-weight: 700;">우리 교회의 문은 언제나 열려 있습니다.</p>
-            <p style="margin: 0;">함께 예수님의 제자로 성장해 가길 소망합니다.</p>
+            <p style="margin: 0;">함께 예수님의 제자로 자라가시길 소망합니다.</p>
                             </div>
         
         <!-- ===== [6] 서명 (사진 아래 중앙에 배치) ===== -->
@@ -3627,18 +3817,20 @@ and glorify your Father in heaven.
                         </p>
                     </div>
                     <div class="w-full md:w-1/2 flex justify-center items-center mt-4 md:mt-0">
-                        <img src="https://placehold.co/650x650/FFB800/FFFFFF?text=WORSHIP%0A예배공동체" 
-                             alt="예배공동체" 
-                             class="w-full max-w-[400px] md:max-w-[650px] aspect-square object-cover rounded-3xl shadow-2xl">
+                        <div class="service-collage collage-2 w-full max-w-[400px] md:max-w-[650px] aspect-square">
+                            <img src="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/KakaoTalk_Photo_2026-05-26-00-53-27-80.jpeg" alt="예배공동체 1">
+                            <img src="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/KakaoTalk_Photo_2026-05-26-00-53-27-15.jpeg" alt="예배공동체 2">
+                        </div>
                     </div>
                 </div>
 
                 <!-- 카드 02 - 교육공동체 (EDUCATION) -->
                 <div class="service-card flex flex-col md:flex-row items-center justify-between" style="background-color: #FF6B6B;">
                     <div class="w-full md:w-1/2 flex justify-center items-center mb-6 md:mb-0 order-2 md:order-1">
-                        <img src="https://placehold.co/650x650/FF6B6B/FFFFFF?text=EDUCATION%0A교육공동체" 
-                             alt="교육공동체" 
-                             class="w-full max-w-[400px] md:max-w-[650px] aspect-square object-cover rounded-3xl shadow-2xl">
+                        <div class="service-collage collage-2v w-full max-w-[400px] md:max-w-[650px] aspect-square">
+                            <img src="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/5.jpg" alt="교육공동체 1">
+                            <img src="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/6.jpg" alt="교육공동체 2">
+                        </div>
                     </div>
                     <div class="w-full md:w-1/2 md:pl-12 order-1 md:order-2">
                         <div class="service-number" style="margin-bottom: 30px;">02</div>
@@ -3681,18 +3873,21 @@ and glorify your Father in heaven.
                         </p>
                     </div>
                     <div class="w-full md:w-1/2 flex justify-center items-center mt-4 md:mt-0">
-                        <img src="https://placehold.co/650x650/87CEEB/FFFFFF?text=SERVICE%0A섬김과+나눔공동체" 
-                             alt="섬김과 나눔공동체" 
-                             class="w-full max-w-[400px] md:max-w-[650px] aspect-square object-cover rounded-3xl shadow-2xl">
+                        <div class="service-collage collage-3b w-full max-w-[400px] md:max-w-[650px] aspect-square">
+                            <img src="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/7179332545.jpg" alt="섬김과 나눔공동체 1">
+                            <img src="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/7578074122.jpg" alt="섬김과 나눔공동체 2">
+                            <img src="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/77381128155.jpg" alt="섬김과 나눔공동체 3">
+                        </div>
                     </div>
                 </div>
 
                 <!-- 카드 04 - 선교공동체 (MISSION) -->
                 <div class="service-card flex flex-col md:flex-row items-center justify-between" style="background-color: #6FCF97;">
                     <div class="w-full md:w-1/2 flex justify-center items-center mb-6 md:mb-0 order-2 md:order-1">
-                        <img src="https://placehold.co/650x650/6FCF97/FFFFFF?text=MISSION%0A선교공동체" 
-                             alt="선교공동체" 
-                             class="w-full max-w-[400px] md:max-w-[650px] aspect-square object-cover rounded-3xl shadow-2xl">
+                        <div class="service-collage collage-2v w-full max-w-[400px] md:max-w-[650px] aspect-square">
+                            <img src="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/mi.png" alt="선교공동체 1">
+                            <img src="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/74502975783.jpg" alt="선교공동체 2">
+                        </div>
                     </div>
                     <div class="w-full md:w-1/2 md:pl-12 order-1 md:order-2">
                         <div class="service-number" style="margin-bottom: 30px;">04</div>
@@ -3736,9 +3931,10 @@ and glorify your Father in heaven.
                         </p>
                     </div>
                     <div class="w-full md:w-1/2 flex justify-center items-center mt-4 md:mt-0">
-                        <img src="https://placehold.co/650x650/C9A0DC/FFFFFF?text=FRIENDSHIP%0A친교공동체" 
-                             alt="친교공동체" 
-                             class="w-full max-w-[400px] md:max-w-[650px] aspect-square object-cover rounded-3xl shadow-2xl">
+                        <div class="service-collage collage-2v w-full max-w-[400px] md:max-w-[650px] aspect-square">
+                            <img src="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/2.51.41.jpg" alt="친교공동체 1">
+                            <img src="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/6.jpeg" alt="친교공동체 2">
+                        </div>
                     </div>
                 </div>
                 
@@ -6986,15 +7182,28 @@ and glorify your Father in heaven.
 
             const scrollProgress = Math.max(0, Math.min(1, -sectionTop / scrollableDistance));
             
-            // 매우 부드러운 easing (데스크탑용)
+            // 부드럽고 균일한 easing (easeInOutQuad)
+            // 기존 quart는 중간 카드들이 순식간에 지나가는 문제가 있어서 더 완만한 곡선으로 교체
             const easedProgress = scrollProgress < 0.5
-                ? 8 * scrollProgress * scrollProgress * scrollProgress * scrollProgress
-                : 1 - Math.pow(-2 * scrollProgress + 2, 4) / 2;
+                ? 2 * scrollProgress * scrollProgress
+                : 1 - Math.pow(-2 * scrollProgress + 2, 2) / 2;
             
             const cardProgress = easedProgress * (totalCards - 1);
             const translateX = -cardProgress * 100;
             track.style.transform = `translate3d(${translateX}vw, 0, 0)`;
         }
+        
+        // 데스크탑 전용: 카드 수에 따라 섹션 높이를 동적으로 설정
+        // 카드 N장이면 각 전환에 150vh씩 + 첫 100vh = (N-1)*150 + 100 vh
+        // 5장 기준 700vh — 카드 사이가 충분히 부드럽게 넘어갈 수 있는 거리 확보
+        function initHorizontalScrollDesktop() {
+            if (!horizontalSection) return;
+            if (window.innerWidth <= 768) return; // 모바일은 자체 초기화에서 처리
+            const sectionVh = (totalCards - 1) * 150 + 100;
+            horizontalSection.style.setProperty('height', `${sectionVh}vh`, 'important');
+        }
+        initHorizontalScrollDesktop();
+        window.addEventListener('resize', initHorizontalScrollDesktop, { passive: true });
         
         // 모바일 터치 이벤트 처리
         if (horizontalSection && track) {
