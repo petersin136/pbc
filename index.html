@@ -1656,7 +1656,8 @@
             flex-shrink: 0;
             width: 100vw;
             height: 100vh;
-            padding: 60px;
+            /* 좌우 패딩을 자동 계산해서 콘텐츠를 항상 가운데 1400px 안쪽으로 모음 */
+            padding: 60px max(60px, calc((100vw - 1400px) / 2));
         }
         
         @media (max-width: 768px) {
@@ -1710,7 +1711,7 @@
                 display: flex !important;
                 flex-direction: row !important;
                 flex-wrap: nowrap !important;
-                width: 300vw !important;
+                width: 500vw !important;
                 height: 100vh !important;
                 will-change: transform !important;
             }
@@ -3565,7 +3566,7 @@ and glorify your Father in heaven.
                 margin: 0 0 28px 0;
                 padding: 0 15px;
                 ">
-                우리가 가장 소중히 여기는<br class="mobile-br"> 세 가지 가치가 있습니다.
+                하나님의 말씀 안에서<br class="mobile-br"> 우리가 꿈꾸는 공동체
             </h2>
             
             <!-- [2] 영문 서브타이틀 - 세리프체 -->
@@ -3577,21 +3578,25 @@ and glorify your Father in heaven.
                 margin: 0 0 28px 0;
                 letter-spacing: 0.05em;
             ">
-                Three values
+                Our Communities
             </p>
             
-            <!-- [3] 설명 텍스트 (세 가지 가치에 대한 내용) -->
+            <!-- [3] 설명 텍스트 (꿈꾸는 다섯 공동체 - 한 줄에 하나씩) -->
             <p id="introStatement" class="reveal-text" style="
                 font-family: 'Noto Sans KR', sans-serif;
                 font-weight: 300;
                 font-size: clamp(16px, 2vw, 24px);
-                line-height: 1.2;
+                line-height: 2;
                 color: #000000;
                 margin: 0;
                 padding: 0 15px;
-                white-space: pre-line;
-            ">하나님의 말씀을 중심으로 한 <strong style="font-weight: 700; font-size: 1.3em; color: #FFB800;">성경적 가치</strong>, 서로를 아끼고 돌보는 <strong style="font-weight: 700; font-size: 1.3em; color: #FF6B6B;">사랑의 공동체</strong>,<br>
-지역사회에 그리스도의 사랑을 전하는 <strong style="font-weight: 700; font-size: 1.3em; color: #87CEEB;">섬김과 전도의 사명</strong>을 우리의 핵심 가치로 삼습니다.</p>
+            ">
+                전심으로 드리는 <strong style="font-weight: 700; font-size: 1.15em; color: #FFB800;">예배공동체</strong>를 더해갑니다.<br>
+                다음세대를 키워가는 <strong style="font-weight: 700; font-size: 1.15em; color: #FF6B6B;">교육공동체</strong>를 더해갑니다.<br>
+                사랑을 실천하는 <strong style="font-weight: 700; font-size: 1.15em; color: #87CEEB;">섬김과 나눔공동체</strong>를 더해갑니다.<br>
+                땅끝까지 향하는 <strong style="font-weight: 700; font-size: 1.15em; color: #6FCF97;">선교공동체</strong>를 더해갑니다.<br>
+                천국을 미리 맛보는 <strong style="font-weight: 700; font-size: 1.15em; color: #C9A0DC;">친교공동체</strong>를 더해갑니다.
+            </p>
             
         </div>
     </section>
@@ -3601,56 +3606,138 @@ and glorify your Father in heaven.
         <div class="horizontal-scroll-wrapper">
             <div class="horizontal-track" id="horizontalTrack">
                 
-                <!-- 카드 01 - 성경적 가치 -->
+                <!-- 카드 01 - 예배공동체 (WORSHIP) -->
                 <div class="service-card flex flex-col md:flex-row items-center justify-between" style="background-color: #FFB800;">
                     <div class="w-full md:w-1/2 md:pr-12 mb-6 md:mb-0">
                         <div class="service-number">01</div>
-                        <h2 class="text-3xl md:text-6xl font-bold mt-4 md:mt-8 mb-4 md:mb-6">성경적 가치</h2>
-                        <p class="text-base md:text-xl leading-relaxed opacity-90">
-                            하나님의 말씀은 우리 삶의 유일한 기준입니다.<br class="hidden md:block">
-                            성경의 진리 위에 서서 세상의 가치가 아닌,<br class="hidden md:block">
-                            하나님 나라의 가치를 따라 살아가는 공동체입니다.
+                        <p class="text-sm md:text-lg font-bold tracking-[0.3em] opacity-80 mb-2 md:mb-3">WORSHIP</p>
+                        <h2 class="text-3xl md:text-6xl font-bold mb-4 md:mb-6" style="margin-top: 0;">예배공동체</h2>
+                        <p class="text-base md:text-xl leading-relaxed opacity-90 mb-4 md:mb-6 font-semibold">
+                            포천 중앙침례교회는 전심으로 예배합니다.
+                        </p>
+                        <p class="text-sm md:text-lg leading-relaxed opacity-85">
+                            예배는 우리의 삶을 변화시키는 중요한 순간입니다.<br class="hidden md:block">
+                            삶에서 방향을 잃었을 때, 마음이 지칠 때, 우리는 예배를 통해<br class="hidden md:block">
+                            말씀의 풍성한 은혜와 성령의 충만함으로 희망을 얻고,<br class="hidden md:block">
+                            다시 나아갈 힘을 얻을 수 있습니다.
+                        </p>
+                        <p class="text-xs md:text-sm leading-relaxed opacity-75 mt-4 md:mt-6 italic">
+                            "아버지께 참되게 예배하는 자들은 영과 진리로 예배할 때가 오나니<br class="hidden md:block">
+                            곧 이때라 아버지께서는 자기에게 이렇게 예배하는 자들을 찾으시느니라" (요한복음 4:23)
                         </p>
                     </div>
                     <div class="w-full md:w-1/2 flex justify-center items-center mt-4 md:mt-0">
-                        <img src="https://fkqxalcwhqohrkdzwhvv.supabase.co/storage/v1/object/public/media/KakaoTalk_Photo_2025-12-20-03-01-53%20001.jpg" 
-                             alt="성경적 가치" 
+                        <img src="https://placehold.co/650x650/FFB800/FFFFFF?text=WORSHIP%0A예배공동체" 
+                             alt="예배공동체" 
                              class="w-full max-w-[400px] md:max-w-[650px] aspect-square object-cover rounded-3xl shadow-2xl">
                     </div>
                 </div>
 
-                <!-- 카드 02 - 사랑의 공동체 -->
+                <!-- 카드 02 - 교육공동체 (EDUCATION) -->
                 <div class="service-card flex flex-col md:flex-row items-center justify-between" style="background-color: #FF6B6B;">
                     <div class="w-full md:w-1/2 flex justify-center items-center mb-6 md:mb-0 order-2 md:order-1">
-                        <img src="https://fkqxalcwhqohrkdzwhvv.supabase.co/storage/v1/object/public/media/011.jpg" 
-                             alt="사랑의 공동체" 
+                        <img src="https://placehold.co/650x650/FF6B6B/FFFFFF?text=EDUCATION%0A교육공동체" 
+                             alt="교육공동체" 
                              class="w-full max-w-[400px] md:max-w-[650px] aspect-square object-cover rounded-3xl shadow-2xl">
                     </div>
                     <div class="w-full md:w-1/2 md:pl-12 order-1 md:order-2">
                         <div class="service-number" style="margin-bottom: 30px;">02</div>
-                        <h2 class="text-3xl md:text-6xl font-bold mb-4 md:mb-6" style="margin-top: 0;">사랑의 공동체</h2>
-                        <p class="text-base md:text-xl leading-relaxed opacity-90">
-                            서로를 아끼고 돌보는 따뜻한 공동체입니다.<br class="hidden md:block">
-                            기쁨과 아픔을 함께 나누며, 서로를 격려하고 세워갑니다.<br class="hidden md:block">
-                            진정한 영적 가족 안에서 그리스도의 사랑을 경험합니다.
+                        <p class="text-sm md:text-lg font-bold tracking-[0.3em] opacity-80 mb-2 md:mb-3">EDUCATION</p>
+                        <h2 class="text-3xl md:text-6xl font-bold mb-4 md:mb-6" style="margin-top: 0;">교육공동체</h2>
+                        <p class="text-base md:text-xl leading-relaxed opacity-90 mb-4 md:mb-6 font-semibold">
+                            포천 중앙침례교회는 다음세대를 키워갑니다.
+                        </p>
+                        <p class="text-sm md:text-lg leading-relaxed opacity-85">
+                            우리 아이들에게 무엇을 물려주고 싶으신가요?<br class="hidden md:block">
+                            오늘날 자녀교육은 그 어느 때보다 중요합니다.<br class="hidden md:block">
+                            아이들이 올바른 가치관을 가지고 성장할 수 있도록 따뜻한 관심과<br class="hidden md:block">
+                            바른 가르침을 전하며, 하나님의 말씀으로 미래를 책임질 다음세대를 준비합니다.
+                        </p>
+                        <p class="text-xs md:text-sm leading-relaxed opacity-75 mt-4 md:mt-6 italic">
+                            "마땅히 행할 길을 아이에게 가르치라 그리하면<br class="hidden md:block">
+                            늙어도 그것을 떠나지 아니하리라" (잠언 22:6)
                         </p>
                     </div>
                 </div>
 
-                <!-- 카드 03 - 섬김과 전도의 사명 -->
+                <!-- 카드 03 - 섬김과 나눔공동체 (SERVICE) -->
                 <div class="service-card flex flex-col md:flex-row items-center justify-between" style="background-color: #87CEEB;">
                     <div class="w-full md:w-1/2 md:pr-12 mb-6 md:mb-0">
                         <div class="service-number" style="margin-bottom: 30px;">03</div>
-                        <h2 class="text-3xl md:text-6xl font-bold mb-4 md:mb-6" style="margin-top: 0;">섬김과 전도</h2>
-                        <p class="text-base md:text-xl leading-relaxed opacity-90">
-                            지역사회에 그리스도의 사랑을 전합니다.<br class="hidden md:block">
-                            이웃을 섬기고 복음을 나누는 사명을 감당하며,<br class="hidden md:block">
-                            세상을 향한 빛과 소금의 역할을 다합니다.
+                        <p class="text-sm md:text-lg font-bold tracking-[0.3em] opacity-80 mb-2 md:mb-3">SERVICE</p>
+                        <h2 class="text-3xl md:text-6xl font-bold mb-4 md:mb-6" style="margin-top: 0;">섬김과 나눔공동체</h2>
+                        <p class="text-base md:text-xl leading-relaxed opacity-90 mb-4 md:mb-6 font-semibold">
+                            포천 중앙침례교회는 섬김과 나눔을 추구합니다.
+                        </p>
+                        <p class="text-sm md:text-lg leading-relaxed opacity-85">
+                            예수님은 항상 사람들을 향해 나아가셨습니다.<br class="hidden md:block">
+                            포천 중앙침례교회도 이웃과 사회를 섬기며 사랑을 실천합니다.<br class="hidden md:block">
+                            주변을 둘러보면 작은 관심과 따뜻한 손길이 필요한 이들이 많습니다.<br class="hidden md:block">
+                            베푸는 기쁨은 받는 기쁨보다 더욱 크며, 함께 나눌 때 세상은 더 따뜻해집니다.
+                        </p>
+                        <p class="text-xs md:text-sm leading-relaxed opacity-75 mt-4 md:mt-6 italic">
+                            "인자가 온 것은 섬김을 받으려 함이 아니라 도리어 섬기려 하고<br class="hidden md:block">
+                            자기 목숨을 많은 사람의 대속물로 주려 함이니라" (마가복음 10:45)
                         </p>
                     </div>
                     <div class="w-full md:w-1/2 flex justify-center items-center mt-4 md:mt-0">
-                        <img src="https://fkqxalcwhqohrkdzwhvv.supabase.co/storage/v1/object/public/media/KakaoTalk_Photo_2025-12-16-19-24-26%20003.jpg" 
-                             alt="섬김과 전도" 
+                        <img src="https://placehold.co/650x650/87CEEB/FFFFFF?text=SERVICE%0A섬김과+나눔공동체" 
+                             alt="섬김과 나눔공동체" 
+                             class="w-full max-w-[400px] md:max-w-[650px] aspect-square object-cover rounded-3xl shadow-2xl">
+                    </div>
+                </div>
+
+                <!-- 카드 04 - 선교공동체 (MISSION) -->
+                <div class="service-card flex flex-col md:flex-row items-center justify-between" style="background-color: #6FCF97;">
+                    <div class="w-full md:w-1/2 flex justify-center items-center mb-6 md:mb-0 order-2 md:order-1">
+                        <img src="https://placehold.co/650x650/6FCF97/FFFFFF?text=MISSION%0A선교공동체" 
+                             alt="선교공동체" 
+                             class="w-full max-w-[400px] md:max-w-[650px] aspect-square object-cover rounded-3xl shadow-2xl">
+                    </div>
+                    <div class="w-full md:w-1/2 md:pl-12 order-1 md:order-2">
+                        <div class="service-number" style="margin-bottom: 30px;">04</div>
+                        <p class="text-sm md:text-lg font-bold tracking-[0.3em] opacity-80 mb-2 md:mb-3">MISSION</p>
+                        <h2 class="text-3xl md:text-6xl font-bold mb-4 md:mb-6" style="margin-top: 0;">선교공동체</h2>
+                        <p class="text-base md:text-xl leading-relaxed opacity-90 mb-4 md:mb-6 font-semibold">
+                            포천 중앙침례교회는 땅끝까지 선교합니다.
+                        </p>
+                        <p class="text-sm md:text-lg leading-relaxed opacity-85">
+                            교회의 본질은 복음을 전하는 것입니다.<br class="hidden md:block">
+                            포천 중앙침례교회는 국내와 해외선교를 통해 사랑과 희망을 나누며,<br class="hidden md:block">
+                            세계 곳곳에 복음의 씨앗을 심고 있습니다. 또한 미셔널 라이프를 꿈꾸며,<br class="hidden md:block">
+                            삶의 모든 영역에서 선교사로서의 삶을 살아가도록 훈련하고 있습니다.
+                        </p>
+                        <p class="text-xs md:text-sm leading-relaxed opacity-75 mt-4 md:mt-6 italic">
+                            "그러므로 너희는 가서 모든 민족을 제자로 삼아 아버지와 아들과 성령의 이름으로 세례를 베풀고<br class="hidden md:block">
+                            내가 너희에게 분부한 모든 것을 가르쳐 지키게 하라" (마태복음 28:19-20)
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 카드 05 - 친교공동체 (FRIENDSHIP) -->
+                <div class="service-card flex flex-col md:flex-row items-center justify-between" style="background-color: #C9A0DC;">
+                    <div class="w-full md:w-1/2 md:pr-12 mb-6 md:mb-0">
+                        <div class="service-number" style="margin-bottom: 30px;">05</div>
+                        <p class="text-sm md:text-lg font-bold tracking-[0.3em] opacity-80 mb-2 md:mb-3">FRIENDSHIP</p>
+                        <h2 class="text-3xl md:text-6xl font-bold mb-4 md:mb-6" style="margin-top: 0;">친교공동체</h2>
+                        <p class="text-base md:text-xl leading-relaxed opacity-90 mb-4 md:mb-6 font-semibold">
+                            포천 중앙침례교회는 천국을 미리 맛봅니다.
+                        </p>
+                        <p class="text-sm md:text-lg leading-relaxed opacity-85">
+                            천국을 상상해 본 적이 있으신가요?<br class="hidden md:block">
+                            포천 중앙침례교회는 따뜻한 가정 같은 공동체를 만들어 갑니다.<br class="hidden md:block">
+                            우정, 사랑, 신뢰가 점점 희미해지는 시대 속에서, 다양한 활동을 통해<br class="hidden md:block">
+                            서로를 격려하고 진정한 교제를 나누며 작은 천국을 경험할 수 있습니다.
+                        </p>
+                        <p class="text-xs md:text-sm leading-relaxed opacity-75 mt-4 md:mt-6 italic">
+                            "믿는 사람이 다 함께 있어 모든 물건을 서로 통용하고 또 재산과 소유를 팔아<br class="hidden md:block">
+                            각 사람의 필요를 따라 나눠 주며 날마다 마음을 같이하여 성전에 모이기를 힘쓰고<br class="hidden md:block">
+                            집에서 떡을 떼며 기쁨과 순전한 마음으로 음식을 먹고" (사도행전 2:44-46)
+                        </p>
+                    </div>
+                    <div class="w-full md:w-1/2 flex justify-center items-center mt-4 md:mt-0">
+                        <img src="https://placehold.co/650x650/C9A0DC/FFFFFF?text=FRIENDSHIP%0A친교공동체" 
+                             alt="친교공동체" 
                              class="w-full max-w-[400px] md:max-w-[650px] aspect-square object-cover rounded-3xl shadow-2xl">
                     </div>
                 </div>
@@ -6801,8 +6888,8 @@ and glorify your Father in heaven.
             if (!isMobile) return;
 
             // 모바일: "세로 스크롤 → (섹션에서 멈춤) → 가로 이동" 속도 제어
-            // 카드 3장이면 500vh (첫 화면 100vh + 전환 2번 * 200vh)로 느리게(급 스크롤에도 다음 카드가 '살짝' 보이는 문제 완화)
-            const sectionVh = (totalCards - 1) * 200 + 100; // ex) 3 cards => 500vh
+            // 카드 N장이면 (N-1)*200 + 100 vh (첫 화면 100vh + 전환 N-1번 * 200vh)로 느리게(급 스크롤에도 다음 카드가 '살짝' 보이는 문제 완화)
+            const sectionVh = (totalCards - 1) * 200 + 100; // ex) 5 cards => 900vh
             horizontalSection.style.setProperty('height', `${sectionVh}vh`, 'important');
             horizontalSection.style.setProperty('min-height', `${sectionVh}vh`, 'important');
             horizontalSection.style.setProperty('position', 'relative', 'important');
