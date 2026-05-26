@@ -517,11 +517,23 @@
 
                 if (error) throw error;
 
-                // 데이터가 없으면 초기 데이터 생성
+                // 데이터가 없을 때 처리
+                // - worship(예배시간): 기본 예배시간 자동 생성 (편의성 유지)
+                // - notice(공지사항), prayer(기도제목): 더미가 다시 생기지 않도록 자동 시드 비활성화
                 if (data.length === 0) {
-                    await createInitialData(type);
-                    // 다시 로드
-                    return loadData(type);
+                    if (type === 'worship') {
+                        await createInitialData(type);
+                        return loadData(type);
+                    }
+                    const label = type === 'notice' ? '공지사항' : '기도제목';
+                    listEl.innerHTML = `
+                        <div class="text-center py-16 bg-white rounded-xl shadow-sm border border-dashed border-gray-300">
+                            <div class="text-5xl mb-4">📝</div>
+                            <p class="text-lg text-gray-700 font-medium">등록된 ${label}이 없습니다.</p>
+                            <p class="text-sm text-gray-500 mt-2">우측 상단의 <span class="font-semibold">"+ 새 ${label} 추가"</span> 버튼으로 직접 작성해 주세요.</p>
+                        </div>
+                    `;
+                    return;
                 }
 
                 listEl.innerHTML = data.map(item => renderCard(type, item)).join('');

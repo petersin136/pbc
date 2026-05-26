@@ -2522,6 +2522,60 @@
             }
         }
 
+        /* 공지사항/기도제목 데스크탑 - 4x2 그리드(8개) 표시 */
+        @media (min-width: 769px) {
+            .notice-carousel-track,
+            .prayer-carousel-track {
+                display: grid !important;
+                grid-template-columns: repeat(4, 1fr) !important;
+                grid-template-rows: repeat(2, auto) !important;
+                gap: 20px !important;
+                transform: none !important;
+            }
+
+            .notice-card,
+            .prayer-card {
+                min-width: 0 !important;
+                max-width: 100% !important;
+                width: 100% !important;
+                height: 260px !important;
+                padding: 22px !important;
+                margin: 0 !important;
+            }
+
+            .notice-card h3,
+            .prayer-card h3 {
+                font-size: 20px !important;
+            }
+
+            .notice-card p,
+            .prayer-card p {
+                font-size: 14px !important;
+                line-height: 1.65 !important;
+                margin: 0 0 8px 0 !important;
+            }
+        }
+
+        /* 중간 폭(769~1280px)에서는 카드 약간 더 압축 */
+        @media (min-width: 769px) and (max-width: 1280px) {
+            .notice-card,
+            .prayer-card {
+                height: 240px !important;
+                padding: 18px !important;
+            }
+
+            .notice-card h3,
+            .prayer-card h3 {
+                font-size: 17px !important;
+            }
+
+            .notice-card p,
+            .prayer-card p {
+                font-size: 13px !important;
+                line-height: 1.55 !important;
+            }
+        }
+
         /* 호버로 드롭다운 열기 */
         /* 호버로 드롭다운 열기 비활성화 - JavaScript로만 제어 */
         /* .nav-dropdown:hover .nav-dropdown-menu {
@@ -4246,7 +4300,7 @@ given to mankind by which we must be saved.
         // 공지사항 페이지네이션 기능
         let noticeCarouselTrack = null;
         let noticeCurrentPage = 1;
-        let noticeItemsPerPage = window.innerWidth <= 768 ? 4 : 3;
+        let noticeItemsPerPage = window.innerWidth <= 768 ? 4 : 8;
         let noticeAllData = [];
         
         function initNoticeCarousel() {
@@ -4286,7 +4340,9 @@ given to mankind by which we must be saved.
                 const previewLines = lines.slice(0, 3);
                 const hasMore = lines.length > 3;
                 const dateStr = formatHandwrittenDate(item.created_at || item.updated_at);
-                
+                const titleText = (item.title && item.title.trim()) ? item.title.trim() : '';
+                const safeTitle = titleText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
                 return `
                     <div class="notice-card clickable-card" 
                          data-index="${globalIndex}"
@@ -4296,16 +4352,17 @@ given to mankind by which we must be saved.
                          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 32px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.1)';">
                         <div style="position: absolute; inset: 0; border-radius: 16px; pointer-events: none; background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%225%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E'); opacity: 0.3; mix-blend-mode: multiply;"></div>
                         <div style="position: absolute; inset: 0; border-radius: 16px; pointer-events: none; background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.03) 100%);"></div>
-                        <div style="position: relative; z-index: 1; margin-bottom: 20px;">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
-                                <h3 style="font-family: 'Noto Sans KR', sans-serif; font-weight: 700; font-size: 28px; color: #2D2D2D; letter-spacing: 0.05em; margin: 0; text-transform: uppercase;">NOTICE</h3>
+                        <div class="card-header" style="position: relative; z-index: 1; margin-bottom: 16px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <span class="card-badge" style="font-family: 'Noto Sans KR', sans-serif; font-weight: 700; font-size: 11px; color: #B8956A; letter-spacing: 0.15em; text-transform: uppercase;">NOTICE</span>
                                 ${dateStr ? `<p style="font-family: 'Nanum Pen Script', cursive; font-size: ${dateFontSize}; color: #8B7355; margin: 0; transform: rotate(-2deg); font-weight: 400; letter-spacing: 0.5px;">${dateStr}</p>` : ''}
                             </div>
-                            <div style="width: 100%; height: 1px; background-color: #2D2D2D; margin-top: 8px;"></div>
+                            <h3 class="card-title" style="font-family: 'Noto Sans KR', sans-serif; font-weight: 700; font-size: 18px; color: #2D2D2D; margin: 0; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${safeTitle || 'NOTICE'}</h3>
+                            <div style="width: 100%; height: 1px; background-color: #2D2D2D; margin-top: 10px; opacity: 0.7;"></div>
                         </div>
-                        <div style="position: relative; z-index: 1; flex: 1; overflow: hidden; margin-bottom: 20px; padding-bottom: 4px;">
-                            ${previewLines.map(line => `<p style="font-family: 'Noto Sans KR', sans-serif; font-weight: 400; font-size: 16px; color: #4A4A4A; line-height: 1.8; margin: 0 0 12px 0;">${line.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>`).join('')}
-                            ${hasMore ? '<p style="font-family: \'Noto Sans KR\', sans-serif; font-weight: 400; font-size: 14px; color: #888888; margin: 12px 0 0 0; font-style: italic; padding-bottom: 4px;">... 더 보기</p>' : ''}
+                        <div class="card-body" style="position: relative; z-index: 1; flex: 1; overflow: hidden; margin-bottom: 8px; padding-bottom: 4px;">
+                            ${previewLines.map(line => `<p style="font-family: 'Noto Sans KR', sans-serif; font-weight: 400; font-size: 14px; color: #4A4A4A; line-height: 1.7; margin: 0 0 8px 0;">${line.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>`).join('')}
+                            ${hasMore ? '<p style="font-family: \'Noto Sans KR\', sans-serif; font-weight: 400; font-size: 13px; color: #888888; margin: 8px 0 0 0; font-style: italic;">... 더 보기</p>' : ''}
                         </div>
                     </div>
                 `;
@@ -4446,7 +4503,7 @@ given to mankind by which we must be saved.
         // 기도제목 페이지네이션 기능
         let prayerCarouselTrack = null;
         let prayerCurrentPage = 1;
-        let prayerItemsPerPage = window.innerWidth <= 768 ? 4 : 3;
+        let prayerItemsPerPage = window.innerWidth <= 768 ? 4 : 8;
         let prayerAllData = [];
         
         function initPrayerCarousel() {
@@ -4486,7 +4543,9 @@ given to mankind by which we must be saved.
                 const previewLines = lines.slice(0, 3);
                 const hasMore = lines.length > 3;
                 const dateStr = formatHandwrittenDate(item.created_at || item.updated_at);
-                
+                const titleText = (item.title && item.title.trim()) ? item.title.trim() : '';
+                const safeTitle = titleText.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+
                 return `
                     <div class="prayer-card clickable-card" 
                          data-index="${globalIndex}"
@@ -4496,16 +4555,17 @@ given to mankind by which we must be saved.
                          onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 32px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.1)';">
                         <div style="position: absolute; inset: 0; border-radius: 16px; pointer-events: none; background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%225%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E'); opacity: 0.3; mix-blend-mode: multiply;"></div>
                         <div style="position: absolute; inset: 0; border-radius: 16px; pointer-events: none; background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.03) 100%);"></div>
-                        <div style="position: relative; z-index: 1; margin-bottom: 20px;">
-                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px;">
-                                <h3 style="font-family: 'Noto Sans KR', sans-serif; font-weight: 700; font-size: 28px; color: #2D2D2D; letter-spacing: 0.05em; margin: 0; text-transform: uppercase;">PRAYER</h3>
+                        <div class="card-header" style="position: relative; z-index: 1; margin-bottom: 16px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <span class="card-badge" style="font-family: 'Noto Sans KR', sans-serif; font-weight: 700; font-size: 11px; color: #B8956A; letter-spacing: 0.15em; text-transform: uppercase;">PRAYER</span>
                                 ${dateStr ? `<p style="font-family: 'Nanum Pen Script', cursive; font-size: ${dateFontSize}; color: #8B7355; margin: 0; transform: rotate(-2deg); font-weight: 400; letter-spacing: 0.5px;">${dateStr}</p>` : ''}
                             </div>
-                            <div style="width: 100%; height: 1px; background-color: #2D2D2D; margin-top: 8px;"></div>
+                            <h3 class="card-title" style="font-family: 'Noto Sans KR', sans-serif; font-weight: 700; font-size: 18px; color: #2D2D2D; margin: 0; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${safeTitle || 'PRAYER'}</h3>
+                            <div style="width: 100%; height: 1px; background-color: #2D2D2D; margin-top: 10px; opacity: 0.7;"></div>
                         </div>
-                        <div style="position: relative; z-index: 1; flex: 1; overflow: hidden; margin-bottom: 20px; padding-bottom: 4px;">
-                            ${previewLines.map(line => `<p style="font-family: 'Noto Sans KR', sans-serif; font-weight: 400; font-size: 16px; color: #4A4A4A; line-height: 1.8; margin: 0 0 12px 0;">${line.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>`).join('')}
-                            ${hasMore ? '<p style="font-family: \'Noto Sans KR\', sans-serif; font-weight: 400; font-size: 14px; color: #888888; margin: 12px 0 0 0; font-style: italic; padding-bottom: 4px;">... 더 보기</p>' : ''}
+                        <div class="card-body" style="position: relative; z-index: 1; flex: 1; overflow: hidden; margin-bottom: 8px; padding-bottom: 4px;">
+                            ${previewLines.map(line => `<p style="font-family: 'Noto Sans KR', sans-serif; font-weight: 400; font-size: 14px; color: #4A4A4A; line-height: 1.7; margin: 0 0 8px 0;">${line.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</p>`).join('')}
+                            ${hasMore ? '<p style="font-family: \'Noto Sans KR\', sans-serif; font-weight: 400; font-size: 13px; color: #888888; margin: 8px 0 0 0; font-style: italic;">... 더 보기</p>' : ''}
                         </div>
                     </div>
                 `;
@@ -4682,8 +4742,8 @@ given to mankind by which we must be saved.
     </div>
 
     <!-- 공지사항/기도제목 모달 -->
-    <div id="content-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0); z-index: 10000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(0px); will-change: background, backdrop-filter; transition: background 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), backdrop-filter 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);" onclick="closeContentModal(event)">
-        <div class="modal-content" style="background-color: #FEFEFE; border-radius: 24px; padding: 48px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0); transform: scale(0.85) translateY(20px); opacity: 0; will-change: transform, opacity; transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); backface-visibility: hidden; transform-style: preserve-3d;" onclick="event.stopPropagation();">
+    <div id="content-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden items-center justify-center" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0); z-index: 10000; display: none; align-items: center; justify-content: center; opacity: 0; will-change: opacity; transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);" onclick="closeContentModal(event)">
+        <div class="modal-content" style="background-color: #FEFEFE; border-radius: 24px; padding: 48px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto; position: relative; box-shadow: 0 20px 60px rgba(0,0,0,0.3); transform: translate3d(0, 16px, 0) scale(0.96); opacity: 0; will-change: transform, opacity; transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1); backface-visibility: hidden;" onclick="event.stopPropagation();">
             <!-- 배경 질감 -->
             <div style="position: absolute; inset: 0; border-radius: 24px; pointer-events: none; background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%225%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E'); opacity: 0.3; mix-blend-mode: multiply;"></div>
             <div style="position: absolute; inset: 0; border-radius: 24px; pointer-events: none; background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(0,0,0,0.03) 100%);"></div>
@@ -4883,40 +4943,19 @@ given to mankind by which we must be saved.
             transform: translateY(-2px) scale(0.98) !important;
         }
         
-        #content-modal.modal-open {
+        #content-modal {
             background: rgba(0, 0, 0, 0.6) !important;
             backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
         }
-        
-        #content-modal.modal-open .modal-content {
-            transform: scale(1) translateY(0) !important;
+
+        #content-modal.modal-open {
             opacity: 1 !important;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3) !important;
         }
-        
-        @keyframes modalFadeIn {
-            0% {
-                opacity: 0;
-                transform: scale(0.8) translateY(30px) rotateX(10deg);
-            }
-            60% {
-                transform: scale(1.02) translateY(-5px) rotateX(-2deg);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) translateY(0) rotateX(0deg);
-            }
-        }
-        
-        @keyframes modalBackdropFade {
-            from {
-                background: rgba(0, 0, 0, 0);
-                backdrop-filter: blur(0px);
-            }
-            to {
-                background: rgba(0, 0, 0, 0.6);
-                backdrop-filter: blur(8px);
-            }
+
+        #content-modal.modal-open .modal-content {
+            transform: translate3d(0, 0, 0) scale(1) !important;
+            opacity: 1 !important;
         }
         
         #content-modal .modal-content::-webkit-scrollbar {
@@ -6574,12 +6613,8 @@ given to mankind by which we must be saved.
                     return;
                 }
                 
-                // 기본값 (하드코딩)
-                const defaultData = [
-                    { content: '12월 25일 부터 29일 까지\n연말 휴가로 잠시 쉬어가려 합니다.\n해당 날짜에 모든 업무가 중단되오니\n이용에 참고 부탁 드립니다.\n예약 문의는 DM으로 부탁드립니다.' },
-                    { content: '새해 예배 안내\n새해를 맞이하여 특별 예배를 드립니다.\n많은 참석 부탁드립니다.' },
-                    { content: '교회 행사 안내\n다가오는 교회 행사에 대한 안내입니다.\n자세한 내용은 교회 게시판을 확인해 주세요.' }
-                ];
+                // 기본값 — Supabase에 데이터가 없으면 빈 상태로 둠 (더미 안 보이게)
+                const defaultData = [];
                 
                 let data = defaultData;
                 
@@ -6636,13 +6671,8 @@ given to mankind by which we must be saved.
                     return;
                 }
                 
-                // 기본값 (하드코딩)
-                const defaultData = [
-                    { content: '교회를 위한 기도\n교회가 하나님의 뜻을 따라\n섬기는 공동체가 되도록\n기도해 주세요.' },
-                    { content: '성도들을 위한 기도\n모든 성도들이 하나님의\n사랑 안에서 성장하도록\n기도해 주세요.' },
-                    { content: '선교를 위한 기도\n전 세계 복음 전파를 위한\n기도에 함께해 주세요.' },
-                    { content: '사회를 위한 기도\n우리 사회가 하나님의\n평화와 정의로 가득하도록\n기도해 주세요.' }
-                ];
+                // 기본값 — Supabase에 데이터가 없으면 빈 상태로 둠 (더미 안 보이게)
+                const defaultData = [];
                 
                 let data = defaultData;
                 
@@ -6745,27 +6775,29 @@ given to mankind by which we must be saved.
                 modalTitle.style.display = 'none';
             }
             
-            // 초기 상태 설정
+            // 초기 상태 설정 (opacity 0 + scale)
             const modalContentEl = modal.querySelector('.modal-content');
-            modalContentEl.style.transform = 'scale(0.85) translateY(20px)';
+            modal.style.opacity = '0';
+            modalContentEl.style.transform = 'translate3d(0, 16px, 0) scale(0.96)';
             modalContentEl.style.opacity = '0';
-            modal.style.background = 'rgba(0, 0, 0, 0)';
-            modal.style.backdropFilter = 'blur(0px)';
-            
+
             // body 고정 (스크롤 위치 유지)
             document.body.style.position = 'fixed';
             document.body.style.top = `-${savedScrollPosition}px`;
             document.body.style.width = '100%';
             document.body.style.overflow = 'hidden';
-            
+
             modal.style.display = 'flex';
-            
+
             // 히스토리 상태 추가 (뒤로가기 버튼 처리)
             history.pushState({ modal: 'notice', index: index, scrollY: savedScrollPosition }, '', window.location.href);
-            
-            // 부드러운 애니메이션 (double RAF로 최적화)
+
+            // 부드러운 애니메이션 (double RAF로 페인트 후 트랜지션 시작)
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
+                    modal.style.opacity = '';
+                    modalContentEl.style.transform = '';
+                    modalContentEl.style.opacity = '';
                     modal.classList.add('modal-open');
                 });
             });
@@ -6806,27 +6838,29 @@ given to mankind by which we must be saved.
                 modalTitle.style.display = 'none';
             }
             
-            // 초기 상태 설정
+            // 초기 상태 설정 (opacity 0 + scale)
             const modalContentEl = modal.querySelector('.modal-content');
-            modalContentEl.style.transform = 'scale(0.85) translateY(20px)';
+            modal.style.opacity = '0';
+            modalContentEl.style.transform = 'translate3d(0, 16px, 0) scale(0.96)';
             modalContentEl.style.opacity = '0';
-            modal.style.background = 'rgba(0, 0, 0, 0)';
-            modal.style.backdropFilter = 'blur(0px)';
-            
+
             // body 고정 (스크롤 위치 유지)
             document.body.style.position = 'fixed';
             document.body.style.top = `-${savedScrollPosition}px`;
             document.body.style.width = '100%';
             document.body.style.overflow = 'hidden';
-            
+
             modal.style.display = 'flex';
-            
+
             // 히스토리 상태 추가 (뒤로가기 버튼 처리)
             history.pushState({ modal: 'prayer', index: index, scrollY: savedScrollPosition }, '', window.location.href);
-            
-            // 부드러운 애니메이션 (double RAF로 최적화)
+
+            // 부드러운 애니메이션 (double RAF로 페인트 후 트랜지션 시작)
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
+                    modal.style.opacity = '';
+                    modalContentEl.style.transform = '';
+                    modalContentEl.style.opacity = '';
                     modal.classList.add('modal-open');
                 });
             });
