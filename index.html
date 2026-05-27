@@ -646,15 +646,21 @@
                 padding-right: 20px !important;
             }
             
-            /* 갤러리 섹션 모바일 - 데스크톱과 유사하게 최적화 (그리드 height 고정으로 페이지네이션 Y 일정) */
+            /* 갤러리 섹션 모바일 - 데스크톱과 유사하게 최적화 */
             #gallery {
                 position: relative !important;
-                padding: 15px 10px !important;
+                padding: 24px 10px !important;
                 min-height: auto !important;
             }
             
+            /* 갤러리 내부 컨테이너: 인라인 min-height 700px / padding 20px 오버라이드 */
+            #gallery > .max-w-6xl {
+                padding: 0 !important;
+                min-height: 0 !important;
+            }
+            
             #gallery h2 {
-                font-size: 30px !important;
+                font-size: 26px !important;
                 margin-bottom: 4px !important;
             }
             
@@ -681,14 +687,15 @@
             }
             
             /* 갤러리: 모바일만 3열, 이미지 정사각형 + 하단 텍스트로 카드 비율 형성 */
-            /* 3행×3열 높이 고정: (열 너비≈(100vw-80px)/3 의 정사각 이미지)×3행 + 행간 gap 10px×2 + 카드당 텍스트·패딩 52px×3 */
+            /* placeholder 카드로 빈 자리를 채우므로 height: auto 로도 페이지마다 동일 높이 유지 */
             #gallery .polaroid-grid {
                 grid-template-columns: repeat(3, 1fr) !important;
                 gap: 10px !important;
                 padding: 6px 0 0 0 !important;
-                height: calc((100vw - 80px) + (3 * 52px) + 20px) !important;
+                height: auto !important;
+                min-height: 0 !important;
                 align-content: start !important;
-                overflow: hidden !important;
+                overflow: visible !important;
                 margin-bottom: 0 !important;
                 box-sizing: border-box !important;
             }
@@ -820,54 +827,115 @@
                 right: 5px !important;
             }
             
+            /* 공지사항/기도제목 섹션 자체 - 모바일 패딩 축소 (인라인 80px 오버라이드) */
+            #notice,
+            #prayer {
+                padding-top: 40px !important;
+                padding-bottom: 40px !important;
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+            }
+            
+            /* 섹션 헤더 여백 축소 */
+            #notice > .max-w-7xl > .text-center.mb-16,
+            #prayer > .max-w-7xl > .text-center.mb-16 {
+                margin-bottom: 24px !important;
+            }
+            
             /* 공지사항/기도제목 모바일 - 2개씩 2줄 배치 (4개 표시, 항상 동일 크기) */
             .notice-carousel-wrapper,
             .prayer-carousel-wrapper {
-                padding: 15px 10px !important;
+                padding: 8px 4px !important;
                 overflow: hidden !important;
-                min-height: 438px !important;
-                height: 438px !important;
+                min-height: 0 !important;
+                height: auto !important;
             }
             
             .notice-carousel-track,
             .prayer-carousel-track {
                 display: flex !important;
                 flex-wrap: wrap !important;
-                gap: 8px !important;
+                gap: 10px !important;
                 justify-content: flex-start !important;
                 align-content: flex-start !important;
                 transition: transform 0.5s ease !important;
-                min-height: 408px !important;
-                height: 408px !important;
+                min-height: 0 !important;
+                height: auto !important;
             }
             
             .notice-card,
             .prayer-card {
                 padding: 14px 12px !important;
                 margin: 0 !important;
-                width: calc(50% - 4px) !important;
-                min-width: calc(50% - 4px) !important;
-                max-width: calc(50% - 4px) !important;
-                height: 200px !important;
-                min-height: 200px !important;
-                max-height: 200px !important;
-                flex: 0 0 calc(50% - 4px) !important;
+                width: calc(50% - 5px) !important;
+                min-width: calc(50% - 5px) !important;
+                max-width: calc(50% - 5px) !important;
+                height: 210px !important;
+                min-height: 210px !important;
+                max-height: 210px !important;
+                flex: 0 0 calc(50% - 5px) !important;
                 box-sizing: border-box !important;
                 flex-shrink: 0 !important;
+                overflow: hidden !important;
+            }
+            
+            /* 카드 헤더 여백 축소 */
+            .notice-card .card-header,
+            .prayer-card .card-header {
+                margin-bottom: 8px !important;
+            }
+            
+            /* 카드 헤더 상단 행 (badge + 날짜) 여백 축소 */
+            .notice-card .card-header > div:first-child,
+            .prayer-card .card-header > div:first-child {
+                margin-bottom: 6px !important;
+            }
+            
+            /* 손글씨체 날짜 - 인라인 32px 오버라이드 (작게) */
+            .notice-card .card-header p,
+            .prayer-card .card-header p {
+                font-size: 15px !important;
+                letter-spacing: 0 !important;
+            }
+            
+            /* 배지 텍스트 (NOTICE/PRAYER) */
+            .notice-card .card-badge,
+            .prayer-card .card-badge {
+                font-size: 10px !important;
+                letter-spacing: 0.1em !important;
             }
             
             .notice-card h3,
             .prayer-card h3 {
-                font-size: 14px !important;
-                margin-bottom: 6px !important;
+                font-size: 13px !important;
+                margin-bottom: 0 !important;
                 line-height: 1.3 !important;
+                -webkit-line-clamp: 2 !important;
             }
             
-            .notice-card p,
-            .prayer-card p {
+            /* 제목 아래 구분선 위 여백 축소 */
+            .notice-card .card-header > div:last-child,
+            .prayer-card .card-header > div:last-child {
+                margin-top: 6px !important;
+            }
+            
+            /* 카드 본문: 각 줄을 1줄로 잘라 줄바꿈 폭주 방지 */
+            .notice-card .card-body,
+            .prayer-card .card-body {
+                margin-bottom: 0 !important;
+                padding-bottom: 0 !important;
+                overflow: hidden !important;
+                min-height: 0 !important;
+            }
+            
+            .notice-card .card-body p,
+            .prayer-card .card-body p {
                 font-size: 11px !important;
                 line-height: 1.4 !important;
-                margin-bottom: 4px !important;
+                margin: 0 0 3px 0 !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
             }
             
             /* 화살표 버튼 표시 (모바일에서 위치 조정) */
@@ -915,16 +983,8 @@
                 padding: 0 10px !important;
             }
             
-            /* 예배시간 섹션 모바일 - 데스크탑 형식 유지, 글씨 크기만 축소 */
-            .worship-content {
-                padding: 20px 15px !important;
-            }
-            
-            .worship-title {
-                font-size: 30px !important;
-                margin-bottom: 12px !important;
-                letter-spacing: 4px !important;
-            }
+            /* 예배시간 섹션 모바일 - 본격적인 스타일은 하단 @media에서 처리,
+               여기서는 레이아웃 컨테이너만 다룬다 (worship-title은 하단에서 재정의) */
             
             /* 2개씩 가로 배치 (수요/금요, 학생부/유치부) */
             .worship-items-row {
@@ -2196,12 +2256,13 @@
         }
         
         .worship-title {
-            font-family: 'Noto Serif KR', serif;
-            font-size: 67px;
-            font-weight: 700;
-            letter-spacing: 8px;
-            margin-bottom: 8px;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(48px, 6vw, 72px);
+            font-weight: 500;
+            letter-spacing: 0.16em;
+            margin-bottom: 12px;
+            text-shadow: none;
+            line-height: 1.1;
         }
         
         .divider {
@@ -2213,16 +2274,17 @@
         }
         
         .divider .line {
-            width: 84px;
+            width: 64px;
             height: 1px;
-            background: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.45);
         }
         
         .divider .text {
             font-family: 'Noto Sans KR', sans-serif;
-            font-size: 20px;
-            letter-spacing: 4px;
-            color: rgba(255,255,255,0.8);
+            font-size: 14px;
+            font-weight: 400;
+            letter-spacing: 0.35em;
+            color: rgba(255,255,255,0.75);
         }
         
         .worship-list {
@@ -2240,14 +2302,14 @@
         
         .worship-group-title {
             font-family: 'Noto Sans KR', sans-serif;
-            font-size: 18px;
+            font-size: 15px;
             font-weight: 500;
-            letter-spacing: 6px;
-            color: rgba(255, 255, 255, 0.85);
+            letter-spacing: 0.45em;
+            color: rgba(255, 255, 255, 0.78);
             text-align: center;
-            margin: 0 0 28px 0;
+            margin: 0 0 32px 0;
             padding-bottom: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
         }
         
         .worship-grid {
@@ -2260,16 +2322,19 @@
         }
         
         .worship-grid .worship-item .name {
-            font-size: 20px;
+            font-size: 16px;
+            font-weight: 500;
         }
         
         .worship-grid .worship-item .time {
-            font-size: 30px;
+            font-size: 26px;
+            font-weight: 600;
         }
         
         .worship-grid .worship-item .day {
-            font-size: 13px;
-            letter-spacing: 2.5px;
+            font-size: 11px;
+            letter-spacing: 0.28em;
+            font-weight: 400;
         }
         
         /* 부서별 예배: 5개 항목을 항상 한 줄(5컬럼)로 펼친다 */
@@ -2291,84 +2356,161 @@
         }
         
         @media (max-width: 768px) {
+            /* 예배시간 섹션 - 모바일 리디자인 */
+            .worship-section {
+                padding: 44px 16px !important;
+                min-height: auto !important;
+            }
+
+            .worship-content {
+                padding: 28px 8px !important;
+            }
+
+            .worship-title {
+                font-size: 36px !important;
+                letter-spacing: 0.14em !important;
+                font-weight: 400 !important;
+                margin-bottom: 14px !important;
+            }
+
+            .divider {
+                gap: 14px !important;
+                margin-bottom: 32px !important;
+            }
+
+            .divider .line {
+                width: 44px !important;
+            }
+
+            .divider .text {
+                font-size: 11px !important;
+                letter-spacing: 0.32em !important;
+                color: rgba(255, 255, 255, 0.7) !important;
+            }
+
             .worship-list {
-                gap: 36px;
+                gap: 34px;
             }
-            
+
             .worship-group-title {
-                font-size: 16px;
-                letter-spacing: 4px;
-                margin-bottom: 20px;
-                padding-bottom: 12px;
+                font-size: 11px;
+                font-weight: 400;
+                letter-spacing: 0.32em;
+                color: rgba(255, 255, 255, 0.6);
+                margin-bottom: 24px;
+                padding-bottom: 14px;
+                border-bottom-color: rgba(255, 255, 255, 0.12);
             }
-            
+
+            /* 정기 예배: 2x4 그리드 */
             .worship-grid {
                 grid-template-columns: repeat(2, 1fr);
-                gap: 24px 12px;
+                gap: 26px 14px;
             }
-            
-            .worship-grid .worship-item .name {
-                font-size: 17px;
+
+            .worship-item {
+                gap: 6px;
             }
-            
-            .worship-grid .worship-item .time {
-                font-size: 24px;
-            }
-            
+
             .worship-grid .worship-item .day {
-                font-size: 11px;
-                letter-spacing: 2px;
-            }
-            
-            /* 부서별 예배는 모바일에서도 5컬럼 유지(폰트만 축소) */
-            .worship-grid.worship-grid--row5 {
-                grid-template-columns: repeat(5, 1fr);
-                gap: 18px 6px;
-            }
-            .worship-grid.worship-grid--row5 .worship-item .name {
-                font-size: 13px;
-                letter-spacing: 0.5px;
-            }
-            .worship-grid.worship-grid--row5 .worship-item .time {
-                font-size: 17px;
-            }
-            .worship-grid.worship-grid--row5 .worship-item .day {
                 font-size: 9px;
-                letter-spacing: 1.5px;
+                font-weight: 400;
+                letter-spacing: 0.22em;
+                color: rgba(255, 255, 255, 0.5);
             }
-        }
-        
-        @media (max-width: 420px) {
-            .worship-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 20px 8px;
-            }
-            
+
             .worship-grid .worship-item .name {
-                font-size: 15px;
-                letter-spacing: 1px;
+                font-size: 13px;
+                font-weight: 400;
+                color: rgba(255, 255, 255, 0.88);
+                letter-spacing: 0.02em;
             }
-            
+
             .worship-grid .worship-item .time {
-                font-size: 22px;
+                font-size: 19px;
+                font-weight: 500;
+                letter-spacing: 0.01em;
+                color: rgba(255, 255, 255, 0.98);
+                font-family: 'Playfair Display', 'Noto Sans KR', sans-serif;
             }
-            
-            /* 매우 좁은 폰에서도 5컬럼 유지 */
+
+            /* 부서별 예배: 5개를 3+2로 자연스럽게 wrap, 두 번째 줄은 가운데 정렬 */
             .worship-grid.worship-grid--row5 {
-                grid-template-columns: repeat(5, 1fr);
-                gap: 14px 4px;
+                display: flex !important;
+                flex-wrap: wrap !important;
+                justify-content: center !important;
+                gap: 26px 8px !important;
+                grid-template-columns: none !important;
+            }
+            .worship-grid.worship-grid--row5 .worship-item {
+                width: calc(33.333% - 12px);
+                min-width: 76px;
+                max-width: 110px;
             }
             .worship-grid.worship-grid--row5 .worship-item .name {
-                font-size: 11px;
+                font-size: 12px;
+                font-weight: 400;
                 letter-spacing: 0;
             }
             .worship-grid.worship-grid--row5 .worship-item .time {
-                font-size: 14px;
+                font-size: 16px;
+                font-weight: 500;
                 letter-spacing: 0;
             }
             .worship-grid.worship-grid--row5 .worship-item .day {
                 font-size: 8px;
-                letter-spacing: 1px;
+                letter-spacing: 0.22em;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .worship-title {
+                font-size: 32px !important;
+                letter-spacing: 0.12em !important;
+            }
+
+            .divider {
+                margin-bottom: 26px !important;
+            }
+
+            .worship-list {
+                gap: 28px;
+            }
+
+            .worship-group-title {
+                font-size: 10px;
+                letter-spacing: 0.28em;
+                margin-bottom: 20px;
+            }
+
+            .worship-grid {
+                gap: 22px 10px;
+            }
+
+            .worship-grid .worship-item .name {
+                font-size: 12px;
+            }
+
+            .worship-grid .worship-item .time {
+                font-size: 18px;
+            }
+
+            .worship-grid.worship-grid--row5 {
+                gap: 22px 6px !important;
+            }
+            .worship-grid.worship-grid--row5 .worship-item {
+                width: calc(33.333% - 8px);
+                min-width: 70px;
+            }
+            .worship-grid.worship-grid--row5 .worship-item .name {
+                font-size: 11px;
+            }
+            .worship-grid.worship-grid--row5 .worship-item .time {
+                font-size: 15px;
+            }
+            .worship-grid.worship-grid--row5 .worship-item .day {
+                font-size: 8px;
+                letter-spacing: 0.2em;
             }
         }
         
@@ -2417,15 +2559,18 @@
             }
             
             .worship-items-row .worship-item .time {
-                font-size: 28px;
+                font-size: 22px;
+                font-weight: 600;
             }
             
             .worship-items-row .worship-item .name {
-                font-size: 22px;
+                font-size: 15px;
+                font-weight: 500;
             }
             
             .worship-items-row .worship-item .day {
-                font-size: 14px;
+                font-size: 11px;
+                letter-spacing: 0.26em;
             }
         }
         
@@ -2447,30 +2592,35 @@
         
         .worship-item .day {
             font-family: 'Noto Sans KR', sans-serif;
-            font-size: 17px;
-            letter-spacing: 3px;
-            color: rgba(255,255,255,0.6);
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 0.28em;
+            color: rgba(255,255,255,0.55);
             text-transform: uppercase;
+            margin-bottom: 4px;
         }
         
         .worship-item .name {
-            font-family: 'Noto Serif KR', serif;
-            font-size: 25px;
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 18px;
             font-weight: 500;
-            letter-spacing: 2px;
+            letter-spacing: 0;
+            color: rgba(255,255,255,0.92);
             white-space: nowrap;
+            margin-bottom: 4px;
         }
         
         .worship-items-row .worship-item .name {
-            font-size: 22px;
+            font-size: 17px;
         }
         
         .worship-item .time {
-            font-family: 'Noto Serif KR', serif;
-            font-size: 45px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            font-family: 'Noto Sans KR', sans-serif;
+            font-size: 30px;
+            font-weight: 600;
+            letter-spacing: 0;
+            color: #ffffff;
+            text-shadow: none;
             white-space: nowrap;
         }
         
@@ -5280,19 +5430,26 @@ given to mankind by which we must be saved.
                         const fileId = file.id;
                         
                         // 썸네일 URL (갤러리용 - 400px)
-                        // 두 가지 형식 모두 시도 가능하도록 배열로 저장
+                        // 여러 URL variant를 순서대로 시도해서 성공률 최대화
+                        // (특정 variant가 일시적 rate limit이거나 HEIC/대용량 등으로 실패할 때 다음으로 자동 대체)
                         const thumbnailUrls = [
                             `https://drive.google.com/thumbnail?id=${fileId}&sz=w400`,
-                            `https://lh3.googleusercontent.com/d/${fileId}=w400`
+                            `https://drive.google.com/thumbnail?id=${fileId}&sz=s400`,
+                            `https://lh3.googleusercontent.com/d/${fileId}=w400`,
+                            `https://lh3.googleusercontent.com/d/${fileId}=s400`,
+                            `https://lh3.googleusercontent.com/d/${fileId}=w800`
                         ];
-                        const thumbnailUrl = thumbnailUrls[0]; // 기본값으로 첫 번째 사용
+                        const thumbnailUrl = thumbnailUrls[0];
                         
-                        // 원본 이미지 URL (라이트박스용 - 1200px)
+                        // 원본 이미지 URL (라이트박스용 - 1200px) — 동일하게 variant 확장
                         const originalUrls = [
+                            `https://drive.google.com/thumbnail?id=${fileId}&sz=w1600`,
                             `https://drive.google.com/thumbnail?id=${fileId}&sz=w1200`,
-                            `https://lh3.googleusercontent.com/d/${fileId}=w1200`
+                            `https://lh3.googleusercontent.com/d/${fileId}=w1600`,
+                            `https://lh3.googleusercontent.com/d/${fileId}=w1200`,
+                            `https://lh3.googleusercontent.com/d/${fileId}=s1600`
                         ];
-                        const originalUrl = originalUrls[0]; // 기본값으로 첫 번째 사용
+                        const originalUrl = originalUrls[0];
                         
                         allImages.push({
                             id: fileId,
@@ -5415,14 +5572,23 @@ given to mankind by which we must be saved.
                 return `
                     <div class="polaroid" onclick="openLightbox('${primaryOriginal}', '${safeName}', ${globalIndex})" style="transform: rotate(${rotation}deg) scale(0.8); position: relative; width: 100%; height: auto; display: flex; flex-direction: column;">
                         <img src="${safeThumbnailUrls[0]}" alt="${safeName}" loading="lazy" 
+                             data-retried="0"
                              onerror="
                                 let fallbacks = ['${safeThumbnailUrls.join("', '")}'];
                                 let idx = fallbacks.indexOf(this.src) + 1;
                                 if (idx < fallbacks.length) {
                                     this.src = fallbacks[idx];
+                                } else if ((this.dataset.retried || '0') === '0') {
+                                    /* 모든 variant 실패: 일시적 rate-limit 가능성 -> 1.5초 후 1회 재시도 */
+                                    this.dataset.retried = '1';
+                                    const firstUrl = fallbacks[0];
+                                    setTimeout(() => { if (firstUrl) this.src = firstUrl + (firstUrl.includes('?') ? '&_=' : '?_=') + Date.now(); }, 1500);
                                 } else {
                                     this.onerror = null;
-                                    this.src = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22%3E%3Crect fill=%22%23f0f0f0%22 width=%22400%22 height=%22400%22/%3E%3Ctext fill=%22%23999%22 font-family=%22sans-serif%22 font-size=%2218%22 dy=%2210.5%22 font-weight=%22bold%22 x=%2250%25%22 y=%2250%25%22 text-anchor=%22middle%22%3E이미지를 불러올 수 없습니다%3C/text%3E%3C/svg%3E';
+                                    /* 최종 실패: 노골적인 에러 텍스트 대신 부드러운 회색 톤 placeholder (사진 아이콘) */
+                                    this.src = 'data:image/svg+xml;utf8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23ECEAE4%22/%3E%3Cg fill=%22none%22 stroke=%22%23B8B3A7%22 stroke-width=%221.6%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Crect x=%2228%22 y=%2236%22 width=%2244%22 height=%2232%22 rx=%223%22/%3E%3Ccircle cx=%2240%22 cy=%2247%22 r=%223%22/%3E%3Cpath d=%22M30 64 L44 52 L56 60 L64 54 L70 60%22/%3E%3C/g%3E%3C/svg%3E';
+                                    this.style.objectFit = 'contain';
+                                    this.style.background = '#ECEAE4';
                                 }
                              "
                              style="width: 100%; aspect-ratio: 1; object-fit: cover; display: block;">
@@ -7449,7 +7615,24 @@ given to mankind by which we must be saved.
             }
             initHorizontalScrollMobile();
             updateHorizontalScroll();
+            // 간증 캐러셀 모바일/데스크탑 전환 처리
+            if (typeof initMobileTestimonialCarousel === 'function') {
+                initMobileTestimonialCarousel();
+            }
         });
+
+        // 페이지 로드 즉시 간증 캐러셀 모바일 초기화 (데이터 로딩 대기 없이)
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                if (typeof initMobileTestimonialCarousel === 'function') {
+                    initMobileTestimonialCarousel();
+                }
+            });
+        } else {
+            if (typeof initMobileTestimonialCarousel === 'function') {
+                initMobileTestimonialCarousel();
+            }
+        }
 
         // ========================================
         // 스택 카드 섹션
@@ -7465,46 +7648,62 @@ given to mankind by which we must be saved.
         
         function initMobileTestimonialCarousel() {
             const isMobileView = window.innerWidth <= 768;
-            if (!isMobileView) return;
-            
             const wrapper = document.getElementById('stackingCardsWrapper');
             if (!wrapper) return;
-            
-            // 기존 네비게이션 제거
+
+            const existingScrollContainer = wrapper.querySelector('.testimonial-cards-scroll-container');
+
+            // 데스크탑으로 전환된 경우: 스크롤 컨테이너 해제하고 카드 원위치
+            if (!isMobileView) {
+                if (existingScrollContainer) {
+                    const cards = existingScrollContainer.querySelectorAll('.stack-card');
+                    cards.forEach(card => wrapper.appendChild(card));
+                    existingScrollContainer.remove();
+                    console.log('🔄 Mobile testimonial carousel deactivated (desktop view)');
+                }
+                return;
+            }
+
+            // 모바일: 기존 네비게이션 제거
             const existingNav = wrapper.parentElement.querySelector('.testimonial-carousel-nav');
             if (existingNav) existingNav.remove();
-            
-            // 기존 스크롤 컨테이너가 있으면 제거
-            const existingScrollContainer = wrapper.querySelector('.testimonial-cards-scroll-container');
+
+            // 이미 스크롤 컨테이너가 있고 카드도 들어있으면 아무것도 안 함 (재진입 방지)
+            if (existingScrollContainer && existingScrollContainer.querySelectorAll('.stack-card').length > 0) {
+                return;
+            }
+
+            // 기존 스크롤 컨테이너가 있지만 비어있으면 제거
             if (existingScrollContainer) {
-                // 카드들을 다시 wrapper로 이동
-                const cards = existingScrollContainer.querySelectorAll('.stack-card');
-                cards.forEach(card => wrapper.appendChild(card));
                 existingScrollContainer.remove();
             }
-            
-            // 카드들 가져오기
+
+            // wrapper 안에 있는 카드들 수집
             const cards = wrapper.querySelectorAll('.stack-card');
             if (cards.length === 0) return;
-            
+
             // 카드들을 감싸는 스크롤 컨테이너 생성
             const scrollContainer = document.createElement('div');
             scrollContainer.className = 'testimonial-cards-scroll-container';
-            
-            // 카드들을 스크롤 컨테이너로 이동
+
             cards.forEach((card) => {
                 card.classList.remove('mobile-active');
+                // 데스크탑 인라인 transform 제거 (스택 카드 효과 잔재)
+                card.style.transform = '';
+                card.style.left = '';
+                card.style.top = '';
+                card.style.position = '';
+                card.style.opacity = '';
+                card.style.zIndex = '';
                 scrollContainer.appendChild(card);
             });
-            
-            // 스크롤 컨테이너를 wrapper에 추가
+
             wrapper.appendChild(scrollContainer);
-            
-            // 스크롤을 처음으로 설정
+
             setTimeout(() => {
                 scrollContainer.scrollLeft = 0;
             }, 100);
-            
+
             console.log('✅ Mobile testimonial horizontal scroll initialized');
         }
         
