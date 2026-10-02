@@ -88,7 +88,7 @@
                                 </svg>
                             </button>
                             <div id="admin-community-menu" class="nav-dropdown-menu">
-                                <a href="${NAV_BASE}#testimonials" class="dropdown-item">간증</a>
+                                <a href="${NAV_BASE}#testimonials" class="dropdown-item" style="display: none;">간증</a>
                                 <a href="${NAV_BASE}#features" class="dropdown-item">초대합니다</a>
                             </div>
                         </div>
@@ -168,7 +168,7 @@
                     공동체 <span style="float: right;">▼</span>
                 </div>
                 <div id="admin-mobile-community-menu" class="mobile-nav-dropdown" style="display: none;">
-                    <a href="${NAV_BASE}#testimonials">간증</a>
+                    <a href="${NAV_BASE}#testimonials" style="display: none;">간증</a>
                     <a href="${NAV_BASE}#features">초대합니다</a>
                 </div>
 
