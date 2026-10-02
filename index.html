@@ -129,6 +129,24 @@
         .mobile-br {
             display: none;
         }
+
+        /* 섹션 대제목 공통 */
+        .section-title {
+            font-family: 'Noto Sans KR', sans-serif;
+            font-weight: 700;
+            font-size: clamp(30px, 3.6vw, 46px);
+            line-height: 1.4;
+            letter-spacing: -0.03em;
+            word-break: keep-all;
+            text-box-trim: trim-both;
+            text-box-edge: cap alphabetic;
+        }
+
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 26px;
+            }
+        }
         
         /* 모바일 최적화 */
         @media (max-width: 768px) {
@@ -562,6 +580,11 @@
                 font-weight: 700 !important;
                 opacity: 1 !important;
             }
+
+            .pastor-section-canva .pastor-name {
+                font-size: 22px !important;
+                letter-spacing: 0.02em !important;
+            }
             
             /* 점선 구분선 (nth-child 9) */
             .pastor-section-canva > div:nth-child(9) { 
@@ -660,7 +683,6 @@
             }
             
             #gallery h2 {
-                font-size: 26px !important;
                 margin-bottom: 4px !important;
             }
             
@@ -967,9 +989,7 @@
             }
             
             #vision h2 {
-                font-size: 30px !important;
                 margin-bottom: 8px !important;
-                line-height: 1.3 !important;
             }
             
             #vision p[style*="Playfair Display"] {
@@ -1034,7 +1054,6 @@
             }
             
             #location h2 {
-                font-size: 30px !important;
                 margin-bottom: 12px !important;
             }
             
@@ -1204,7 +1223,7 @@
                 white-space: nowrap !important;
             }
             
-            footer h3 {
+            footer h3:not(.offering-card-name) {
                 font-size: 18px !important;
                 margin-bottom: 10px !important;
             }
@@ -1832,7 +1851,6 @@
             
             #vision h2.reveal-text {
                 word-break: keep-all !important;
-                font-size: 30px !important;
             }
             
             /* ========== 가로 스크롤 카드 섹션 (모바일) - 새로운 접근 방식 ========== */
@@ -2876,13 +2894,8 @@
         }
 
         .welcome-process-title {
-            font-weight: 600;
-            font-size: clamp(30px, 3.6vw, 46px);
-            line-height: 1.4;
             color: var(--wp-ink);
             margin: 0;
-            word-break: keep-all;
-            letter-spacing: -0.03em;
         }
 
         .welcome-process-title-accent {
@@ -3158,10 +3171,6 @@
 
         /* 모바일 (≤768px): 좌측 세로 타임라인 */
         @media (max-width: 768px) {
-            .welcome-process-title {
-                font-size: 24px;
-            }
-
             .welcome-cta-headline {
                 text-wrap: balance;
             }
@@ -4565,7 +4574,7 @@ given to mankind by which we must be saved.
     </section>
 
     <!-- 6. 목사님 소개 섹션 (Canva 디자인 99% 정밀 구현 - position absolute) -->
-    <section id="pastor" class="pastor-section-canva" style="background-color: #E8E4DE; position: relative; width: 100%; min-height: 100vh; overflow: hidden; z-index: 1;">
+    <section id="pastor" class="pastor-section-canva" style="background-color: #E8E4DE; position: relative; width: 100%; min-height: 700px; overflow: hidden; z-index: 1;">
         <!-- 배경 이미지 레이어 -->
         <div style="position: absolute; inset: 0; pointer-events: none; background-image: url('https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/KakaoTalk_Photo_2026-05-26-00-53-27-42.jpeg'); background-size: cover; background-position: center; background-repeat: no-repeat; opacity: 0.35; z-index: 0;"></div>
         
@@ -4576,18 +4585,18 @@ given to mankind by which we must be saved.
         <div style="position: absolute; inset: 0; pointer-events: none; background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E'); opacity: 0.04; z-index: 2;"></div>
         
         <!-- ===== [1] 담임목사 제목 (좌측 상단) ===== -->
-        <div class="reveal-text" style="position: absolute; left: 10%; top: 18%; z-index: 10;">
-            <h2 style="font-family: 'Noto Sans KR', sans-serif; font-weight: 900; font-size: clamp(40px, 4vw, 64px); color: #000000; line-height: 1.0; margin: 0; letter-spacing: -0.02em;">담임목사</h2>
-            <p style="font-family: 'Playfair Display', serif; font-weight: 400; font-style: italic; font-size: clamp(24px, 2.2vw, 36px); color: #000000; margin: 8px 0 0 0;">Senior pastor</p>
+        <div style="position: absolute; left: 8%; top: 88px; z-index: 10;">
+            <h2 style="font-family: 'Noto Sans KR', sans-serif; font-weight: 800; font-size: 40px; color: #000000; line-height: 1.0; margin: 0; letter-spacing: -0.02em;">담임목사</h2>
+            <p style="font-family: 'Playfair Display', serif; font-weight: 400; font-style: italic; font-size: 20px; color: #000000; margin: 8px 0 0 0;">Senior pastor</p>
                     </div>
                     
         <!-- ===== [2] 교회 약칭 (우측 상단) ===== -->
-        <div class="reveal-text" style="position: absolute; right: calc(4% + 152px); top: calc(18% - 38px); text-align: right; z-index: 10;">
+        <div class="reveal-text" style="position: absolute; right: 8%; top: 88px; text-align: right; z-index: 10;">
             <p style="font-family: 'Noto Sans KR', sans-serif; font-weight: 500; font-size: clamp(12px, 1vw, 16px); color: #000000; margin: 0 0 2px 0; letter-spacing: 0.08em;">포천중앙교회</p>
                         </div>
                         
         <!-- ===== [4] 목사님 사진 (좌측 배치, 제목과 간격 확보) ===== -->
-        <div class="pastor-photo-container reveal-text" style="position: absolute; left: 13%; top: 30%; width: 20%; padding: 12px; background: linear-gradient(135deg, rgba(232, 228, 222, 0.8) 0%, rgba(255, 255, 255, 0.9) 50%, rgba(232, 228, 222, 0.8) 100%); border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6); z-index: 10;">
+        <div class="pastor-photo-container" style="position: absolute; left: 8%; top: 196px; width: 220px; padding: 10px; background: linear-gradient(135deg, rgba(232, 228, 222, 0.8) 0%, rgba(255, 255, 255, 0.9) 50%, rgba(232, 228, 222, 0.8) 100%); border-radius: 16px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6); z-index: 10;">
             <img src="https://czbffjnslwauemngpayh.supabase.co/storage/v1/object/public/public-media/Edit_this_portrait_photo_to_reduce_the_overall_bri-1779728425441.png" 
                  alt="담임목사 박상구" 
                  loading="lazy"
@@ -4595,7 +4604,7 @@ given to mankind by which we must be saved.
                             </div>
 
         <!-- ===== [5] 인사말 텍스트 (우측 배치, 글자 크게 + 사진 하단과 정렬) ===== -->
-        <div class="pastor-greeting-text reveal-text" style="position: absolute; left: 41%; top: 36%; width: 50%; font-family: 'Noto Sans KR', sans-serif; color: #000000; font-size: clamp(18px, 1.5vw, 24px); line-height: 2.1; z-index: 10;">
+        <div class="pastor-greeting-text reveal-text" style="position: absolute; left: calc(8% + 280px); top: 196px; width: calc(84% - 280px); font-family: 'Noto Sans KR', sans-serif; color: #000000; font-size: clamp(16px, 1.25vw, 20px); line-height: 1.85; z-index: 10;">
             <p style="margin: 0;">환영합니다.</p>
             <p style="margin: 0;">포천중앙침례교회 담임목사 박상구입니다.</p>
             <p style="margin: 0;">우리 교회는 "오직 예수, 기도와 전도"를 가슴에 품은 공동체입니다.</p>
@@ -4609,12 +4618,12 @@ given to mankind by which we must be saved.
                             </div>
         
         <!-- ===== [6] 서명 (사진 아래 중앙에 배치) ===== -->
-        <div class="reveal-text" style="position: absolute; left: 23%; top: 86%; transform: translateX(-50%); display: flex; align-items: center; gap: clamp(12px, 1.5vw, 24px); z-index: 10;">
+        <div style="position: absolute; left: calc(8% + 110px); top: 500px; transform: translateX(-50%); display: flex; align-items: center; gap: 14px; z-index: 10;">
             <div style="text-align: left;">
-                <p style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: clamp(14px, 1.1vw, 18px); color: #000000; margin: 0; line-height: 1.3;">Pastor</p>
-                <p style="font-family: 'Playfair Display', serif; font-weight: 700; font-size: clamp(16px, 1.3vw, 22px); color: #000000; margin: 0; line-height: 1.3;">Park Sang-gu</p>
+                <p style="font-family: 'Playfair Display', serif; font-weight: 600; font-size: clamp(12px, 0.9vw, 15px); color: #000000; margin: 0; line-height: 1.3;">Pastor</p>
+                <p style="font-family: 'Playfair Display', serif; font-weight: 600; font-size: clamp(13px, 1vw, 17px); color: #000000; margin: 0; line-height: 1.3;">Park Sang-gu</p>
                 </div>
-            <p style="font-family: 'Noto Sans KR', sans-serif; font-weight: 900; font-size: clamp(32px, 3.2vw, 52px); color: #000000; margin: 0; letter-spacing: 0.12em;">박상구</p>
+            <p class="pastor-name" style="font-family: 'Noto Sans KR', sans-serif; font-weight: 700; font-size: clamp(22px, 1.8vw, 30px); color: #000000; margin: 0; letter-spacing: 0.04em;">박상구</p>
             </div>
             
         <!-- ===== [7] 점선 구분선 (맨 하단) ===== -->
@@ -4626,12 +4635,7 @@ given to mankind by which we must be saved.
         <div style="width: 100%; max-width: 1200px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center;">
             
             <!-- [1] 메인 타이틀 -->
-            <h2 class="reveal-text" style="
-                font-family: 'Noto Sans KR', sans-serif;
-                font-weight: 900;
-                font-size: clamp(24px, 4vw, 48px);
-                line-height: 1.3;
-                letter-spacing: 0.02em;
+            <h2 class="section-title reveal-text" style="
                 color: #000000;
                 margin: 0 0 28px 0;
                 padding: 0 15px;
@@ -4948,7 +4952,7 @@ given to mankind by which we must be saved.
                     <span class="welcome-process-eyebrow-text">Welcome Process</span>
                     <span class="welcome-process-eyebrow-line" aria-hidden="true"></span>
                 </div>
-                <h2 class="welcome-process-title"><span class="welcome-process-title-accent">행복한</span> 포천중앙침례교회<br class="welcome-br-desktop"> 등록 및 정착 과정</h2>
+                <h2 class="section-title welcome-process-title"><span class="welcome-process-title-accent">행복한</span> 포천중앙침례교회<br class="welcome-br-desktop"> 등록 및 정착 과정</h2>
                 <p class="welcome-process-subtitle">처음 오신 분도 차근차근 함께 자라갈 수 있어요</p>
             </div>
 
@@ -5187,7 +5191,7 @@ given to mankind by which we must be saved.
             <!-- 섹션 헤더 -->
             <div class="text-center mb-16">
                 <p class="text-gray-500 text-sm tracking-widest mb-3" style="font-family: 'Noto Sans KR', sans-serif;">NOTICE</p>
-                <h2 class="text-3xl md:text-4xl font-bold mb-4" style="font-family: 'Noto Sans KR', sans-serif; color: #2D2D2D;">공지사항</h2>
+                <h2 class="section-title mb-4" style="color: #2D2D2D;">공지사항</h2>
             </div>
             
             <!-- 캐러셀 컨테이너 -->
@@ -5399,7 +5403,7 @@ given to mankind by which we must be saved.
             <!-- 섹션 헤더 -->
             <div class="text-center mb-16">
                 <p class="text-gray-300 text-sm tracking-widest mb-3" style="font-family: 'Noto Sans KR', sans-serif;">PRAYER</p>
-                <h2 class="text-3xl md:text-4xl font-bold mb-4" style="font-family: 'Noto Sans KR', sans-serif; color: #FFFFFF;">기도제목</h2>
+                <h2 class="section-title mb-4" style="color: #FFFFFF;">기도제목</h2>
             </div>
             
             <!-- 캐러셀 컨테이너 -->
@@ -5602,7 +5606,7 @@ given to mankind by which we must be saved.
         <div class="max-w-6xl mx-auto" style="max-width: 1200px; margin: 0 auto; padding: 20px 20px; position: relative; z-index: 1; min-height: 700px;">
             <!-- 헤더 -->
             <div class="text-center mb-6">
-                <h2 class="text-4xl font-bold mb-3" style="font-size: 28px; font-weight: bold; text-align: center; margin-bottom: 8px; font-family: 'Noto Sans KR', sans-serif; color: #333;">포천중앙침례교회 갤러리</h2>
+                <h2 class="section-title" style="text-align: center; margin-bottom: 8px; color: #333;">포천중앙침례교회 갤러리</h2>
                 <p class="text-gray-700" style="font-size: 14px; color: #555; font-family: 'Noto Sans KR', sans-serif;">우리 교회의 아름다운 순간들</p>
             </div>
             
@@ -6677,7 +6681,7 @@ given to mankind by which we must be saved.
             <!-- 헤더 -->
             <div class="text-center mb-12">
                 <p class="text-gray-500 text-sm tracking-widest mb-3">LOCATION</p>
-                <h2 class="text-3xl md:text-4xl font-bold mb-4">오시는 길</h2>
+                <h2 class="section-title mb-4">오시는 길</h2>
                 <p class="text-gray-600">경기도 포천시 중앙로 105번길 23-2 (신읍동 135-10)</p>
             </div>
             
@@ -6797,113 +6801,371 @@ given to mankind by which we must be saved.
     <footer style="background-color: #FFFFFF; position: relative;" class="py-12 px-8">
         <div class="max-w-6xl mx-auto">
             <!-- 헌금 안내 패널 -->
-            <section id="offering" aria-label="헌금 안내" class="offering-panel mb-12" style="background: linear-gradient(180deg, #FAFAF7 0%, #F4F1EB 100%); border: 1px solid #E8E2D6; border-radius: 16px; padding: 32px 28px; box-shadow: 0 4px 20px rgba(139, 115, 85, 0.06);">
-                <!-- 패널 헤더 -->
-                <div class="text-center mb-7">
-                    <p class="text-xs tracking-[0.3em] mb-2" style="font-family: 'Noto Sans KR', sans-serif; color: #B8A37A; font-weight: 500;">OFFERING</p>
-                    <h3 class="text-xl md:text-2xl font-bold mb-2" style="font-family: 'Noto Sans KR', sans-serif; color: #2D2D2D; letter-spacing: -0.3px;">헌금 안내</h3>
-                    <p class="text-sm" style="font-family: 'Noto Sans KR', sans-serif; color: #6B6B6B;">
-                        <span style="font-weight: 500; color: #8B7355;">신협</span>
-                        <span style="margin: 0 8px; color: #C8BFA8;">·</span>
-                        예금주 <span style="font-weight: 500; color: #4A4A4A;">포천중앙침례교회</span>
-                    </p>
-                </div>
-                
-                <!-- 계좌 그리드 -->
-                <div class="offering-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px;">
-                    <!-- 교회헌금 -->
-                    <div class="offering-card" style="background: #FFFFFF; border: 1px solid #E8E2D6; border-radius: 12px; padding: 16px 18px; transition: all 0.25s ease;">
-                        <div class="flex items-center justify-between gap-3 flex-wrap">
-                            <div class="min-w-0 flex-1">
-                                <div class="flex items-center gap-2 mb-1.5">
-                                    <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: #4A7C59;"></span>
-                                    <span style="font-family: 'Noto Sans KR', sans-serif; font-weight: 600; font-size: 14px; color: #2D2D2D;">교회헌금</span>
-                                    <span style="font-family: 'Noto Sans KR', sans-serif; font-size: 11px; color: #C0392B; background: #FDECEA; padding: 2px 8px; border-radius: 10px; font-weight: 500;">입금내용 기재요망</span>
-                                </div>
-                                <p class="font-mono" style="font-size: 14px; color: #4A4A4A; letter-spacing: 0.5px; word-break: break-all;">131-016-216985</p>
-                            </div>
-                            <button onclick="copyToClipboard('131-016-216985', this)" class="offering-copy-btn" style="flex-shrink: 0; padding: 6px 12px; font-size: 12px; background-color: #F5F1E8; color: #6B5D3F; border: 1px solid #E0D9C4; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; font-family: 'Noto Sans KR', sans-serif; font-weight: 500;" onmouseover="this.style.backgroundColor='#EBE3D0'; this.style.borderColor='#C8BFA8';" onmouseout="this.style.backgroundColor='#F5F1E8'; this.style.borderColor='#E0D9C4';" title="계좌번호 복사">
-                                복사
-                            </button>
-                        </div>
+            <section id="offering" aria-label="헌금 안내" class="offering-section mb-16">
+                <div class="offering-header">
+                    <div class="offering-eyebrow">
+                        <span class="offering-eyebrow-line" aria-hidden="true"></span>
+                        <span class="offering-eyebrow-text">Offering</span>
+                        <span class="offering-eyebrow-line" aria-hidden="true"></span>
                     </div>
-                    
-                    <!-- 선교헌금 -->
-                    <div class="offering-card" style="background: #FFFFFF; border: 1px solid #E8E2D6; border-radius: 12px; padding: 16px 18px; transition: all 0.25s ease;">
-                        <div class="flex items-center justify-between gap-3 flex-wrap">
-                            <div class="min-w-0 flex-1">
-                                <div class="flex items-center gap-2 mb-1.5">
-                                    <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: #2980B9;"></span>
-                                    <span style="font-family: 'Noto Sans KR', sans-serif; font-weight: 600; font-size: 14px; color: #2D2D2D;">선교헌금</span>
-                                </div>
-                                <p class="font-mono" style="font-size: 14px; color: #4A4A4A; letter-spacing: 0.5px; word-break: break-all;">131-019-861153</p>
-                            </div>
-                            <button onclick="copyToClipboard('131-019-861153', this)" class="offering-copy-btn" style="flex-shrink: 0; padding: 6px 12px; font-size: 12px; background-color: #F5F1E8; color: #6B5D3F; border: 1px solid #E0D9C4; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; font-family: 'Noto Sans KR', sans-serif; font-weight: 500;" onmouseover="this.style.backgroundColor='#EBE3D0'; this.style.borderColor='#C8BFA8';" onmouseout="this.style.backgroundColor='#F5F1E8'; this.style.borderColor='#E0D9C4';" title="계좌번호 복사">
-                                복사
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- 건축헌금 -->
-                    <div class="offering-card" style="background: #FFFFFF; border: 1px solid #E8E2D6; border-radius: 12px; padding: 16px 18px; transition: all 0.25s ease;">
-                        <div class="flex items-center justify-between gap-3 flex-wrap">
-                            <div class="min-w-0 flex-1">
-                                <div class="flex items-center gap-2 mb-1.5">
-                                    <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: #B8860B;"></span>
-                                    <span style="font-family: 'Noto Sans KR', sans-serif; font-weight: 600; font-size: 14px; color: #2D2D2D;">건축헌금</span>
-                                </div>
-                                <p class="font-mono" style="font-size: 14px; color: #4A4A4A; letter-spacing: 0.5px; word-break: break-all;">131-019-861146</p>
-                            </div>
-                            <button onclick="copyToClipboard('131-019-861146', this)" class="offering-copy-btn" style="flex-shrink: 0; padding: 6px 12px; font-size: 12px; background-color: #F5F1E8; color: #6B5D3F; border: 1px solid #E0D9C4; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; font-family: 'Noto Sans KR', sans-serif; font-weight: 500;" onmouseover="this.style.backgroundColor='#EBE3D0'; this.style.borderColor='#C8BFA8';" onmouseout="this.style.backgroundColor='#F5F1E8'; this.style.borderColor='#E0D9C4';" title="계좌번호 복사">
-                                복사
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- 물질전도 -->
-                    <div class="offering-card" style="background: #FFFFFF; border: 1px solid #E8E2D6; border-radius: 12px; padding: 16px 18px; transition: all 0.25s ease;">
-                        <div class="flex items-center justify-between gap-3 flex-wrap">
-                            <div class="min-w-0 flex-1">
-                                <div class="flex items-center gap-2 mb-1.5">
-                                    <span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background-color: #8E44AD;"></span>
-                                    <span style="font-family: 'Noto Sans KR', sans-serif; font-weight: 600; font-size: 14px; color: #2D2D2D;">물질전도</span>
-                                </div>
-                                <p class="font-mono" style="font-size: 14px; color: #4A4A4A; letter-spacing: 0.5px; word-break: break-all;">131-022-926790</p>
-                            </div>
-                            <button onclick="copyToClipboard('131-022-926790', this)" class="offering-copy-btn" style="flex-shrink: 0; padding: 6px 12px; font-size: 12px; background-color: #F5F1E8; color: #6B5D3F; border: 1px solid #E0D9C4; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; font-family: 'Noto Sans KR', sans-serif; font-weight: 500;" onmouseover="this.style.backgroundColor='#EBE3D0'; this.style.borderColor='#C8BFA8';" onmouseout="this.style.backgroundColor='#F5F1E8'; this.style.borderColor='#E0D9C4';" title="계좌번호 복사">
-                                복사
-                            </button>
-                        </div>
+                    <h2 class="section-title offering-title">헌금 안내</h2>
+                    <p class="offering-subtitle">드림의 기쁨이 하나님 나라를 세워갑니다</p>
+                    <div class="offering-bank">
+                        <span class="offering-bank-name">신협</span>
+                        <span class="offering-bank-divider" aria-hidden="true"></span>
+                        <span>예금주 <strong>포천중앙침례교회</strong></span>
                     </div>
                 </div>
-                
-                <!-- 주의사항 -->
-                <div style="display: flex; align-items: flex-start; gap: 8px; padding: 12px 16px; background: #FFF8E1; border: 1px solid #F0E0A8; border-radius: 10px;">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8860B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="8" x2="12" y2="12"></line>
-                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                    </svg>
-                    <p style="font-family: 'Noto Sans KR', sans-serif; font-size: 12.5px; color: #5C4A1F; line-height: 1.6; margin: 0;">
-                        <strong style="font-weight: 600;">교회헌금</strong> 입금 시 입금자명 또는 적요란에 <strong style="font-weight: 600;">입금 내용(예: 십일조, 감사, 주정)</strong>을 함께 기재해 주시기 바랍니다.
-                    </p>
+
+                <ul class="offering-grid">
+                    <li class="offering-card">
+                        <div class="offering-card-head">
+                            <span class="offering-card-num">01</span>
+                            <h3 class="offering-card-name">교회헌금</h3>
+                            <span class="offering-card-tag">입금내용 기재</span>
+                        </div>
+                        <div class="offering-card-body">
+                            <p class="offering-account">131-016-216985</p>
+                            <button type="button" onclick="copyToClipboard('131-016-216985', this)" class="offering-copy-btn" title="계좌번호 복사">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9"></path></svg>
+                                <span class="offering-copy-label">복사</span>
+                            </button>
+                        </div>
+                    </li>
+
+                    <li class="offering-card">
+                        <div class="offering-card-head">
+                            <span class="offering-card-num">02</span>
+                            <h3 class="offering-card-name">선교헌금</h3>
+                        </div>
+                        <div class="offering-card-body">
+                            <p class="offering-account">131-019-861153</p>
+                            <button type="button" onclick="copyToClipboard('131-019-861153', this)" class="offering-copy-btn" title="계좌번호 복사">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9"></path></svg>
+                                <span class="offering-copy-label">복사</span>
+                            </button>
+                        </div>
+                    </li>
+
+                    <li class="offering-card">
+                        <div class="offering-card-head">
+                            <span class="offering-card-num">03</span>
+                            <h3 class="offering-card-name">건축헌금</h3>
+                        </div>
+                        <div class="offering-card-body">
+                            <p class="offering-account">131-019-861146</p>
+                            <button type="button" onclick="copyToClipboard('131-019-861146', this)" class="offering-copy-btn" title="계좌번호 복사">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9"></path></svg>
+                                <span class="offering-copy-label">복사</span>
+                            </button>
+                        </div>
+                    </li>
+
+                    <li class="offering-card">
+                        <div class="offering-card-head">
+                            <span class="offering-card-num">04</span>
+                            <h3 class="offering-card-name">물질전도</h3>
+                        </div>
+                        <div class="offering-card-body">
+                            <p class="offering-account">131-022-926790</p>
+                            <button type="button" onclick="copyToClipboard('131-022-926790', this)" class="offering-copy-btn" title="계좌번호 복사">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"></rect><path d="M5 15V6a2 2 0 0 1 2-2h9"></path></svg>
+                                <span class="offering-copy-label">복사</span>
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+
+                <div class="offering-note">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5"></circle><path d="M12 11v5.5"></path><path d="M12 7.5h.01"></path></svg>
+                    <p><strong>교회헌금</strong> 입금 시 입금자명 또는 적요란에 <strong>입금 내용(예: 십일조, 감사, 주정)</strong>을 함께 기재해 주시기 바랍니다.</p>
                 </div>
             </section>
-            
+
             <style>
-                .offering-card:hover {
-                    border-color: #C8BFA8 !important;
-                    box-shadow: 0 4px 12px rgba(139, 115, 85, 0.08);
-                    transform: translateY(-1px);
+                .offering-section {
+                    --of-ink: #1F1B16;
+                    --of-body: #5E574D;
+                    --of-muted: #948A7C;
+                    --of-gold: #B8892E;
+                    --of-gold-deep: #8A6420;
+                    --of-gold-soft: #F1E7D2;
+                    --of-line: #E2D9CA;
+                    --of-paper: #F8F5EF;
+                    background: var(--of-paper);
+                    border-radius: 28px;
+                    padding: clamp(56px, 6vw, 88px) clamp(20px, 5vw, 72px);
+                    font-family: 'Noto Sans KR', sans-serif;
                 }
-                
-                @media (max-width: 640px) {
-                    .offering-grid {
-                        grid-template-columns: 1fr !important;
+
+                .offering-section p,
+                .offering-section h3 {
+                    margin: 0;
+                    text-box-trim: trim-both;
+                    text-box-edge: cap alphabetic;
+                }
+
+                .offering-header {
+                    text-align: center;
+                    margin-bottom: clamp(40px, 4.5vw, 56px);
+                }
+
+                .offering-eyebrow {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 16px;
+                    margin-bottom: 32px;
+                }
+
+                .offering-eyebrow-line {
+                    width: 40px;
+                    height: 1px;
+                    background: var(--of-gold);
+                    opacity: 0.45;
+                }
+
+                .offering-eyebrow-text {
+                    font-family: 'Playfair Display', serif;
+                    font-style: italic;
+                    font-size: 16px;
+                    letter-spacing: 0.08em;
+                    color: var(--of-gold);
+                    line-height: 1;
+                    text-box-trim: trim-both;
+                    text-box-edge: text alphabetic;
+                }
+
+                .offering-title {
+                    color: var(--of-ink);
+                    margin: 0;
+                }
+
+                .offering-subtitle {
+                    margin-top: 24px !important;
+                    font-size: clamp(15px, 1.25vw, 17px);
+                    line-height: 1.7;
+                    color: var(--of-body);
+                    letter-spacing: -0.01em;
+                }
+
+                .offering-bank {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 12px;
+                    margin-top: 28px;
+                    padding: 10px 20px;
+                    background: #FFFFFF;
+                    border: 1px solid var(--of-line);
+                    border-radius: 999px;
+                    font-size: 14px;
+                    color: var(--of-body);
+                }
+
+                .offering-bank strong {
+                    font-weight: 600;
+                    color: var(--of-ink);
+                }
+
+                .offering-bank-name {
+                    font-weight: 600;
+                    color: var(--of-gold-deep);
+                }
+
+                .offering-bank-divider {
+                    width: 1px;
+                    height: 12px;
+                    background: var(--of-line);
+                }
+
+                .offering-grid {
+                    list-style: none;
+                    margin: 0 auto;
+                    padding: 0;
+                    max-width: 960px;
+                    display: grid;
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    gap: 16px;
+                }
+
+                .offering-card {
+                    background: #FFFFFF;
+                    border: 1px solid var(--of-line);
+                    border-radius: 20px;
+                    padding: 28px 28px 26px;
+                    transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+                }
+
+                .offering-card:hover {
+                    border-color: #D9C49A;
+                    box-shadow: 0 12px 32px rgba(138, 100, 32, 0.08);
+                    transform: translateY(-2px);
+                }
+
+                .offering-card-head {
+                    display: flex;
+                    align-items: flex-end;
+                    gap: 10px;
+                    min-height: 24px;
+                }
+
+                .offering-card-num {
+                    font-family: 'Playfair Display', serif;
+                    font-style: italic;
+                    font-size: 15px;
+                    color: var(--of-gold);
+                    line-height: 1;
+                    text-box-trim: trim-both;
+                    text-box-edge: text alphabetic;
+                }
+
+                .offering-card-name {
+                    font-size: 17px;
+                    font-weight: 600;
+                    color: var(--of-ink);
+                    letter-spacing: -0.02em;
+                    line-height: 1.4;
+                }
+
+                .offering-card-tag {
+                    align-self: center;
+                    margin-left: auto;
+                    padding: 5px 10px;
+                    border-radius: 999px;
+                    background: var(--of-gold-soft);
+                    color: var(--of-gold-deep);
+                    font-size: 12px;
+                    font-weight: 500;
+                    line-height: 1.2;
+                    white-space: nowrap;
+                }
+
+                .offering-card-body {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 16px;
+                    margin-top: 24px;
+                    padding-top: 22px;
+                    border-top: 1px dashed var(--of-line);
+                }
+
+                .offering-account {
+                    font-size: clamp(20px, 2vw, 24px);
+                    font-weight: 600;
+                    color: var(--of-ink);
+                    letter-spacing: 0.02em;
+                    font-variant-numeric: tabular-nums;
+                    line-height: 1.3;
+                    white-space: nowrap;
+                }
+
+                .offering-copy-btn {
+                    flex-shrink: 0;
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 6px;
+                    height: 38px;
+                    padding: 0 16px;
+                    border: 1px solid var(--of-line);
+                    border-radius: 999px;
+                    background: var(--of-paper);
+                    color: var(--of-gold-deep);
+                    font-family: 'Noto Sans KR', sans-serif;
+                    font-size: 13px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+                }
+
+                .offering-copy-btn svg {
+                    width: 14px;
+                    height: 14px;
+                    fill: none;
+                    stroke: currentColor;
+                    stroke-width: 1.8;
+                    stroke-linecap: round;
+                    stroke-linejoin: round;
+                }
+
+                .offering-copy-btn:hover {
+                    background: var(--of-gold);
+                    border-color: var(--of-gold);
+                    color: #FFFFFF;
+                }
+
+                .offering-copy-btn.is-copied {
+                    background: var(--of-ink);
+                    border-color: var(--of-ink);
+                    color: #FFFFFF;
+                }
+
+                .offering-note {
+                    display: flex;
+                    align-items: flex-start;
+                    justify-content: center;
+                    gap: 10px;
+                    max-width: 960px;
+                    margin: 28px auto 0;
+                    color: var(--of-body);
+                }
+
+                .offering-note svg {
+                    flex-shrink: 0;
+                    width: 16px;
+                    height: 16px;
+                    margin-top: 1px;
+                    fill: none;
+                    stroke: var(--of-gold);
+                    stroke-width: 1.8;
+                    stroke-linecap: round;
+                }
+
+                .offering-note p {
+                    font-size: 13.5px;
+                    line-height: 1.7;
+                    word-break: keep-all;
+                }
+
+                .offering-note strong {
+                    font-weight: 600;
+                    color: var(--of-ink);
+                }
+
+                @media (max-width: 768px) {
+                    .offering-section {
+                        border-radius: 20px;
                     }
-                    
-                    .offering-panel {
-                        padding: 24px 18px !important;
+
+                    .offering-eyebrow {
+                        margin-bottom: 24px;
+                    }
+
+                    .offering-subtitle {
+                        margin-top: 20px !important;
+                    }
+
+                    .offering-grid {
+                        grid-template-columns: minmax(0, 1fr);
+                        gap: 12px;
+                    }
+
+                    .offering-card {
+                        padding: 22px 20px 20px;
+                    }
+
+                    .offering-card-body {
+                        margin-top: 18px;
+                        padding-top: 18px;
+                    }
+
+                    .offering-account {
+                        font-size: 20px;
+                    }
+
+                    .offering-note {
+                        justify-content: flex-start;
+                        text-align: left;
                     }
                 }
             </style>
@@ -6924,34 +7186,61 @@ given to mankind by which we must be saved.
                     </div>
                 </div>
                 
-                <!-- 우측: 소셜 미디어 - 한 줄로 가로 나열 -->
-                <div class="flex items-center gap-3" style="flex-direction: row !important; flex-wrap: nowrap !important;">
-                    <a href="https://cafe.daum.net/pocheoncentralbaptist" target="_blank" class="flex items-center gap-2 text-gray-700 hover:text-gray-900 transition text-sm" style="font-family: 'Noto Sans KR', sans-serif;">
-                        <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background-color: #FFF5E6;">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="#FF6B00">
-                                <circle cx="12" cy="12" r="10"/>
-                                <text x="12" y="16" text-anchor="middle" fill="white" font-size="8" font-weight="bold">C</text>
+                <!-- 우측: 소셜 미디어 -->
+                <div class="footer-social">
+                    <a href="https://cafe.daum.net/pochee97" target="_blank" rel="noopener noreferrer" class="footer-social-link">
+                        <svg class="footer-social-mark" viewBox="0 0 36 36" aria-hidden="true">
+                            <circle cx="18" cy="18" r="18" fill="#FF6B00"/>
+                            <path fill="#fff" d="M11 14.2h9.4v6.2a4 4 0 0 1-4 4h-1.4a4 4 0 0 1-4-4v-6.2z"/>
+                            <path fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" d="M20.4 16h.9a2.4 2.4 0 0 1 0 4.8h-.9"/>
+                            <path fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" d="M12.6 27h8.2"/>
                         </svg>
-                        </div>
                         <span>카페</span>
                     </a>
-                    <a href="https://blog.naver.com/pocheoncentralbaptist" target="_blank" class="flex items-center gap-2 text-gray-700 hover:text-gray-900 transition text-sm" style="font-family: 'Noto Sans KR', sans-serif;">
-                        <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background-color: #E8F5E9;">
-                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="#03C75A">
-                                <rect width="24" height="24" rx="4"/>
-                                <text x="12" y="17" text-anchor="middle" fill="white" font-size="10" font-weight="bold">N</text>
+                    <a href="https://www.youtube.com/@포천중앙침례교회" target="_blank" rel="noopener noreferrer" class="footer-social-link">
+                        <svg class="footer-social-mark" viewBox="0 0 36 36" aria-hidden="true">
+                            <circle cx="18" cy="18" r="18" fill="#FF0000"/>
+                            <path fill="#fff" d="M15 12.6v10.8L24.2 18 15 12.6z"/>
                         </svg>
-                        </div>
-                        <span>블로그</span>
-                    </a>
-                    <a href="https://www.youtube.com/@포천중앙침례교회" target="_blank" class="flex items-center gap-2 text-gray-700 hover:text-gray-900 transition text-sm" style="font-family: 'Noto Sans KR', sans-serif;">
-                        <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background-color: #FFEBEE;">
-                            <svg class="w-4 h-4" fill="#FF0000" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-                        </div>
                         <span>유튜브</span>
                     </a>
-                    </div>
                 </div>
+                </div>
+            
+            <style>
+                .footer-social {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: nowrap;
+                    align-items: center;
+                    gap: 22px;
+                }
+                .footer-social-link {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: 8px;
+                    font-family: 'Noto Sans KR', sans-serif;
+                    font-size: 14px;
+                    font-weight: 500;
+                    letter-spacing: -0.02em;
+                    color: #3A342C;
+                    text-decoration: none;
+                    transition: color 0.2s ease;
+                }
+                .footer-social-link:hover {
+                    color: #1F1B16;
+                }
+                .footer-social-mark {
+                    width: 32px;
+                    height: 32px;
+                    flex-shrink: 0;
+                    display: block;
+                    transition: transform 0.2s ease;
+                }
+                .footer-social-link:hover .footer-social-mark {
+                    transform: translateY(-2px);
+                }
+            </style>
             
             <!-- 하단 저작권 -->
             <div class="text-center mt-10 pt-6 border-t border-gray-200">
@@ -9125,14 +9414,13 @@ given to mankind by which we must be saved.
         // 계좌번호 복사 함수
         function copyToClipboard(text, button) {
             navigator.clipboard.writeText(text).then(function() {
-                const originalText = button.textContent;
-                button.textContent = '복사됨!';
-                button.style.backgroundColor = '#4CAF50';
-                button.style.color = 'white';
+                const label = button.querySelector('.offering-copy-label') || button;
+                const originalText = label.textContent;
+                label.textContent = '복사됨';
+                button.classList.add('is-copied');
                 setTimeout(function() {
-                    button.textContent = originalText;
-                    button.style.backgroundColor = '';
-                    button.style.color = '';
+                    label.textContent = originalText;
+                    button.classList.remove('is-copied');
                 }, 2000);
             }).catch(function(err) {
                 console.error('복사 실패:', err);
